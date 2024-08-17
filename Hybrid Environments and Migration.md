@@ -1,0 +1,735 @@
+# Hybrid Environments and Migration
+
+## Border Gateway Protocol 101
+
+* BGP is made up of lots of self-managing networks known as Autonomous Systems (AS).
+* ASNs are unique (0-65535) and allocated by Internet Assigned Numbers Authority (IANA).
+* 64512 - 65534 are Private.
+* Operates over TCP using Port 179.
+* You have to manually create a Peering relationship between 2 different AS.
+* BGP is a path-vector protocol it exchanges the best path to a destination between peers. The path is called the Autonomous System Path (ASPATH).
+
+Autonomous Systems (AS)
+- a large network or routers controlled by 1 entity.
+
+Autonomous System Numbers (ASN)
+- 16 bits in length.
+- 32 bit ASNs also exist.
+- 0-65535
+- the way that BGP identifies different entities within a network.
+
+Internal BGP (iBGP)
+- routing within an AS.
+
+External BGP (eBGP)
+- routing between AS’s.
+
+**BGP Architecture**
+![Hybrid Environments and Migration-08-04-2024](images/Hybrid%20Environments%20and%20Migration-08-04-2024.png)**
+**
+**
+**
+* BGP is designed to exchange network topology, and it does by exchanging paths between AS’s.
+
+ASPATH Prepending
+- can be used to artificially make the satellite path look longer making the fibre path preferred.
+
+## IPSec VPN Fundamentals
+
+* IPSec is a group of protocols which work together.
+* It sets up secure networking tunnels across insecure networks between 2 peers (Local and Remote).
+* Provides authentication and encryption.
+
+**IPSec VPN Architecture**
+![Hybrid Environments and Migration-08-04-2024-1](images/Hybrid%20Environments%20and%20Migration-08-04-2024-1.png)**
+**
+**
+**
+* Any data within the tunnels is encrypted while transiting over the insecure network.**
+**
+
+**
+**
+Interesting Traffic
+- simply traffic that matches certain rules (Based on prefixes and etc).
+
+Symmetric Encryption
+- fast, but exchanging keys is a challenge.
+- same key for encryption and decryption.
+
+Asymmetric Encryption
+- slower, but makes exchanging keys simple.
+- different keys for encryption and decryption. 
+- public is for encryption and private is for decryption.
+
+**IPSec 2 Main Phases**
+**
+**
+1. Internet Key Exchange (IKE) Phase 1 (Slow and Heavy)
+	- a protocol for how keys are exchanged within a VPN.
+	- where you initially authenticate using pre-shared key (password) / certificate.
+	- where asymmetric encryption to agree on, and create a shared symmetric key.
+
+* IKE Security Association (SA) Created (Phase 1 Tunnel)
+
+1. Internet Key Exchange (IKE) Phase 2 (Fast and Agile)
+	- Phase 1 keys are used as a starting point in Phase 2.
+	- agree encryption method, and keys used for bulk data transfer.
+
+* Create IPSec SA which is a Phase 2 Tunnel running over Phase 1.
+* Phase 2 Tunnel gets torn down if no interesting traffic is detected, but Phase 1 stays.
+
+**IKE Phase 1**
+![Hybrid Environments and Migration-08-04-2024-2](images/Hybrid%20Environments%20and%20Migration-08-04-2024-2.png)
+
+**IKE Phase 2**
+![Hybrid Environments and Migration-08-04-2024-3](images/Hybrid%20Environments%20and%20Migration-08-04-2024-3.png)
+
+Policy-based VPNs
+- there are rules which match traffic and traffic is sent over a pair of Security Associations.
+- different rules for different types of traffic.
+- for more rigorous security environments.
+- each traffic has its own SA pair. 
+
+Route-based VPNs
+- target matching based on prefix.
+- a single pair of SA for each network prefix.
+- all traffic types use the same pair of SA.
+
+![Hybrid Environments and Migration-08-04-2024-4](images/Hybrid%20Environments%20and%20Migration-08-04-2024-4.png)
+
+## AWS Site-to-Site VPN
+
+* A logical connection between a VPC and other Cloud Service Providers or on-premises network encrypted using IPSec, running over the public internet in most cases.
+* Fully Highly Available if designed and implemented correctly.
+* Quick to provision (Less than an hour).
+* VPNs are linked to 1 VGW and 1 CGW.
+
+Virtual Private Gateway (VGW)
+- a key component used to enable a connection between an AWS Virtual Private Cloud (VPC) and another network (On-Premises or other CSPs).
+- you do not attach an Elastic IP Address to a VGW.
+
+* A VGW has physical endpoints in different AZs with Public IPv4 addresses.
+
+Customer Gateway (CGW)
+- a logical configuration in AWS or physical on-premise router which the VPN connects to.
+
+**Site-to-Site VPN (Not HA) Architecture**
+![Hybrid Environments and Migration-08-04-2024-5](images/Hybrid%20Environments%20and%20Migration-08-04-2024-5.png)
+
+**Site-to-Site VPN Architecture**
+![Hybrid Environments and Migration-08-04-2024-6](images/Hybrid%20Environments%20and%20Migration-08-04-2024-6.png)
+
+**Static VPNs vs Dynamic VPNs**
+![Hybrid Environments and Migration-08-04-2024-7](images/Hybrid%20Environments%20and%20Migration-08-04-2024-7.png)**
+**
+**
+**
+* Architecture is the same based on both types of VPNs the difference is how the routes are communicated.**
+**
+
+Dynamic VPN
+- uses a protocol called Border Gateway Protocol (BGP).
+- lets routers exchange routing information.
+
+* You are creating a relationship between the VGW and the CGW.
+* They can then exchange information on which network are on the Customer side and which are on the AWS side.
+* Allows for multiple links to be used at once between the same location. 
+* Routes can be added to the RT statically or fully dynamic by enabling Route Propagation.
+
+Route Propagation
+- means that while any VPNs are active, any networks that these VPNs become aware are automatically added as dynamically learned routes on the RTs.
+
+Static VPN
+- uses a static networking configuration.
+
+* Static routes are added to the RTs.
+* Static network have to be identified on the VPN connection.
+* It is simple and uses IPSec.
+
+Limit:
+
+* No load balancing and multi-connection failovers.
+
+**Key Considerations:**
+
+* Speed Limitation: 1.25Gbps (AWS Limit)
+* For all VPN connection connecting to the VGW the cap is 1.25Gbps.
+* Latency Considerations: Inconsistent and uses the Public Internet.
+* Cost: AWS Hourly Cost, GB out cost, Data cap is based on your On-Premises.
+* Setup Speed: Hours or less.
+* All software defined configuration.
+* Can be used as backup for a Physical Connection such as Direct Connect (DX).
+* Can be used with and over the top of Direct Connect (DX).
+
+## Direct Connect (DX) Concepts
+
+* A Direct Connect is a physical connection into an AWS Region.
+* Direct Connect is unencrypted by Default.
+* The connection is either a 1 Gbps, 10 Gbps or 100 Gbps.
+* The connection is between a business premises, a DX location, and an AWS Region.
+* When you order a DX connection, you are actually ordering a network port allocation (Dedicated Port).
+
+**2 Port Costs**
+
+1. Hourly Cost
+2. Outbound Data Transfer
+
+* Inbound data transfer is free.
+* Provisioning time is possibly weeks or months.
+* Provide consistent low latency and high speeds.
+* Can be used to access AWS Private Services running in a VPC and AWS Public Services (No Internet).
+
+**Direct Connect Architecture**
+![Hybrid Environments and Migration-08-04-2024-8](images/Hybrid%20Environments%20and%20Migration-08-04-2024-8.png)**
+**
+**
+**
+Cross Connect
+- a connection between AWS Direct Connect port within the AWS Cage and Customer/Communications Partner router.
+
+**3 Types of Virtual Interfaces (VIFs)**
+**
+**
+1. Transit VIFs
+	- used only for connecting with TGW.
+
+1. Public VIFs
+	- used to access the AWS Public Zone Services.
+
+1. Private VIFs
+	- provides access to Private AWS Services.
+	- gives access to Private IPs.
+
+**## Direct Connect (DX) Resilience**
+
+**DX - No Resilience Architecture**
+![Hybrid Environments and Migration-08-04-2024-9](images/Hybrid%20Environments%20and%20Migration-08-04-2024-9.png)
+
+* AWS Regions have multiple Direct Connect (DX) Locations. These are normally major metro DC’s.
+* DX Locations are connected to the AWS Region via redundant high speed connections.
+* By Default a single cross-connect links a DX port with a customer or provider router.
+* A DX Location is extended from the DX Location to a Customer Premises.
+
+**DX - Okay Resilience Architecture**
+![Hybrid Environments and Migration-08-04-2024-10](images/Hybrid%20Environments%20and%20Migration-08-04-2024-10.png)**
+**
+
+**DX - Better Resilience Architecture**
+![Hybrid Environments and Migration-08-04-2024-11](images/Hybrid%20Environments%20and%20Migration-08-04-2024-11.png)
+
+**
+**
+* This architecture can protect against the failure of a location or hardware and will continue to operate at a reduced resiliency level.
+
+**DX  - Great Resilience Architecture**
+![Hybrid Environments and Migration-08-04-2024-12](images/Hybrid%20Environments%20and%20Migration-08-04-2024-12.png)
+
+**## Direct Connect (DX) - Public VIF + VPN (Encryption)**
+
+* By running a VPN over DX you get an Encrypted and Authenticated tunnel and also consistent low latency.
+* Uses a Public VIF and VGW/TGW Public Endpoints.
+* VPN is Transit Agnostic meaning you can connect over the Public Internet or Direct Connect.
+* VPNs have wide vendor support.
+* VPNs have more cryptographic overhead.
+
+**DX and VPN Architecture**
+![Hybrid Environments and Migration-08-04-2024-13](images/Hybrid%20Environments%20and%20Migration-08-04-2024-13.png)
+
+## AWS Transit Gateway (TGW)
+
+* A Network Transit Hub (NTH) to connect VPCs to each other and to on premises networks using Site-to-Site VPNs and Direct Connect.
+* Highly Available and Scalable Network Gateway Object.
+* Reduces network complexity.
+* You create attachments which is how TGW connects to other Network Objects within AWS. 
+* Valid Attachments include:
+	* VPC Attachments 
+	* Site-to-Site VPN Attachments
+	* Direct Connect Gateway Attachments
+
+**Without TGW Architecture**
+![Hybrid Environments and Migration-08-04-2024-14](images/Hybrid%20Environments%20and%20Migration-08-04-2024-14.png)
+
+**With TGW Architecture**
+**
+**
+* TGW acts as a HA inter VPC router.
+* A Transitive Routing capable device.
+* You can also Peer TGWs with other TGWs in other AWS Accounts or other AWS Regions (Cross-Region in Same/Cross-Account).
+* TGW can integrate with Direct Connect Gateways using Transit VIF.
+* TGW supports Multiple RTs allowing complex routing architectures.**
+**
+
+**
+**
+VPC Attachments
+- are used to attach a VPCs to a TGW.
+- configured with a subnet in each AZ inside the VPCs that you want to use the TGW with.
+
+**TGW Consideration**
+**
+**
+* Supports Transitive Routing.
+* Can be used to create Global Networks.
+* Can share TGWs between AWS accounts using Resource Access Manager.
+* Can peer TGWs with Different Regions in the Same or Cross-Account.
+
+AWS Resource Access Manager (RAM)
+- allows you to share products and services or components of products and services between AWS accounts.
+
+## Storage Gateway - Volume
+
+* Storage Gateway normally runs as a VM (More Common) on-premises or Hardware Appliance.
+* Acts as a bridge between storage that exists on premises or in a data center and AWS.
+* Presents storage using iSCI (SAN and NAS Protocol), NFS (Linux), or SMB (Windows).
+* Integrates with EBS, S3, and Glacier within AWS.
+* Used for migrations (on-premises to AWS), or extensions of a data center into AWS, Storage Tiering, DR, and Replacement of Backup Systems.
+
+**Volume Stored Architecture**
+![Hybrid Environments and Migration-08-04-2024-15](images/Hybrid%20Environments%20and%20Migration-08-04-2024-15.png)**
+**
+**
+**
+Network Attached Storage (NAS)
+Storage Area Network (SAN)
+
+Stored Mode
+- all is stored locally.
+- presents volumes over iSCSI to servers running on-premises.
+- servers can create file systems on top of these volumes.
+- has a separate area of storage called the Upload Buffer.
+- 32 Volumes per Gateway.
+- 16TB per Volume.
+- 512TB per Gateway.
+
+Upload Buffer
+- any data which is written to any of the volumes in the local storage is also written to this buffer temporarily and then it’s copied Asynchronously into AWS via the Storage Gateway Endpoint.
+
+* Data is being copied into S3 in the form of EBS Snapshots which are the snapshots of the volumes running on-premises.
+
+Use Case
+* Great for Full Disk backups of servers.
+* Great for DR.
+
+Limitations
+* Doesn’t allow extending your data center capacity as the main copy of the data is stored on the local storage of your on-premises.
+
+**Volume Cached Architecture**
+![Hybrid Environments and Migration-08-04-2024-16](images/Hybrid%20Environments%20and%20Migration-08-04-2024-16.png)**
+**
+**
+**
+* Local servers are still presented with volumes for the Gateway VM over iSCI.
+* Storage GW is still communicating via Storage GW Endpoint (Public Endpoint).
+* Allows for Data Center Extension.
+* You can still create EBS Snapshots and volumes from Snapshots.
+* Anything not access frequently won’t be cached locally.
+
+Cached Mode
+- main location for the data is no longer on-premises it is in AWS instead (S3).
+- instead of having a local storage volume it has Local Cache.
+- stored in an AWS-managed area of S3 (only visible in SGW Console).
+
+* A single GW can handle 32TB per Volume.
+* 32 Volumes Max per GW.
+* 1PB of Storage per GW.
+
+## Storage Gateway Tape - Virtual Tape Library (VTL) Mode
+
+Linear Tape Open (LTO)
+- more recent is LTO-9 which is capable of storing 24TB of data per tape of uncompressed data.
+- 60TB per tape if compressed.
+
+Tape Drive
+- can use 1 tape at a time.
+- can read/write from/to the tape.
+
+Tape Loader (Tape Robot)
+- can insert, remove, or swap tapes between a drive and somewhere else.
+
+Tape Library
+- fits in rack and contains a Tape Drive/s, Tape Loader/s, and Slot/s.
+
+Slots
+- can store tapes that are not in their drive.
+
+**Traditional Tape Backup Architecture**
+![Hybrid Environments and Migration-08-04-2024-17](images/Hybrid%20Environments%20and%20Migration-08-04-2024-17.png)
+
+**Storage Gateway Tape (VTL) Architecture**
+
+* Presents itself to the backup server using iSCI.
+* It has an Upload Buffer and Local Cache which it uses to store data that is actively used.
+* Backups occur at LAN speeds to the local storage that the Storage Gateway uses via Storage GW Endpoint.
+* Virtual Tape can be from 100 GB to 5TB.
+* Storage GW can handle a total of 1PB of data across 1500 virtual tapes.
+* When you Export a Virtual Tape in VTL mode it is simply moved/archived from VTL to VTS.
+* Unlimited VTS (Archive) Storage.
+
+**2 Capabilities presented by the Storage GW**
+**
+**
+1. Virtual Tape Library (VTL)
+	- backed by S3.
+	- AWS hosted version of a tape library which the Storage GW uses.
+
+1. Virtual Tape Shelf (VTS)
+	- backed by either Glacier or Glacier Deep Archive.
+	- for virtual tapes which have been logically moved out of VTL.
+
+Use Case
+
+* Maintain existing backup systems.
+* Extend additional backup systems into AWS.
+* Migration purposes.
+
+## Storage Gateway - File
+
+* File Gateway links on-premises File Storage and S3.
+* You create one or more Mount Points (Shares) available via NFS (Linux) or SMD (Windows).
+* File Shares or Mount Points map directly to an S3 Bucket.
+* You are able to manage the S3 Bucket and have visibility of that S3 Bucket.
+* Files stored into a Mount Point are visible as objects in an S3 Bucket and vice versa.
+* It translates between on-premises files and AWS-based S3 Objects.
+* Has Read and Write Caching to ensure LAN-like performance.
+
+**File Gateway Architecture**
+
+![Hybrid Environments and Migration-08-04-2024-18](images/Hybrid%20Environments%20and%20Migration-08-04-2024-18.png)
+
+* Files Shares are linked with a single S3 Bucket running in your AWS account.
+* Can be accessed on File Servers using NFS or SMB or Active Directory Authentication
+* Can support 10 File Shares per Storage GW.
+* Primary data is held on S3.
+* Cache is only thing stored locally.
+
+Bucket Share
+- AWS S3 Bucket and on-premises File Share.
+
+**Multiple Contributors Architecture**
+![Hybrid Environments and Migration-08-04-2024-19](images/Hybrid%20Environments%20and%20Migration-08-04-2024-19.png)**
+**
+**
+**
+* When you update a file on a Local Storage Gateway that update is copied into S3 (Automatic).
+* No automatic update from S3 to Local Storage Gateway.
+* When you list the file share on-premises, you are listing the most recent copy of the S3 Bucket that the Gateway is aware of.
+* File Gateway doesn’t support any form of Object Locking instead use Read only mode on other File Shares or tightly control file access.
+
+NotifyWhenUploaded API
+- use to notify other Gateways when objects are changed or have been uploaded.
+
+**Multiple Contributors and Replication Architecture**
+![Hybrid Environments and Migration-08-04-2024-20](images/Hybrid%20Environments%20and%20Migration-08-04-2024-20.png)**
+**
+**
+**
+* Allows for Cross-Region Replication of data between Buckets.
+
+**File Gateway and S3 Lifecycle Policies Architecture**
+![Hybrid Environments and Migration-08-04-2024-21](images/Hybrid%20Environments%20and%20Migration-08-04-2024-21.png)
+
+* Multiple steps in the Lifecycle are allowed.
+
+## Snowball / Edge / Snowmobile
+
+* Designed to move large amounts of data In or Out of AWS.
+* Devices in the series are Physical Storage Units (Suitcase or Truck).
+* Can be ordered from AWS empty, load up with data, and return devices to AWS.
+* Can be ordered from AWS with data, empty off the data, and return devices to AWS.
+
+**Snowball**
+- ordered from AWS, log a job, and the device is delivered to you.
+- data on Snowball is encrypted using KMS.
+- has 50TB or 80TB capacity types.
+- can connect with either 1Gbps(RJ45 1GBase-TX) or 10Gbps (LR/SR)
+- only includes Storage.
+
+Economical Range: 10TB to 10PB of Data
+
+* You can order multiple devices and get it sent to multiple premises.
+* Used when large amounts of data to ingest or get out of AWS.
+
+**Snowball Edge**
+- comes with both Storage and Compute.
+- it has a larger capacity over Snowball.
+- connects with speeds of 10Gbps (RJ54), 10/25 Gbps (SFP), 45/50/100 Gbps (QSFP+).
+
+* Ideal for remote sites or where data processing on ingestion is needed.
+* Higher Capacity or Faster Networking requirements.
+
+**3 Different Types of Snowball Edge**
+**
+**
+1. Storage Optimized (with EC2)
+	- 80TB of Storage
+	- 24 vCPU
+	- 32GiB of RAM
+	- 1TB SSD (on EC2 Capability)
+
+1. Compute Optimized
+	- 100TB of Storage plus 7.68GB of NVME
+	- 52 vCPU
+	- 208 GiB of RAM
+
+1. Compute Optimized with GPU 
+	- same with Compute Optimized but with GPU Capabilities.
+
+**Snowmobile**
+- a portable Data Center within shipping container on a Truck.
+- specially ordered from AWS and not available everywhere.
+- can store up to 100PB of data per Snowmobile.
+- not economical for multi-site migrations (unless huge) or sub 10PB of data.
+
+Economical Range: 10PB+
+
+* Generally only used when you have a single location with huge amounts of data that you need to ingest into AWS.
+
+## Directory Service
+
+* Directory Service provides a managed directory or a store of users, objects, and other configurations.
+* An AWS Managed implementation of Active Directory of Microsoft.
+* It runs within a VPC (Private Service).
+* Provides HA as it is deployed into multiple AZs.
+* There are certain services that can optionally use Directory Services (e.g. EC2 Windows Instances).
+* Some AWS services need a directory (e.g. Amazon Workspaces).
+
+**Directory Basics**
+**
+**
+* Directories store identity and asset related information (e.g. Users, Groups, Computers Servers, File Shares) with a structure which is hierarchical (Domain/Tree).
+* Multiple trees can be grouped into a Forest.
+* Commonly used in Windows Environments.
+* Allows Sign-in to multiple devices with the same username/password and also provides centralized management for assets.
+
+**Different Architectures for Directory Services**
+**
+**
+1. Isolated
+	- meaning inside AWS only and independent of any other directory.
+
+1. Integrated
+	- using it alongside an existing on-premises directory like a partner directory.
+
+1. Connector Mode
+	- proxies connections back to your on-premises system.
+	- allows you to use your existing on-premises directory with AWS services that require a registered directory service.
+
+**Simple AD Mode**
+![Hybrid Environments and Migration-08-04-2024-22](images/Hybrid%20Environments%20and%20Migration-08-04-2024-22.png)**
+**
+
+* Simple AD is an open-source directory that’s based on Samba 4.
+* Aims to provide as much compatibility with MS Active Directory as possible in a lightweight way.
+* Designed to run in isolation.
+* Not designed to integrate wit any existing on-premises directory system such as Microsoft AD.
+
+**2 Different Simple AD Sizes**
+**
+**
+1. Small
+	- up to 500 users.
+
+1. Large
+	- up to 5,000 users.
+
+**AWS Managed Microsoft AD Mode**
+
+![Hybrid Environments and Migration-08-04-2024-23](images/Hybrid%20Environments%20and%20Migration-08-04-2024-23.png)
+
+* Designed for when you want to have a direct presence inside AWS, but also when you have an existing on-premises environment.
+* Can create an instance of the directory service inside AWS.
+* Trust Relationships can be created between AWS and on-premises directory systems.
+* Primary running location is in AWS.
+* Actual implementation of the MS AD specifically the 2012 R2 version.
+
+**AD Connector Mode**
+![Hybrid Environments and Migration-08-04-2024-24](images/Hybrid%20Environments%20and%20Migration-08-04-2024-24.png)
+
+* Needs to establish private network connectivity between your AWS account and your on-premises network.
+* Only a proxy or an entity that integrate with AWS services.
+* Allows AWS services which need a directory to use an existing on-premises directory.
+* Primary directory is still located on-premises.
+
+![Hybrid Environments and Migration-08-04-2024-25](images/Hybrid%20Environments%20and%20Migration-08-04-2024-25.png)
+
+## DataSync
+
+* DataSync is a data transfer service which allows you to move into or out from AWS.
+* Used for workloads like Migrations, Data Processing Transfers, Archival/ Cost Effective Storage or DR/BC.
+* Each agent can handle 10 Gbps of data transfer (100TB per day) and each job can handle 50 Million files.
+* Also handles the transfer of Metadata.
+* It also has built-in Data Validation.
+
+**Key Features**
+**
+**
+* Scalable - 10Gbps per agent (100TB per day)
+* Bandwidth Limiters
+* Incremental and Scheduled Transfer Options
+* Compression and Encryption
+* Automatic recovery from transit errors.
+* Pay as you use per GB cost of data moved.
+
+**DataSync Architecture**
+![Hybrid Environments and Migration-08-04-2024-26](images/Hybrid%20Environments%20and%20Migration-08-04-2024-26.png)
+
+DataSync Components
+
+* Task
+	- a job within DataSync.
+	- defines what is being synced, how quick, scheduling, throttling, and locations (Source and Destination).
+
+* Agent
+	- software used to read or write to on-premises or AWS data stores using NFS or SMB.
+	- responsible for transfers of data essentially.
+
+* Location
+	- to simply put this is the Source and Destination.
+
+## FSx for Windows File Server
+
+* Provides fully managed native Windows File Servers/File Shares.
+* Designed for integration with Windows environments.
+* It can integrate with either a managed Active Directory, or Self-Managed AD running inside AWS or on-premises.
+* Can be deployed in Single or Multi-AZ mode within a VPC.
+* Can perform On-Demand and Scheduled backups.
+* Accessible using VPC, Peering, VPN, Direct Connect.
+
+**FSx Implementation Architecture**
+![Hybrid Environments and Migration-08-04-2024-27](images/Hybrid%20Environments%20and%20Migration-08-04-2024-27.png)**
+**
+**
+**
+* Native windows file system, supports de-duplication (sub file), Distributed File System (DFS), KMS at-rest encryption and enforced encryption in-transit.
+* Supports volume shadow copies (File Level Versioning).
+* Can deliver anywhere from 8MB/s to 2GB/s.
+* Can deliver 100,000’s of IOPS.
+* Less than 1 ms of latency.**
+**
+
+**Key Features and Benefits**
+
+* Provides access to Native File Systems over SMB.
+* Makes use of the Windows Permission Model.
+* Can be integrated with Directory Service or your own Directory.
+
+Volume Shadow Copy Service (VSS)
+- a windows feature that allows users to perform file and folder level restores.
+
+Distributed File System (DFS)
+- a way that you can natively scale out file systems inside Windows Environments.
+- grouping of file shares together in 1 enterprise wide structure or replication or scaling out performance.
+
+## FSx for Lustre
+
+* File System designed for high performance computing workloads.
+* A managed implementation of the Lustre file system.
+* Supports Linux based instances and POSIX style permissions for file systems.
+* Used in Big Data, ML or Financial Modelling.
+* Can scale to 100GB/s of throughput and sub millisecond latency.
+* Accessible over VPN or Direct Connect.
+
+**2 Different Deployment Types for Lustre**
+
+* Minimum Size is 1.2TiB with increments of 2.4TiB.
+
+1. Scratch
+	- absolute best performance for short term/temporary workloads.
+	- no HA and Replication.
+	- speed of 200MB/s per TiB of storage.
+	- 
+
+1. Persistent
+	- great for long term storage.
+	- High Availability in 1 AZ only.
+	- has self-healing.
+	- offers 50MB/s, 100MB/s and 200MB/s per TiB of storage.
+
+**Conceptual**
+![Hybrid Environments and Migration-08-04-2024-28](images/Hybrid%20Environments%20and%20Migration-08-04-2024-28.png)
+
+* File system is where the data lives.
+* You can associate it with a repository (S3).
+* Objects in the associated repository will be visible in the File system.
+* Data is Lazy Loaded from S3 into the File System as needed.
+
+hsm_archive
+- command to sync any changes made in the File System to the S3 Bucket. 
+
+**Key Points**
+**
+**
+* Metadata is stored in Metadata Targets (MST).
+* Objects are stored on called object storage targets (OSTs) (1.17TiB each).
+* Baseline performance is based on size.
+* Minimum Size is 1.2TiB with increments of 2.4TiB.
+* For Scratch the base performance is 200MB/s per TiB of storage.
+* Persistent offers 50MB/s, 100MB/s and 200MB/s per TiB of storage.
+* For both types you can burst up to 1,300MB/s per TiB (Credit System).
+
+**Lustre Architecture**
+![Hybrid Environments and Migration-08-04-2024-29](images/Hybrid%20Environments%20and%20Migration-08-04-2024-29.png)
+
+**More Key Points**
+
+![Hybrid Environments and Migration-08-04-2024-30](images/Hybrid%20Environments%20and%20Migration-08-04-2024-30.png)
+
+## AWS Transfer Family
+
+* A managed file transfer service that allows you to transfer files to or from S3 and EFS.
+* Provides managed servers which support protocols.
+* Supports a wide variety of identity providers (Service Managed, Directory Service, Custom Identity Store (Lambda/API Gateway)).
+
+Manage File Transfer Workflows (MFTW)
+- serverless file workflow engine.
+- used for when files are uploaded to a product then define a workflow of what happens to that file when uploaded.
+
+**Protocols Supported**
+**
+**
+1. File Transfer Protocol (FTP)
+	- an unencrypted file transfer protocol.
+
+1. File Transfer Protocol Secure (FTPS)
+	- FTP with TLS encryption.
+
+1. Secure Shell (SSH) File Transfer Protocol (SFTP)
+	- file transfer over SSH.
+
+1. Applicability Statement 2 (AS2)
+	- used for transferring structured business-to-business (B2B) data.
+
+**Transfer Family Architecture**
+![Hybrid Environments and Migration-08-04-2024-31](images/Hybrid%20Environments%20and%20Migration-08-04-2024-31.png)
+
+**Endpoint Types**
+![Hybrid Environments and Migration-08-04-2024-32](images/Hybrid%20Environments%20and%20Migration-08-04-2024-32.png)
+
+1. Public
+	- endpoint is running in the AWS Public Zone.
+	- accessible from the Public Internet.
+	- only supports SFTP and has a Dynamic IP.
+	- managed by AWS meaning generally uses DNS.
+	- cannot control who can access the endpoint.
+
+1. VPC with Internet Access
+	- runs inside a VPC.
+	- supports SFTP, FTPS, and AS2 endpoints.
+	- can be accessed from connected business networks like Direct Connect and VPNs or the Public Internet.
+	- has an allocated Static Public IP.
+	- can be secured using SGs or NACLs.
+
+1. VPC Internal Only
+	- also runs inside a VPC.
+	- can use all protocols supported by Transfer Family.
+	- can be accessed from connected business networks like Direct Connect and VPNs.
+	- can be secured using SGs or NACLs.
+
+**Key Points**
+**
+**
+* It is multi-AZ.
+* Cost is provisioned server per hour and data transferred through the product.
+* FTP and FTPS only supports Directory Service or Custom Identity Provider.
+

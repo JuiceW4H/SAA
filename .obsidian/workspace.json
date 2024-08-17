@@ -1,0 +1,174 @@
+{
+  "main": {
+    "id": "44e089a6c77f8927",
+    "type": "split",
+    "children": [
+      {
+        "id": "f8d14986a2ba0b78",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ca4014995404474a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Containers & Elastic Container Service (ECS).md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "b6597835e15bbed8",
+    "type": "split",
+    "children": [
+      {
+        "id": "a9d227bc74063896",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "cb1771341b52175d",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "a4332d105fee0a4d",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "0d4cc8c3b12a7af9",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 423.5
+  },
+  "right": {
+    "id": "1299c5c464274a38",
+    "type": "split",
+    "children": [
+      {
+        "id": "09a6836087afbf6e",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9a8ef3fe058ccf45",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Containers & Elastic Container Service (ECS).md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "92027aeba4ee276d",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Containers & Elastic Container Service (ECS).md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "297e10b755d2bec5",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "3fe5f88048f9743e",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Containers & Elastic Container Service (ECS).md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "ca4014995404474a",
+  "lastOpenFiles": [
+    "Elastic Compute Cloud (EC2) Basics.md",
+    "Containers & Elastic Container Service (ECS).md",
+    "AWS Fundamentals.md",
+    "Elastic File System (EFS) - Network Storage and Data Lifecycle.md",
+    "Fundamentals.md",
+    "Advanced EC2 using User Data.md",
+    "Security, Deployment, and Operations.md",
+    "Route 53 - Global DNS.md",
+    "AWS Account Fundamentals.md",
+    "Virtual Private Cloud (VPC) Basics.md",
+    "Untitled.canvas",
+    "Global Content Delivery and Optimization.md",
+    "High Availability and Scaling (ELB, ASG…).md",
+    "Hybrid Environments and Migration.md",
+    "IAM, Accounts and AWS Organizations.md",
+    "Machine Learning 101.md",
+    "NoSQL Databases & DynamoDB.md",
+    "Other Services & Features.md",
+    "Overview.md",
+    "Relational Database Service (RDS).md",
+    "Serverless and Application Services.md",
+    "Simple Storage Service (S3).md"
+  ]
+}

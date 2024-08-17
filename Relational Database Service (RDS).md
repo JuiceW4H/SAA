@@ -1,0 +1,799 @@
+# Relational Database Service (RDS)
+
+## Database Refresher & Models
+
+* Databases are systems which store and manage data.
+
+Relational Database
+- has structure in and between tables of data or a Rigid Schema (defined in advance).
+- fixed relationship between tables.
+- key component of any SQL based DB system is a table.
+
+Structured Query Language (SQL)
+- a language used for to store, update, and retrieve data.
+- a feature of most Relational Database Platforms.
+
+Schema
+- a structure of a database table.
+
+Non-Relation Database
+- more relaxed Schema.
+- relationships between tables are handled differently.
+
+NoSQL
+- everything which does not fit into the SQL mold.
+
+**Relational Database Structure**
+![Relational Database Service (RDS)-07-24-2024](images/Relational%20Database%20Service%20(RDS)-07-24-2024.png)**
+**
+**
+**
+* Columns are Attributes
+* Rows are Attribute Values.
+* Data which relates together is stored within a table.
+* Every attribute has to have a value.**
+**
+
+Primary Key
+- unique identifier value for a table.
+
+Composite Key
+- can be found in a join table.
+- a key form of two or more parts.
+- when combined together they have to be unique.
+- used when there is no single key or attribute (i.e no primary keys)available to find unique rows in a table.
+
+Foreign Key
+- a field (or a set of fields) in one table that uniquely identifies a row of another table
+
+**Non-Relational Database Structure**
+
+![Relational Database Service (RDS)-07-24-2024-1](images/Relational%20Database%20Service%20(RDS)-07-24-2024-1.png)
+
+**Key-Value Database**
+
+* Contain sets of keys and values.
+* As long as every single key is unique the value does not matter.
+* Used for in-memory caching.
+* No real Schema.
+* Does not have any real structure.
+* Scalable and fast.
+
+![Relational Database Service (RDS)-07-24-2024-2](images/Relational%20Database%20Service%20(RDS)-07-24-2024-2.png)**
+**
+**Wide Column Store**
+
+* Each row or item has one or more keys (Partition Key and Additional or Range or Sort Key).
+* Every item in the table needs to have the same key layout.
+* Keys need to be unique to only that table.
+* Offers groupings of items called Tables.
+* Every item can have different attributes.
+* Does not require every attribute to have a value.
+
+![Relational Database Service (RDS)-07-24-2024-3](images/Relational%20Database%20Service%20(RDS)-07-24-2024-3.png)
+
+**Document**
+**
+**
+* Designed to store and query data as documents.
+* Formatted using a structure like XML or JSON.
+* Ideal for interacting with whole documents or deep attribute interactions.
+* Each document has a unique ID, and the database has access to the structure inside the document.
+* Flexible indexing.**
+**
+
+![Relational Database Service (RDS)-07-24-2024-4](images/Relational%20Database%20Service%20(RDS)-07-24-2024-4.png)
+
+**Column Store (Redshift)**
+
+* Columns are stored together.
+* Ideal for reporting or when all values for a specific attribute (size) are required.**
+**
+
+**
+**
+![Relational Database Service (RDS)-07-24-2024-5](images/Relational%20Database%20Service%20(RDS)-07-24-2024-5.png)**
+**
+**Row Store (MySQL) (Relational DB) (For Comparison Only With Column Store)**
+
+* Where you interact with data based on rows.
+* Ideal when you are operating with rows.
+* Online Transaction Processing (OLTP) Databases.**
+**
+
+![Relational Database Service (RDS)-07-24-2024-6](images/Relational%20Database%20Service%20(RDS)-07-24-2024-6.png)
+
+**Graph**
+**
+**
+* Relationship between things are formally defined and stored in the databases itself along with the data.
+* Good for relationship driven data.
+
+**
+**
+Nodes
+- objects or nouns within a Graph Database.
+- can have properties which have simple key value pairs of data which are attached to Nodes.
+
+Edges
+- relationship connecting it to other Nodes.
+- have a name and a direction.
+
+* Relationships can also have attached data like name value pairs.
+
+## ACID vs BASE
+
+* ACID and BASE are database transaction models.
+
+Consistency, Availability, Partition Tolerant (Resilience) CAP Theorem
+- states that any database product is only capable of delivering a maximum of two of these different factors.
+
+1. Consistency
+	- means that every read to a database will receive the most recent write or it will get an error.
+
+1. Availability
+	- every request will receive a non-error response but without the guarantee that it contains the most recent write and that’s important.
+
+1. Partition Tolerance
+	- the system can be made of multiple network partitions, and the system continues to operate even if there are a number of dropped messages or errors between these network nodes.
+
+* ACID focuses on Consistency.
+* BASE focuses on Availability.
+
+**ACID **
+![Relational Database Service (RDS)-07-24-2024-7](images/Relational%20Database%20Service%20(RDS)-07-24-2024-7.png)
+
+**
+**
+* Generally refers to any of the RDS Databases.**
+**
+
+**
+**
+1. Atomic
+	- ensures that either all parts of a transaction is successful or no part is successful.**
+**
+
+**
+**
+1. Consistent
+	- transactions move the database from one valid state to another.
+	- nothing in-between is allowed.
+
+**
+**
+1. Isolated
+	- if multiple transactions occur at once, they don’t interfere with each other.**
+**
+
+**
+**
+1. Durable**
+**
+	- once a transaction has been committed, it will remain remain committed even in the case of a system failure.
+	- transactions stored on non-volatile memory, resilient to power outages, or crashes.
+
+**BASE**
+![Relational Database Service (RDS)-07-24-2024-8](images/Relational%20Database%20Service%20(RDS)-07-24-2024-8.png)
+
+1. Basically Available
+	- read and write operations are available “as much as possible”, but without any consistency guarantees.
+	- replicates data across all of the different nodes of that database.
+
+1. Soft State
+	- does not enforce consistency as this responsibility is offloaded onto the application/user.
+	- data can have transient or temporary states that may change over time
+
+1. Eventually Consistent
+	- record will achieve consistency when all the concurrent updates have been completed.
+
+**Shortcuts**
+**
+**
+* ACID = RDS Database
+* BASE = NoSQL Style Database
+* NoSQL or DynamoDB with ACID = DynamoDB Transactions
+
+## Databases on EC2
+
+**Why you might do it:**
+**
+**
+* Access to the DB instance OS (OS Level Access).
+* Advanced DB Option tunings (Root Level Access or DBRoot).
+* Vendor demands
+* Run a DB or DB Version that AWS doesn’t provide.
+* Specific OS/DB combination that AWS doesn’t provide.
+* Architecture AWS doesn’t provide.
+
+**
+**
+**Why you shouldn’t:**
+**
+**
+* Admin Overhead of managing EC2 and DB Host/Instances.
+* Backups and Disaster Recovery Management are more complex.
+* EC2 and EBS volumes are only AZ resilient.
+* Features of AWS DB products are better than what you can achieve alone.
+* EC2 does not have any concept of serverless. More difficult to scale.
+* Replication
+* Performance is much better on AWS DB services.**
+**
+
+## Relational Database Service (RDS) Architecture
+
+* RDS provides a managed version of a database server.
+* No access to the OS or SSH access for the most part.
+* Runs within a VPC.
+
+**Choice of Database Engines**
+**
+**
+* MySQL
+* MariaDB
+* PostgreSQL
+* Oracle
+* Microsoft SQL Server
+
+**
+**
+Amazon Aurora**
+**
+- a custom database engine and product created by AWS.
+
+RDS Custom
+- a variant of RDS where do have some more low-level access.
+
+**RDS Architecture**
+![Relational Database Service (RDS)-07-24-2024-9](images/Relational%20Database%20Service%20(RDS)-07-24-2024-9.png)
+
+* RDS creates a primary instance and a standby instance.
+* RDS can be access from the VPC or any connected private networks (VPN or Direct Connect).
+* RDS can also be configured with public addressing allowing access from the public internet.
+* RDS instances can have multiple databases on them.
+* Every RDS instance has its own dedicated storage provided by EBS.
+* Using Multi-AZ allow the primary instances to replicate to the standby instances using synchronous replication.
+
+RDS Subnet Group
+- list of subnets that RDS can use within the VPC.
+
+Synchronous Replication
+- data is received by the Standby DB instance as soon as it is received by the Primary DB Instance.
+- standby will have the same set of data as the primary.
+
+Read Replicas
+- use asynchronous replication.
+- can be in the same region or different regions.
+- used to scale read load or to add layers of resilience if you ever need to recover in a different AWS region.
+
+ 
+RDS Costs
+
+* Instance Size and Type (Hourly rate, but billed per second)
+* Multi AZ or Not
+* Storage Type and amount (Per GB monthly fee for storage)
+* Data Transfer (per GB of data transfer in and out of your DB instance)
+* Backups and Snapshots (e.g. 2TB of storage = 2TB of Snapshot for free beyond that there is a cost)
+* Licensing for commercial DB Engines
+
+## Relational Database Service (RDS) Multi AZ - Instance and Cluster
+
+**RDS - Multi AZ - Instance**
+**
+**
+* RDS has a primary database instance containing any databases you create.
+* The Primary instance is configured to replicate its data Synchronously to 1 Standby (running in another AZ) replica.
+* Replication is at a storage level.
+* All accesses to the database are via the database CNAME.
+* You always access the Primary DB Instance. No access to the Standby.
+* Backups can occur from the Standby Instance.
+
+**Limitations:**
+
+* Not Free Tier.
+* Only 1 Standby Replica Instance.
+* Multi AZ mode can only be within the same region.
+
+**
+**
+CNAME
+- a DNS name that by default points to the Primary DB Instance.
+
+**Primary Instance Architecture**
+![Relational Database Service (RDS)-07-24-2024-10](images/Relational%20Database%20Service%20(RDS)-07-24-2024-10.png)
+
+**Failover to Standby Instance Architecture (60-120 seconds of Failover)**
+![Relational Database Service (RDS)-07-24-2024-11](images/Relational%20Database%20Service%20(RDS)-07-24-2024-11.png)
+
+**Key Concepts**
+![Relational Database Service (RDS)-07-24-2024-12](images/Relational%20Database%20Service%20(RDS)-07-24-2024-12.png)
+
+**RDS - Multi AZ - Cluster**
+**
+**
+* RDS is capable of having 1 Writer Instance replicate to 2 Reader (in another AZ) Instances.
+* Writer Instance replicates Synchronously to the Reader Instances.
+* While data is sent to the Writer and it’s viewed as being committed when at least one of the Readers confirms that it has been written.
+* Runs on much faster hardware (Graviton + NVME SSD then flushed to EBS).**
+**
+
+**
+**
+Committed
+- when data has been sent and stored to the Writer Instance and it has been replicated to at least 1 Reader.
+- means that the transaction has been completed successfully and the data changes have been written to the database storage.
+
+**
+**
+**Limitations:**
+**
+**
+* Only 2 Reader Instances.
+* 35** **seconds of Failover + Transactions Log application.**
+**
+
+**
+**
+Transaction Logs
+- store the actual operations executed on the DB. 
+
+**
+**
+Writer Instance
+- acts as the Primary Instance.
+- can be used for both Read and Write operations.
+
+**
+**
+Reader Instance
+- replicas that can be used only for Read operations.** **
+
+**Endpoints Types:**
+**
+**
+1. Cluster Endpoint
+	- like the database CNAME.
+	- it primarily points at the Writer Instance for Read and Write operations or administration functions.
+
+**
+**
+1. Reader Endpoint
+	- this points at any available Reader Instance within the cluster which sometimes also include the Writer Instance.
+	- generally this points to dedicated Reader Instances.
+
+**
+**
+1. Instance Endpoint
+	- not recommended to be used directly as it cannot tolerate instance failure as it only points to 1 specific instance.
+	- points at specific instance.
+	- generally used for Testing/Fault Finding.**
+**
+
+**Multi AZ Cluster Architecture**
+![Relational Database Service (RDS)-07-24-2024-13](images/Relational%20Database%20Service%20(RDS)-07-24-2024-13.png)
+
+**Key Concepts**
+
+![Relational Database Service (RDS)-07-24-2024-14](images/Relational%20Database%20Service%20(RDS)-07-24-2024-14.png)
+
+## RDS Automatic Backup, RDS Snapshots and Restore
+
+**2 Types of Backup Like Functionality:**
+**
+**
+* Both are stored in S3, but they use AWS managed buckets.
+* Backups are taken from Standby Instance (if Multi AZ is Enabled).
+* Backups are taken of the instance meaning all DBs within the instance not just a specific one.**
+**
+
+**
+**
+1. Automated Backups
+	- occur once per day.
+	- acts like an automated snapshot (First backup = Full & Next = Increments).
+	- every 5 minutes DB Transaction Logs are also written to S3.
+	- these backups are automatically cleared up by AWS.
+	- you can set a retention period from 0 to 35 days.
+
+Transaction Logs
+- store the actual operations executed on the DB.
+
+* When deleting the DB you can still choose to retain any automated backups, but they still expire based on the retention period.
+
+1. Snapshots
+	- not automatic as you need to run explicitly or via script or custom application.
+	- function like EBS Snapshots.
+	- first Snapshot if the whole DB instance, then succeeding are increments/changes of it.
+	- does not expire and requires you to clear it up if needed (lives past the lifecycle of the DB instance).
+	- more frequent snapshots = lower RPO 
+
+**RDS - Backups - General**
+![Relational Database Service (RDS)-07-24-2024-15](images/Relational%20Database%20Service%20(RDS)-07-24-2024-15.png)
+
+**Cross Region Backups**
+
+* RDS also allows you to replicate backups (Snapshots & Transaction Logs) to another AWS region.
+* Charges apply for the Cross-Region Data Copy and any Storage used in the destination region.
+* This is not enabled by default in Automated Backups.
+
+**RDS Restores**
+![Relational Database Service (RDS)-07-24-2024-16](images/Relational%20Database%20Service%20(RDS)-07-24-2024-16.png)**
+**
+**
+**
+* RDS creates a new RDS instance when you restore an Automated Backup or Manual Snapshot.
+* Requires updating application to use new DB endpoints.
+* You are restoring with Snapshots, the DB to the time the backup was created (single point in time). 
+* Automated Backups offers lower RPO (any 5 minute point in time).
+
+**
+**
+**
+**
+**## RDS Read-Replicas**
+**
+**
+Read Replicas
+- are read-only replicas of an RDS instance.
+- you can use read replicas, but only for Read operations.
+- kept in sync using Asynchronous Replication.
+
+* Can be created in the Same Region as the Primary DB Instance or in other AWS regions (Cross Region Read Replicas).
+* Read Replicas can have their own Read Replicas.
+* Read Replicas can be “promoted” meaning you’re able to use them as a normal RDS instance.
+
+Asynchronous Replication
+- data is written to the Primary Instance, at which point it is viewed as committed, then it’s replicated to read replicas.
+
+Committed
+- means that the transaction has been completed successfully and the data changes have been written to the database storage.
+
+**Importance of Read Replicas:**
+**
+**
+![Relational Database Service (RDS)-07-24-2024-17](images/Relational%20Database%20Service%20(RDS)-07-24-2024-17.png)**
+**
+1. Read Performance and Read Scaling
+	- you can create 5 Direct Read Replicas per DB instance.
+	- provides additional read performance.
+	- read replicas can have own read replicas (but lag becomes a problem).
+	- global performance improvements.
+
+![Relational Database Service (RDS)-07-24-2024-18](images/Relational%20Database%20Service%20(RDS)-07-24-2024-18.png)
+
+1. RPO/RTO Improvements
+	- Snapshots and Backups improve Recovery Point Objective (RPO).
+	- RR’s offer a near 0 RPO.  
+	- RRs are read only until promoted.
+
+Recovery Point Objective (RPO)
+- maximum amount of data that can be lost after a recovery disaster.
+
+Recovery Time Objective (RTO)
+- the maximum acceptable amount of time for restoring a network or application and regaining access to data after an unplanned disruption.
+
+## RDS Data Security
+
+* SSL/TLS (in transit) is available for RDS (can be set as Mandatory on a per user basis).
+* Encryption at rest is supported in different ways depending on the engine.
+* By default, encryption is supported using KMS and EBS Encryption which is handled by the Host and EBS.
+* If KMS is used, you can use a AWS Managed Customer Master Key (CMK) or Customer Managed CMK which generates DEKs.
+* Encryption cannot be removed once added.
+* RDS MSSQL and Oracle support Transparent Data Encryption (TDE).
+* RDS Oracle also support TDE using CloudHSM.
+
+Transparent Data Encryption
+- encryption which is supported and handled within the DB engine itself.
+
+**RDS KMS Encryption & TDE Architecture**
+
+![Relational Database Service (RDS)-07-24-2024-19](images/Relational%20Database%20Service%20(RDS)-07-24-2024-19.png)
+
+**RDS IAM Authentication**
+![Relational Database Service (RDS)-07-24-2024-20](images/Relational%20Database%20Service%20(RDS)-07-24-2024-20.png)**
+**
+**
+**
+* RDS can make use of IAM Authentication through the Local DB account.
+* Configure Local DB account to use AWS Authentication Token/s.
+* Attach a policy to Users or Roles that maps IAM Identity onto the Local RDS (DB) User/account.
+
+**
+**
+generate-db-auth-token
+- creates a token with a 15 minutes validity which can be used in place of a DB User Password.
+
+* Authorization is still controlled by the DB engine not IAM.
+
+Enhanced Monitoring in RDS
+- uses an agent on the DB instance for RDS DB monitoring of various metrics (e.g. CPU bandwidth, and total memory consumed).
+
+* Data modifying events (Insert, Delete, and Update) are not captured by RDS events.
+
+## RDS Custom
+
+* RDS Custom fills the gap between the main RDS product and EC2 running a DB engine.
+* OS/Engine access is limited using the main RDS product.
+* DB engine on EC2 requires more admin overhead.
+
+RDS Custom
+- it gives you the ability to occupy the middle ground where you can utilize RDS, but still get access to some of the customization that you have access when running a DB engine on EC2.
+- works on MS SQL and Oracle.
+- can connect using SSH, RDP, and Session Manager.
+
+* You will be able to see the EC2 Instance, EBS Volume/s, and Backups inside your AWS account.
+* Customization of RDS Custom can be done through the DB Automation Settings.
+	* Pause DB Automation to counter disruptions.
+	* Then resume after configuring RDS Custom.
+
+**RDS Custom Responsibility Model**
+
+![Relational Database Service (RDS)-07-24-2024-21](images/Relational%20Database%20Service%20(RDS)-07-24-2024-21.png)
+
+## Amazon Aurora Architecture
+
+**Aurora Key Differences**
+**
+**
+* Aurora is a fully managed RDB engine that’s compatible with MySQL and PostgreSQL.
+* Makes use of the base entity of a Cluster.**
+**
+* Made up of a 1 Primary Instance and 0 or more Replicas.
+	* Replicas within Aurora can be used for Reads during normal operation.
+* Aurora uses a Shared Cluster Volume instead of a local storage for its compute instance.
+* Replicas can be used for Failover scenarios.
+* Can have up to 15 Replicas (Any can be the Failover Target).
+
+Cluster Volume
+- storage that shared and available to all compute instances within a Cluster.
+
+**Aurora Storage Architecture**
+![Relational Database Service (RDS)-07-24-2024-22](images/Relational%20Database%20Service%20(RDS)-07-24-2024-22.png)
+
+* Storage has a minimum of 10GB maximum size of 128TB.
+* It also has 6 Replicas across Multiple AZs
+* When data is written to the Primary Instance, Aurora Synchronously replicates that data across all of these 6 storage nodes.
+* Spread across the AZs which are associated with your Cluster.
+* All instances have access to these storage nodes.
+* Aurora automatically detects failure in the disk volumes that make up the shared Cluster Storage.
+
+**Key Concepts**
+**
+**
+* Cluster Shared Volume is SSD based (High IOPS & Low Latency).
+* Storage is billed on what is used.
+* Storage freed up can be reused.
+* Replicas can be added or removed without requiring storage provisioning.**
+**
+
+High Water Mark
+- billed for the most used (e.g. if you consume 50GB of storage this month, and then next month 40GB you are still billed 50GB for that month).
+
+**Endpoints**
+**
+**
+1. Cluster Endpoints
+	- always points to the Primary Instance.
+	- used for both Read and Write operations.
+
+**
+**
+1. Reader Endpoint
+	- will only point at the Primary Instance if it is the only that exists.
+	- if there are replicas then it will load balance across all available replicas.
+
+**
+**
+1. Custom Endpoint
+
+**
+**
+1. Instance Unique Endpoint
+
+**
+**
+**Cost**
+**
+**
+* No Free Tier
+* Aurora doesn’t support Micro Instances.
+* Beyond RDS Single AZ (Micro) Aurora offers better value.
+* Compute has an hourly charge, and you’re billed per second with a 10 minute minimum.
+* Storage is billed based on a GB month consumed metric, and IO cost per request.
+* 100% DB size in backups are included.
+
+**
+**
+**Aurora Restore, Clone & Backtrack**
+**
+**
+* Backups in Aurora work the same way in RDS.
+* Restores create a new Cluster.
+* Fast clones make a new database from an existing database much faster than copying all the data (copy-on-write).
+
+**
+**
+Backtrack
+- can be used which allow in-place rewinds to a previous point in time of up to 72 hours (needs to be Enabled on a per Cluster basis).**
+**
+
+Fast Clones
+- it references the original DB and it only stores any differences between the two.
+- changes like updates to the original database or updates to the database of the clone are save to the each other.
+
+Aurora Native Function
+- allows you to invoke an AWS Lambda from an Aurora MySQL DB cluster.
+
+## Aurora Serverless
+
+* Aurora Serverless uses the concept of Aurora Capacity Units (ACU).
+* You can set Minimum and Maximum ACU values that the Aurora Serverless will scale between.
+* Cluster adjusts on load and can even go down to 0 (paused).
+* Consumption billing is on a per second basis.
+* Same resilience as Aurora (6 copies across AZs)
+
+Aurora Capacity Units (ACU)
+- represent a certain amount of compute and a corresponding amount of memory.
+- stateless and shared across AWS customers.
+- 1 ACU = 2GiB of memory
+
+Share Proxy Fleet
+- broker a connection between the application and Aurora Capacity Units.
+
+**Aurora Serverless Architecture**
+![Relational Database Service (RDS)-07-24-2024-23](images/Relational%20Database%20Service%20(RDS)-07-24-2024-23.png)
+
+Use Case:
+
+* Infrequently used application.
+* New applications
+* Variable workloads
+* Unpredictable workloads
+* Development and Test databases
+* Multi-tenant applications
+
+## Aurora Global Database
+
+Global Database
+- allows you to create Global Level Replication using Aurora from a Master region to up to 5 Secondary AWS regions.
+- RPO of 1 second and RTO of less than 1 minute.
+
+**Aurora Global Database Architecture**
+
+![Relational Database Service (RDS)-07-24-2024-24](images/Relational%20Database%20Service%20(RDS)-07-24-2024-24.png)
+
+* The entire Secondary Cluster in the Secondary regions are Read only.
+* Write operations can be done to the Primary Instance in the Primary Region.
+* Read operations can be done to the Replicas in both the Primary and Secondary Regions.
+* 1 second replication time between the Primary region and secondary regions.
+
+**Use Case:**
+**
+**
+* Cross-Region Disaster Recover and Business Continuity.
+* Global Read Scaling.
+* 1s or less replication between regions (One Way Replication).
+* No impact on DB performance.
+* Secondary regions can have 16 replicas.
+* Replicas can be promoted to Read and Write.
+* A Maximum of 5 Secondary Regions.**
+**
+
+## Aurora Multi-Master Writes## 
+
+**Single Master Setup**
+
+* Default Aurora mode is Single Master.
+
+**
+**
+Single Master
+- 1 Read Write Instance and 0 or more Read only Replicas.
+
+Cluster Endpoint
+- used to read or write operations.
+
+Read Endpoint
+- used for load balancing reads across any of the read only replicas.
+
+**Multi Master Setup**
+
+- all of the instances by default are capable of both Read and Write operations.
+
+![Relational Database Service (RDS)-07-24-2024-25](images/Relational%20Database%20Service%20(RDS)-07-24-2024-25.png)
+
+* This feature allows an Aurora Cluster to have multiple instances which are capable of performing both Read and Writes.
+* No Cluster Endpoint to use an application is responsible for connecting to instances within the Cluster.
+* No load balancing across instance with the Multi Master Cluster, the application connects to one or all of the instances in the Cluster.
+* To commit a change in the Database a Quorum of nodes need to agree of the change.
+* In case there is a conflict the current change it can be rejected by all nodes.
+* Changes are replicated to other nodes in the Cluster.
+
+## Relational Database Service (RDS) Proxy
+
+* Instead of your application connecting to a database every time they use it, they connect to the proxy which maintains a pool of connections to the database.
+* Any connections to the proxy can use this already established pool of DB connections.
+
+**RDS Proxy Architecture**
+![Relational Database Service (RDS)-07-24-2024-26](images/Relational%20Database%20Service%20(RDS)-07-24-2024-26.png)
+
+* Proxy runs only from within a VPC.
+* Oracle is the only DB engine that does not support this.
+* Proxy maintains a long term connection pool.
+* RDS Proxy allows DB connections to be reused which avoids the lag of establishment, usage & termination of each invocation. **
+**
+* Abstracts clients away from DB failure or failover events.
+* Proxy connection is established and waits even if Target DB is unresponsive.
+
+**Key Concepts**
+**
+**
+* RDS proxy is a fully managed DB proxy for RDS and Aurora.
+* It’s auto-scaling and highly available by Default.
+* Provides connection pooling.
+* RDS Proxy is only accessible from within a VPC.
+* Access via Proxy Endpoint.
+* Can enforce SSL/TLS connection.
+* Abstracts the failure of a DB.
+
+Too Many Connections Error
+- it means all available connections are in use by other clients.
+
+**
+**
+**
+**
+**## Database Migration Service (DMS)**
+**
+**
+* A Managed Database Migration Service.
+* Starts with a Replication Instance running on EC2, which runs 1 or more replication tasks.
+* You need to define a Source (Source DB Endpoint) and Destination (Target DB Endpoint) Endpoints.
+
+Restriction:
+
+* One of the Endpoints must be running within AWS.
+
+**DMS Architecture**
+![Relational Database Service (RDS)-07-24-2024-27](images/Relational%20Database%20Service%20(RDS)-07-24-2024-27.png)**
+**
+**
+**
+Replication Task
+- defines all of the options relating to the migration.
+- essentially moves data from the Source DB to the Target DB.
+
+**3 Types of Migration Jobs**
+**
+**
+1. Full Load
+	- one off migration of all data.
+
+**
+**
+1. Full Load + Change Data Capture (CDC)
+	- migrates existing data and also replicates any ongoing changes from the Source.
+
+**
+**
+1. CDC Only
+	- designed to replicate only data changes.
+	- alternative methods are using native tooling of the respective DB.
+
+**
+**
+* DMS does not natively support any method of Schema Conversion, but there is a dedicated tool in AWS called Schema Conversion Tool (SCT).
+
+Schema Conversion Tool (SCT)
+- to perform Schema Modification or conversion between DB Engines/version.
+- only used when converting one DB engine to another.
+- not used when migrating between compatible DB types.
+- works with OLTP Databases.
+- works with OLAP Databases.
+
+* Large migrations can be multi-TB in size.
+*  It is not optimal to do migrations of that quantity over the network.
+* DMS can utilize Snowball range of products.
+
+![Relational Database Service (RDS)-07-24-2024-28](images/Relational%20Database%20Service%20(RDS)-07-24-2024-28.png)
+

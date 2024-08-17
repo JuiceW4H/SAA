@@ -1,0 +1,285 @@
+## Bootstrapping EC2 using User Data
+
+* Allows for EC2 build automation.
+* Bootstrapping is enabled using EC2 user data which is injected into the instance via the meta-data IP (http://169.254.169.254/latest/user-data).
+* Anything you pass in User Data is executed by the instance OS.
+* Executes only Once at the First Initial Launch.
+* If you update the User Data and restart an instance, it will not execute it again.
+* EC2 doesn’t interpret the data, the instance OS needs to understand the User Data.
+
+Bootstrapping
+	\- a process where scripts or other bits of configuration can be run when an instance is first launched.
+	\- bringing an instance into service in a certain pre-configured state.
+
+User Data
+	\- a piece of information that you can pass into an EC2 instance.
+	\- procedural as it is simply a script.
+
+**Bootstrapping Architecture:**
+
+![Advanced EC2 using User Data-07-21-2024](images/Advanced%20EC2%20using%20User%20Data-07-21-2024.png)
+
+**User Data Key Points**
+
+* It’s opaque to EC2 as it considers it just as a block of data.
+* It’s not secure meaning don’t use it for passwords or long term credentials (ideally).
+* User Data is limited to 16KB in size (for anything more than that pass in a script that downloads that data).
+* Can be modified when instance stopped, but only executed once at launch.
+
+![Advanced EC2 using User Data-07-21-2024-1](images/Advanced%20EC2%20using%20User%20Data-07-21-2024-1.png)
+
+Boot-Time-To-Service-Time
+	\- metric of how quickly you can bring an instance into service.
+
+Post Launch Time
+	\- the time required after launch for you to perform manual or automatic configuration before the instance is ready for service.
+
+## Enhanced Bootstrapping with CFN-INIT
+
+AWS::CloudFormation::Init
+	\- a way that you can pass complex bootstrapping instruction into an EC2 instance.
+	\- provided with directives via Metadata.
+
+cfn-init
+	\- a helper script which is installed on EC2 Operating Systems.
+	\- Simple Configuration Management System
+	\- can be Procedural or Desired State.
+	\- can be configured to watch for updates to the metadata on an object in a template, and if that metadata changes cfn-init can be executed again to update that instance.
+
+**cfn-init Architecture**
+![Advanced EC2 using User Data-07-21-2024-2](images/Advanced%20EC2%20using%20User%20Data-07-21-2024-2.png)
+
+CloudFormation CreationPolicy
+	\- added to a logical resource inside a CloudFormation template.
+	\- you create it and you supply a timeout value.
+	\- if CloudFormation does not receive any update with regards to the status after the timeout value it returns an error.
+
+CloudFormation Signal (cfn-signal)
+	\- reports to CloudFormation the success or not of the cfn-init bootstrapping.
+	\- the Stack reports the status of the instance through report passed by the cfn-signal which refers to the cfn-init.
+
+## EC2 Instance Roles
+
+* Allows the EC2 service to assume an IAM Role.
+
+![Advanced EC2 using User Data-07-21-2024-3](images/Advanced%20EC2%20using%20User%20Data-07-21-2024-3.png)
+
+Instance Profile
+	\- allows the permissions to get inside the instance.
+	\- this Profile is attached to the EC2 instance not the Instance Role itself.
+	\- has the same name as the Instance Role if created via AWS Console.
+
+* Temporary Credentials are delivered via instance meta-data.
+* Temporary Credentials in the EC2 instance are always renewed before they expire.
+
+**Key Concepts:**
+
+* Credentials are delivered via meta-data (iam/security-credentas/role-name).
+* Automatically rotated so they are always valid.
+* Should always use roles rather than adding access into instance.
+* CLU tools will use ROLE credentials automatically.**
+
+Credential Precedence Reference: https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html#cli-configure-quickstart-precedence
+
+## AWS Systems Manager (SSM) Parameter Store
+
+* Parameter Store is a regional and public service.
+* Parameter store lets you create parameters, and these have a parameter name and parameter value.
+* Value is the part that stores actual configuration.
+* Many AWS services integrate with the Parameter Store natively.
+* Allows you to store parameters using a hierarchical structure and also allows for versioning.
+* Can store Plaintext and Ciphertext (KMS).
+* Parameter Store also has the concept of Public Parameters (Publicly Available and Created by AWS).
+* Any changes that occur to any parameters can spawn or create events.
+
+**3 Different Type of Parameters you can store:**
+
+1. Strings
+	\- any string value.
+
+2. StringLists
+	\- strings separated by commas.
+
+3. SecureStrings
+	\- encrypt sensitive data using KMS keys from your account or another account.
+
+**2 Types of Parameter Store Tiers:**
+
+1. Standard (Free)
+	\- store up to 10,000 parameters.
+	\- with parameter value up to 4KB.
+	\- no parameter policies and no sharing with other AWS accounts.
+
+2. Advanced (Charges Apply)
+	\- store up to 100,000 parameters.
+	\- with parameter values up to 8KB.
+	\- can add parameter policies and sharing with other AWS accounts.
+
+**SSM Parameter Store Architecture**
+
+![Advanced EC2 using User Data-07-21-2024-4](images/Advanced%20EC2%20using%20User%20Data-07-21-2024-4.png)
+
+## System and Application Logging on EC2
+
+* CloudWatch is the product responsible for storing and managing metrics within AWS.
+* CloudWatch Logs is a subset of CloudWatch aimed at storing, managing and visualizing any logging data.
+* Neither can Natively capture any data inside an Instance.
+* CloudWatch Agent is required to capture these custom metrics which needs configurations and permissions.
+
+**Logging on EC2 Architecture**
+
+![Advanced EC2 using User Data-07-21-2024-5](images/Advanced%20EC2%20using%20User%20Data-07-21-2024-5.png)
+
+Agent Configuration
+	\- configures the metrics and the logs that we want to capture which is then injected into CloudWatch using log groups.
+
+## EC2 Placement Groups
+
+**3 Types of Placement Groups in EC2**
+
+1. Cluster
+	\- designed to ensure that any instances in a single cluster placement group are physically close together.
+
+2. Spread
+	\- ensuring that instances are all using different underlying hardware.
+	\- keep instances separated.
+
+3. Partition
+	\- designed for distributed and replicated applications which have infrastructure awareness.
+	\- group of instances spread on different hardware (Host).
+
+**Cluster Placement Groups**
+	\- used when you want to achieve the absolute highest level of performance possible within EC2.
+	\- launch the instances that will be in the group all at the same time.
+	\- ensures that AWS allocate capacity for everything that you require.
+	\- launched into a single Availability Zone.
+	\- generally use the same rack but often the same EC2 host.
+	\- 10Gbps p/stream
+	\- Lowest latency possible and max Packets Per Second (PPS) possible in AWS.
+
+**Cluster Architecture**
+
+![Advanced EC2 using User Data-07-21-2024-6](images/Advanced%20EC2%20using%20User%20Data-07-21-2024-6.png)
+
+**Key Concepts for Cluster Placement Groups**
+
+* You cannot span multiple AZs with CPG. This is locked when launching the first instance.
+* You can span VPC peers, but this can impact the performance.
+* Requires a supported instance type.
+* Generally use the same type of instance (Not Mandatory).
+* Launch the instances at the same time (Not Mandatory, but Very Recommended).
+* CPG offer 10Gbps of single string performance.
+* Use Case: Performance, Fast Speeds, and Low Latency.
+
+
+**Spread Placement Group**
+	- designed to ensure the maximum amount of availability and resilience for an application.
+	- can span multiple AZs
+	- instances which are placed into a spread placement group are located on separate isolated infrastructure racks within each AZ.
+	- has a limit of 7 instances per AZ - Isolated Infrastructure Limit.
+
+
+**Spread Architecture**
+
+![Advanced EC2 using User Data-07-21-2024-7](images/Advanced%20EC2%20using%20User%20Data-07-21-2024-7.png)
+
+**Key Concepts for Spread Placement Groups**
+
+* SPG provides infrastructure isolation.
+* Each instance runs from a different rack which has its own network and power source.
+* A limit 7 instance per AZ (Hard Limit)
+* Use Case: Small number of critical instances that need to be kept separated from each other.
+
+
+**Partition Placement Groups**
+	\- designed for when you have infrastructure where you have more than 7 instances per AZ, but you still need the ability to separate those instances into separate fault domains.
+	\- can be created across multiple AZs in a region.
+	\- you specify a number of partitions with a maximum of 7 per AZ in that region.
+	\- each partition has its own racks.
+	\- you can launch as many instances as you need into the group and you can either select the partition explicitly or have EC2 make that decision on your behalf.
+	\-  designed for huge scale parallel processing systems where you need to create groupings of instances and have them separated.
+
+**Partition Architecture**
+
+![Advanced EC2 using User Data-07-21-2024-8](images/Advanced%20EC2%20using%20User%20Data-07-21-2024-8.png)
+
+**Key Concepts for Partition Placement Groups**
+
+* 7 Partitions per AZ.
+* Instances can be placed in a specific partition or allow EC2 to automatically place it for you.
+* Great for Topology aware applications (HDFS, HBase, and Cassandra).
+* Contain the impact of failure to part of an application.
+
+
+## EC2 Dedicated Hosts
+
+* An EC2 Host allocated to you and its entirety.
+* You pay for the host itself which is designed for a specific family of instances.
+* No instance charges.
+* On-Demand & Reserved (1 or 3 year terms) Options are available.
+* Host hardware comes with a certain number of physical sockets and cores.
+	* Dictates how many instances can be run on that host.
+	* Software which is license based on physical sockets or cores can utilize this visibility of the hardware.
+
+
+**Default Dedicated Host Architecture**
+
+![Advanced EC2 using User Data-07-21-2024-9](images/Advanced%20EC2%20using%20User%20Data-07-21-2024-9.png)
+
+* Default way that dedicated hosts work is that hosts are designed for a specific family and size of instance.
+* You can’t use different sizes of the same family of instances at the same time.
+
+**Nitro Based Dedicated Host Architecture**
+
+![Advanced EC2 using User Data-07-21-2024-10](images/Advanced%20EC2%20using%20User%20Data-07-21-2024-10.png)
+
+* Offers more flexibility.
+* You can use different sizes of instances at the same time up to your core limit.
+
+**Limitations & Features**
+
+* AMI Limits (Not Supported)
+	* RHEL
+	* SUSE Linux
+	* Windows AMI
+* Amazon RDS instances are not supported.
+* Placement groups are not supported for Dedicated Hosts.
+* Hosts can be shared with other AWS Organizations Accounts using Resource Access Manager (RAM).
+
+Resource Access Manager
+	\- a way that you can share certain AWS products and services between accounts.
+
+Dedicated Host Reference: https://aws.amazon.com/ec2/dedicated-hosts/pricing/
+
+## Enhanced Networking and EBS Optimized
+
+Enhanced Networking
+	\- a feature which is designed to improve the overall performance of EC2 networking.
+	\- required for any high-end performance features such as Cluster Placement Groups.
+	\- uses a technique call Single Root IO Virtualization (SR-IOV).
+
+Single Root IO Virtualization (SR-IOV)
+	\- Network Interface Card is virtualization aware.
+
+**EC2 Host Architecture without SR-IOV in Networking**
+
+![Advanced EC2 using User Data-07-21-2024-11](images/Advanced%20EC2%20using%20User%20Data-07-21-2024-11.png)
+
+* Host presents NIC as a single Network Interface Card.
+
+**EC2 Host Architecture with SR-IOV in Networking**
+
+![Advanced EC2 using User Data-07-21-2024-12](images/Advanced%20EC2%20using%20User%20Data-07-21-2024-12.png)
+
+* Host presents the single NIC it has as 2 Network Interface Cards.
+* Higher I/O and consumes lower CPU resources on the host.
+* Allows for more bandwidth (Higher PPS).
+* Consistent lower latency.
+* It’s either available by Default or available for no charge on most modern EC2 instance types.
+
+EBS Optimized Instance
+	\- an option that is set on a per instance basis.
+	\- essentially adding dedicated capacity for storage networking to an EC2 instance.
+	\- does not impact the data performance.
+	\- most instances support it and have it enabled by default at no extra charge.
+	\- some older instances support it, but enabling comes at an extra cost.
