@@ -1,4 +1,4 @@
-# Elastic File System (EFS) - Network Storage and Data Lifecycle
+## EFS Architecture
 
 * Provides network-based file systems which can be mounted within Linux EC2 Instances (/nfs/media) and used by multiple instances at once.
 * An AWS implementation of a shared storage standard called Network File System (NFSv4).
@@ -8,62 +8,55 @@
 * Can be accessed from on-premises via VPC Peering, VPN Connections, or AWS Direct Connect.
 
 **EFS Architecture**
+
 ![Elastic File System (EFS) - Network Storage and Data Lifecycle-07-28-2024](images/Elastic%20File%20System%20(EFS)%20-%20Network%20Storage%20and%20Data%20Lifecycle-07-28-2024.png)
 
 Mount Targets
-- provide network access points to an EFS file system from within a Virtual Private Cloud (VPC).
-- takes an IP address from the subnet they’re inside in.
+	\- provide network access points to an EFS file system from within a Virtual Private Cloud (VPC).
+	\- takes an IP address from the subnet they’re inside in.
 
 POSIX Permissions
-- permission definition of Users, Groups, and Others inside Linux.
+	\- permission definition of Users, Groups, and Others inside Linux.
 
 **Key Concepts**
-**
-**
+
 * Linux Only
 
 **2 Types Performance Modes**
 
 * General Purpose (Default)
-	- for latency sensitive use cases.
+	\- for latency sensitive use cases.
 
 * Max IO
-	- scales to higher levels of aggregate throughput and operations per seconds.
-	- tradeoff of increases latencies.
-	- highly parallel workload.
+	\- scales to higher levels of aggregate throughput and operations per seconds.
+	\- tradeoff of increases latencies.
+	\- highly parallel workload.
 
 **2 Types of Throughput Modes**
 
 * Bursting
-	- similar to GP volumes in EBS volumes as it has a burst pool.
-	- throughput scales based on the size of the file system.
-* Provisioned**
-**
-	- you can specify throughput requirements separately from size.
-	- similar to IO volumes.
+	\- similar to GP volumes in EBS volumes as it has a burst pool.
+	\- throughput scales based on the size of the file system.
+
+* Provisioned
+	\- you can specify throughput requirements separately from size.
+	\- similar to IO volumes.
 
 **3 Types of Storage Classes**
-**
-**
-* You can use Lifecycle policies to move data between classes.**
-**
 
-**
-**
-* Standard (Default)
-	- used for frequently accessed files.**
-**
+* You can use Lifecycle policies to move data between classes.
 
-**
-**
-* Infrequent Access (IA)**
-**
-	- lower cost storage class.
-	- designed for infrequently access data.
+1. Standard (Default)
+	\- used for frequently accessed files.**
 
-* Archive
+2. Infrequent Access (IA)
+	\- lower cost storage class.
+	\- designed for infrequently access data.
 
-**A4L Current Architecture:**
+3. Archive
+
+**A4L Current Architecture**
+
 ![Elastic File System (EFS) - Network Storage and Data Lifecycle-07-28-2024-1](images/Elastic%20File%20System%20(EFS)%20-%20Network%20Storage%20and%20Data%20Lifecycle-07-28-2024-1.png)
 
 ## AWS Backup
@@ -78,26 +71,26 @@ POSIX Permissions
 * can implement a 90 day backup in Aurora.
 
 Backup Plans
-- configure the frequency of backups, window, lifecycle, vault, and region copy.
+	\- configure the frequency of backups, window, lifecycle, vault, and region copy.
 
 Resource
-- pertains as to what is being backed up.
+	\- pertains as to what is being backed up.
 
 Vaults
-- destination or container for backups.
-- by default are read and write.
-- assign KMS keys for encryption.
+	\- destination or container for backups.
+	\- by default are read and write.
+	\- assign KMS keys for encryption.
 
 Vault Lock
-- enables a Write Once Read Many (WORM) mode.
-- once enabled there is a 72 hour cool off period, but once active no one (not even AWS) can delete anything from the vault.
-- data retention periods still apply.
+	\- enables a Write Once Read Many (WORM) mode.
+	\- once enabled there is a 72 hour cool off period, but once active no one (not even AWS) can delete anything from the vault.
+	\- data retention periods still apply.
 
 On-Demand
-- manual backups can be created as needed.
+	\- manual backups can be created as needed.
 
 Point In Time Recovery (PITR) Method
-- the ability to restore the state of a resource to a specific date and time. 
+	\- the ability to restore the state of a resource to a specific date and time. 
 
 Reference: https://aws.amazon.com/backup-restore/services/
 

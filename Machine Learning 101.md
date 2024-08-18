@@ -18,18 +18,16 @@
 Factoid
 - Who, What, Where
 
-**
-**
 Index
-- searchable data organized in an efficient way.
+	\- searchable data organized in an efficient way.
 
 Data Source
-- location of where your data lives.
-- Kendra connects and indexes from this location.
+	\- location of where your data lives.
+	\- Kendra connects and indexes from this location.
 
 * Synchronize with index based on a schedule (Updating essentially).
 
-**## Amazon Lex**
+## Amazon Lex
 
 * Amazon Lex allows you to create interactive chatbots.
 * Provides Text or Voice conversational interfaces.
@@ -37,19 +35,19 @@ Data Source
 * Provides Automatic Speech Recognition (ASR) and Natural Language Understanding (NLU).
 
 Automatic Speech Recognition (ASR)
-- speech to text
+	\- speech to text
 
 Natural Language Understanding (NLU)
-- allows Lex to discover your intent.
+	\- allows Lex to discover your intent.
 
 Bots
-- designed to interactively converse in 1 or more languages.
+	\- designed to interactively converse in 1 or more languages.
 
 Intent
-- an action the user wants to perform.
+	\- an action the user wants to perform.
 
 Slot
-- parameters essentially.
+	\- parameters essentially.
 
 ## Amazon Polly
 
@@ -60,15 +58,15 @@ Slot
 * Capable of using the Speech Synthesis Markup Language (SSML).
 
 Standard TTS
-- Concatenative (Phonemes)
+	\- Concatenative (Phonemes)
 
 Neural TTS
-- uses phonemes to spectrograms to vocoder which generates the audio.
-- more humans sounding speech audio.
+	\- uses phonemes to spectrograms to vocoder which generates the audio.
+	\- more humans sounding speech audio.
 
 Speech Synthesis Markup Language (SSML)
-- a way to provide additional context within the text so you can control how Polly generates speech.
-- allows you to modify pronunciation and speech dynamics.
+	\- a way to provide additional context within the text so you can control how Polly generates speech.
+	\- allows you to modify pronunciation and speech dynamics.
 
 ## Amazon Rekognition
 
@@ -78,6 +76,7 @@ Speech Synthesis Markup Language (SSML)
 * Can analyze live video streams through Kinesis Video Streams.
 
 **Rekognition Architecture**
+
 ![Machine Learning 101-08-09-2024](images/Machine%20Learning%20101-08-09-2024.png)
 
 ## Amazon Textract
@@ -110,10 +109,10 @@ Use Case
 * Can auto-detect source text language.
 
 Encoder
-- reads the source text and then outputs a semantic representation or meaning of the source text.
+	\- reads the source text and then outputs a semantic representation or meaning of the source text.
 
 Decoder
-- reads the meaning and writes at the target language
+	\- reads the meaning and writes at the target language
 
 ## Amazon Forecast 101
 
@@ -124,10 +123,10 @@ Decoder
 * Accessible via Web Console, CLI, APIs, and Python SDK.
 
 Forecast
-- allows you to trend out future demand for a particular data.
+	\- allows you to trend out future demand for a particular data.
 
 Forecast Explainability
-- allows you to extract reasoning for changes in demand.
+	\- allows you to extract reasoning for changes in demand.
 
 ## Amazon Fraud Detector
 
@@ -140,14 +139,14 @@ Forecast Explainability
 **Model Types**
 
 1. Online Fraud
-	- designed for when you have little historical data and looking to identify any problematic events.
+	\- designed for when you have little historical data and looking to identify any problematic events.
 
-1. Transaction Fraud
-	- ideal for when you have a transactional historical for certain customers.
-	- identifying suspect payments through their transactions.
+2. Transaction Fraud
+	\- ideal for when you have a transactional historical for certain customers.
+	\- identifying suspect payments through their transactions.
 
-1. Account Takeover
-	- used to identify any phishing or other social based attacks.
+3. Account Takeover
+	\- used to identify any phishing or other social based attacks.
 
 ## Amazon SageMaker
 
@@ -158,12 +157,12 @@ Forecast Explainability
 * Resources that SageMaker creates have a cost.
 
 SageMaker Studio
-- an IDE for the entire ML lifecycle.
-- allows you to build, train, debug, and monitor models.
+	\- an IDE for the entire ML lifecycle.
+	\- allows you to build, train, debug, and monitor models.
 
 SageMaker Domain
-- groupings for a particular project.
+	\- groupings for a particular project.
 
 Containers
-- Docker containers deployed to ML configured EC2 instances.
+	\- Docker containers deployed to ML configured EC2 instances.
 

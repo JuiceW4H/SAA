@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Containers & Elastic Container Service (ECS).md",
+                "file": "Machine Learning 101.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Containers & Elastic Container Service (ECS).md",
+                "file": "Machine Learning 101.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Containers & Elastic Container Service (ECS).md",
+                "file": "Machine Learning 101.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Containers & Elastic Container Service (ECS).md"
+                "file": "Machine Learning 101.md"
               }
             }
           }
@@ -148,26 +148,27 @@
   },
   "active": "ca4014995404474a",
   "lastOpenFiles": [
+    "NoSQL Databases & DynamoDB.md",
+    "Overview.md",
+    "Relational Database Service (RDS).md",
+    "Other Services & Features.md",
+    "Machine Learning 101.md",
+    "IAM, Accounts and AWS Organizations.md",
+    "Hybrid Environments and Migration.md",
+    "High Availability and Scaling (ELB, ASG…).md",
+    "Global Content Delivery and Optimization.md",
+    "images/Pasted image 20240818083043.png",
+    "Elastic File System (EFS) - Network Storage and Data Lifecycle.md",
     "Elastic Compute Cloud (EC2) Basics.md",
+    "Fundamentals.md",
     "Containers & Elastic Container Service (ECS).md",
     "AWS Fundamentals.md",
-    "Elastic File System (EFS) - Network Storage and Data Lifecycle.md",
-    "Fundamentals.md",
     "Advanced EC2 using User Data.md",
     "Security, Deployment, and Operations.md",
     "Route 53 - Global DNS.md",
     "AWS Account Fundamentals.md",
     "Virtual Private Cloud (VPC) Basics.md",
     "Untitled.canvas",
-    "Global Content Delivery and Optimization.md",
-    "High Availability and Scaling (ELB, ASG…).md",
-    "Hybrid Environments and Migration.md",
-    "IAM, Accounts and AWS Organizations.md",
-    "Machine Learning 101.md",
-    "NoSQL Databases & DynamoDB.md",
-    "Other Services & Features.md",
-    "Overview.md",
-    "Relational Database Service (RDS).md",
     "Serverless and Application Services.md",
     "Simple Storage Service (S3).md"
   ]

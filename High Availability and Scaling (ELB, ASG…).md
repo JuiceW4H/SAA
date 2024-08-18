@@ -1,5 +1,3 @@
-# High Availability and Scaling (ELB, ASG…)
-
 ## Regional and Global AWS Architecture
 
 * Global Service Location and Discovery
@@ -10,54 +8,52 @@
 * Application Services and Components.
 
 **Global Architecture**
-![High Availability and Scaling (ELB, ASG…)-07-28-2024](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024.png)**
-**
-**
-**
-* Globally DNS is used for service discovery, regional based health checks and request routing.
-* Content Delivery Networks (CDN) (CloudFront) are used to cache content globally even as close to end users as possible to improve performance.**
-**
 
-Region Architecture
+![High Availability and Scaling (ELB, ASG…)-07-28-2024](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024.png)
+
+* Globally DNS is used for service discovery, regional based health checks and request routing.
+* Content Delivery Networks (CDN) (CloudFront) are used to cache content globally even as close to end users as possible to improve performance.
+
+**Region Architecture**
+
 ![High Availability and Scaling (ELB, ASG…)-07-28-2024-1](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024-1.png)
 
 Tiers
-- different zones of your application.
+	\- different zones of your application.
 
 Web Tier
-- act as an entry point for your regional based applications or application components.
+	\- act as an entry point for your regional based applications or application components.
 
 Compute Tier
-- provides functionality to the web tier.
+	\- provides functionality to the web tier.
 
 Storage Tier
-- will be consumed by the compute tier which essentially acts as a file storage.
+	\- will be consumed by the compute tier which essentially acts as a file storage.
 
 Database Tier
-- provides data storage for applications.
+	\- provides data storage for applications.
 
 Caching Layer
-- minimizes read operations to the DB.
+	\- minimizes read operations to the DB.
 
 ## Evolution of the Elastic Load Balancer
 
 * Load balancers are split between V1 (Avoid/Migrate From) and V2 (Preferred).
 
 **3 Different Types of ELBs in AWS**
-**
-**
+
 1. Classic Load Balancer (CLB) (V1) (Don’t Use)
-	- can load balance HTTP and HTTPS as well as lower level protocols.
-	- only supports 1 SSL Certificate per CLB.
-	- lacks functionality of the V2 LBs.
+	\- can load balance HTTP and HTTPS as well as lower level protocols.
+	\- only supports 1 SSL Certificate per CLB.
+	\- lacks functionality of the V2 LBs.
 
-1. Application Load Balancer (ALB) (V2)
-	- true Layer 7 (Application Layer) Devices.
-	- supports HTTP, HTTPS, and Web Socket Protocols.
+2. Application Load Balancer (ALB) (V2)
+	\- true Layer 7 (Application Layer) Devices.
+	\- supports HTTP, HTTPS, and Web Socket Protocols.
 
-1. Network Load Balancer (NLB) (V2)
-	- supports TCP, TLS (Secure Form of TCP), and UDP Protocols.
-	- for applications which don’t use HTTP or HTTPS (e.g. Email Servers, SSH Servers, etc).
+3. Network Load Balancer (NLB) (V2)
+	\- supports TCP, TLS (Secure Form of TCP), and UDP Protocols.
+	\- for applications which don’t use HTTP or HTTPS (e.g. Email Servers, SSH Servers, etc).
 
 * V2 LBs are faster and support target groups and rules, which allow you to use a single LB for multiple things.
 
@@ -66,8 +62,8 @@ Caching Layer
 * It’s the job of the Load Balancer to accept connections from customers and then to distribute those connections across any back-end compute.
 
 **ELB Architecture**
-![High Availability and Scaling (ELB, ASG…)-07-28-2024-2](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024-2.png)**
-**
+
+![High Availability and Scaling (ELB, ASG…)-07-28-2024-2](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024-2.png)
 
 * IPv4 only or Dual Stack (IPv4 and IPv6).
 * Pick the AZs (2 or more AZs) the LBs will use.
@@ -78,16 +74,16 @@ Caching Layer
 * AWS recommends to use a /27 or larger Subnet to allow for scaling.
 
 Internet Facing
-- nodes of that LB are given Public addresses and Private addresses.
-- can connect to both Public and Private instances.
+	\- nodes of that LB are given Public addresses and Private addresses.
+	\- can connect to both Public and Private instances.
 
 Internal Facing
-- nodes only have Private IP addresses.
-- for separating different tiers of applications.
+	\- nodes only have Private IP addresses.
+	\- for separating different tiers of applications.
 
 Listener Configuration
-- a configuration of what protocols and ports will be accepted.
-- also communicates with targets on a port and protocol.
+	\- a configuration of what protocols and ports will be accepted.
+	\- also communicates with targets on a port and protocol.
 
 **Multi Tiered Application Architecture**
 
@@ -96,26 +92,23 @@ Listener Configuration
 * LBs allow each tier to scale independently of one another.
 
 **Architecture Without Cross-Zone Load Balancing**
-![High Availability and Scaling (ELB, ASG…)-07-28-2024-4](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024-4.png)**
-**
-**
-**
+
+![High Availability and Scaling (ELB, ASG…)-07-28-2024-4](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024-4.png)
+
 **Architecture With Cross-Zone Load Balancing**
-![High Availability and Scaling (ELB, ASG…)-07-28-2024-5](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024-5.png)**
-**
+
+![High Availability and Scaling (ELB, ASG…)-07-28-2024-5](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024-5.png)
 
 Cross-Zone Load Balancing
-- this feature simply allows every LB node to distribute any connections it receives equally across all registered instances in all AZs.
-- when deploying an Application Load Balancer this feature is enabled by Default.
+	\- this feature simply allows every LB node to distribute any connections it receives equally across all registered instances in all AZs.
+	\- when deploying an Application Load Balancer this feature is enabled by Default.
 
 **ELB Architectural Points**
-**
-**
+
 * ELB is a DNS A Record which points at 1 or more Nodes per AZ.
 *  Nodes (in 1 Subnet per AZ) can scale.
 * Internet-Facing means nodes are allocated with both Public and Private IPv4 Addresses.
-* Internal means nodes only have Private IPv4.**
-**
+* Internal means nodes only have Private IPv4.
 * EC2 does not need to be Public for it to work with LB.
 * Listener Configuration controls what the LB does.
 * LB requires 8+ Free IPs per Subnet, and /27 Subnet to allow scaling.
@@ -123,30 +116,24 @@ Cross-Zone Load Balancing
 ## Application Load Balancing (ALB) vs Network Load Balancing (NLB)
 
 **Classic Load Balancer Architecture Sample**
-![High Availability and Scaling (ELB, ASG…)-07-28-2024-6](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024-6.png)**
-**
+
+![High Availability and Scaling (ELB, ASG…)-07-28-2024-6](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024-6.png)
+
 * CLBs don’t scale.
 * Every unique HTTPS name requires an individual CLB because SNI isn’t supported.
 
-**
-**
 **Application Load Balancer Architecture Sample**
-![High Availability and Scaling (ELB, ASG…)-07-28-2024-7](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024-7.png)**
-**
-**
-**
+
+![High Availability and Scaling (ELB, ASG…)-07-28-2024-7](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024-7.png)
+
 * Each Listener-Based rules can have an SSL Certificate handling HTTPS for all domains (1 SSL per Rule).
 * v2 Load Balancers support Rules and Target Groups.
-* Host based rules using SNI and an ALB allows consolidation.**
-**
+* Host based rules using SNI and an ALB allows consolidation.
 
 **Application Load Balancer**
-**
-**
-![High Availability and Scaling (ELB, ASG…)-07-28-2024-8](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024-8.png)**
-**
-**
-**
+
+![High Availability and Scaling (ELB, ASG…)-07-28-2024-8](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024-8.png)
+
 * A true Layer 7 LB and it’s configured to listen on HTTP/HTTPS Protocols (only Layer 7).
 * Utilizes only HTTP/HTTPS listeners.
 * Can inspect Layer 7 Content (Type, Cookies, Custom Headers, User Location, and Application Behavior) and make decisions based on that information.
@@ -159,8 +146,8 @@ Cross-Zone Load Balancing
 * Does not support Static IPs.
 
 Rules
-- direct connections which arrive at a Listener.
-- processed in Priority Order (Priority to Default Rule (Catchall or Last Rule Processed).
+	\- direct connections which arrive at a Listener.
+	\- processed in Priority Order (Priority to Default Rule (Catchall or Last Rule Processed).
 
 Rule Conditions
 - Checking of the following:
@@ -172,7 +159,7 @@ Rule Conditions
 	* source-ip
 
 Actions
-- things that the rules do with the traffic.
+	\- things that the rules do with the traffic.
 - Available actions:
 	* forward
 	* redirect
@@ -181,19 +168,18 @@ Actions
 	* authenticate-cognito
 
 Listener Rule
-- defines how incoming traffic on a specific port should be handled by the load balancer.
+	\- defines how incoming traffic on a specific port should be handled by the load balancer.
 
 Host Rule/Condition
-- used to route traffic based on the host header of an incoming HTTP request.
+	\- used to route traffic based on the host header of an incoming HTTP request.
 
 Path Condition
-- allows you to route a client request based on the URL path of the HTTP header.
+	\- allows you to route a client request based on the URL path of the HTTP header.
 
 * You can perform decisions based on anything which you can observe at Layer 7.
 
 **Network Load Balancer**
-**
-**
+
 * Functions at Layer 4 which means it can interpret TCP, TLS, UDP, and TCP_UDP.
 * No visibility or understanding of HTTP/HTTPS.
 * Really fast (Millions of Requests per second, and 25% of ALB Latency)
@@ -204,6 +190,7 @@ Path Condition
 * Used with PrivateLink to provide services to other VPCs.
 
 **Quick Comparison of ALB vs NLB**
+
 ![High Availability and Scaling (ELB, ASG…)-07-28-2024-9](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024-9.png)
 
 ## Launch Configuration and Launch Templates
@@ -230,15 +217,15 @@ Following can be Configured in LC/LT:
 ![High Availability and Scaling (ELB, ASG…)-07-28-2024-10](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024-10.png)
 
 Auto-Scaling Groups
-- offer automatic scaling for EC2 instances.
+	\- offer automatic scaling for EC2 instances.
 
 Launch Configuration
-- used as part of an Auto-Scaling Group (ASG).
-- provide the configuration of the EC2 instance that will be launched by ASG.
-- no versioning capabilities.
+	\- used as part of an Auto-Scaling Group (ASG).
+	\- provide the configuration of the EC2 instance that will be launched by ASG.
+	\- no versioning capabilities.
 
 Launch Templates
-- same task LC does, but can also be used to provision EC2 Instances from the AWS Console/CLI.
+	\- same task LC does, but can also be used to provision EC2 Instances from the AWS Console/CLI.
 
 ## Auto-Scaling Groups
 
@@ -248,56 +235,54 @@ Launch Templates
 * Define where instances are launched as they are linked to a VPC’s Subnets.
 
 **3 Important Values to an ASG**
-**
-**
-1. Minimum**
-**
+
+1. Minimum
 2. Desired
-3. Maximum**
-**
+3. Maximum
 
 Scaling Policies
-- can update the desired capacity based on certain criteria.
-- rules that you define which can adjust the values of the ASG.
+	\- can update the desired capacity based on certain criteria.
+	\- rules that you define which can adjust the values of the ASG.
 
 Instance Warm Up Time
-- the number of seconds that it takes for a newly launched instance to warm up.
+	\- the number of seconds that it takes for a newly launched instance to warm up.
 
-**3 Ways to Scale in ASG **
+**3 Ways to Scale in ASG**
 
 1. Manual Scaling
-	- where you manually adjust the value of the Desired Capacity.
+	\- where you manually adjust the value of the Desired Capacity.
 
-1. Scheduled Scaling
-	- adjusts Desired Capacity based on schedules.
+2. Scheduled Scaling
+	\- adjusts Desired Capacity based on schedules.
 
-1. Dynamic Scaling
-	- rules that react to something and changes the Desired Capacity.
+3. Dynamic Scaling
+	\- rules that react to something and changes the Desired Capacity.
 
 	* Simple Scaling
-		- a pair of rules (One to Provision and One to Terminate) (e.g. CPU above 50% +1", "CPU Below 50 - 1)
+		\- a pair of rules (One to Provision and One to Terminate) (e.g. CPU above 50% +1", "CPU Below 50 - 1)
 
 	* Step Scaling
-		- acts depending on how out of normal the value is.
-		- good for reacting on to quicker shifts in conditions.
+		\- acts depending on how out of normal the value is.
+		\- good for reacting on to quicker shifts in conditions.
 
 	* Target Tracking
-		- lets you define an ideal amount of something and maintains it within that metric.
+		\- lets you define an ideal amount of something and maintains it within that metric.
 
 * Predictive Scaling is Homogenous and inefficient/inaccurate if using a mix of Instance sizes/types.
 
 Cooldown Period
-- value in seconds
-- 300s by Default.
-- controls how long to wait at the end of a scaling action before doing another.
+	\- value in seconds
+	\- 300s by Default.
+	\- controls how long to wait at the end of a scaling action before doing another.
 
 **Architecture**
 ![High Availability and Scaling (ELB, ASG…)-07-28-2024-11](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024-11.png)
 
 Self-Healing
-- when an instance gets replaced by ASG for not passing the Health/Status Checks.
+	\- when an instance gets replaced by ASG for not passing the Health/Status Checks.
 
 **ASG + Load Balancer**
+
 ![High Availability and Scaling (ELB, ASG…)-07-28-2024-12](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024-12.png)
 
 * ASG instances are automatically added to or removed from the target group.
@@ -317,29 +302,29 @@ Scaling Processes
 * You can set an instance to either be on Standby or InService.
 
 Standby
-- suspends any ASG activities on a specific instance.
+	\- suspends any ASG activities on a specific instance.
 
 **Key Concepts**
-![High Availability and Scaling (ELB, ASG…)-07-28-2024-13](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024-13.png)**
-**
+
+![High Availability and Scaling (ELB, ASG…)-07-28-2024-13](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024-13.png)
 
 ## ASG Scaling Policies
 
 * ASG’s don’t need scaling policies to work, but they will only have static values.
 
 Simple Scaling
-- you define actions which occur when an alarm moves into an alarm state.
-- inflexible.
+	\- you define actions which occur when an alarm moves into an alarm state.
+	\- inflexible.
 
 Step Scaling
-- increases or decreases the desired capacity based on a set of step adjustments that vary based on the size of the alarm breach.
-- allows you to adjust better to changing load patterns.
+	\- increases or decreases the desired capacity based on a set of step adjustments that vary based on the size of the alarm breach.
+	\- allows you to adjust better to changing load patterns.
 
 Target Tracking
-- you define an ideal value and ASG keeps the metric at the value that you want and adjusts the capacity to attain that.
+	\- you define an ideal value and ASG keeps the metric at the value that you want and adjusts the capacity to attain that.
 
 Scaling Based on SQS
-- increase and decrease capacity based on approximate number of messages visible (ApproximateNumberOfMessagesVisible).
+	\- increase and decrease capacity based on approximate number of messages visible (ApproximateNumberOfMessagesVisible).
 
 **Simple Scaling Architecture**
 ![High Availability and Scaling (ELB, ASG…)-07-28-2024-14](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024-14.png)
@@ -347,21 +332,16 @@ Scaling Based on SQS
 * You are adding or removing the same amount no matter how extreme the increases or decreases in the metric you are monitoring.
 
 **Step Scaling Architecture**
-![High Availability and Scaling (ELB, ASG…)-07-28-2024-15](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024-15.png)**
-**
-**
-**
-* You have more flexibility as you can add or decreases based on increments or decrements of the metric you are monitoring.**
-**
+![High Availability and Scaling (ELB, ASG…)-07-28-2024-15](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024-15.png)
+
+* You have more flexibility as you can add or decreases based on increments or decrements of the metric you are monitoring.
 
 **Termination or Scale In Behavior:**
-**
-**
+
 * Choose the Availability Zone with the most instances, ensuring at least one is unprotected from scale in. If multiple zones qualify, select the one with the oldest launch template.
 * Identify the unprotected instances in the selected zone using the oldest launch template. If only one, terminate it.
 * If multiple instances qualify for termination, select the unprotected one closest to the next billing hour to optimize EC2 usage costs. If only one, terminate it.
-* If multiple unprotected instances are equally close to the next billing hour, terminate one at random.**
-**
+* If multiple unprotected instances are equally close to the next billing hour, terminate one at random.
 
 ## ASG Lifecycle Hooks
 
@@ -379,56 +359,48 @@ Scaling Based on SQS
 
 * ASGs assess the health of instances using Health Checks and if an instance fails it is replaced by the ASG.
 
- 
 **3 Different Types of Health Checks**
-**
-**
+
 1. EC2 (Default)
-2. Stopping, Stopped, Terminated, Shutting Down or Impaired (not 2/2 status) equals to “Unhealthy”.
+	\- Stopping, Stopped, Terminated, Shutting Down or Impaired (not 2/2 status) equals to “Unhealthy”.
 
-1. ELB (Can be Enabled)
-	- “Healthy” status requires the instance to be running and passing the ELB Health Check.
-	- checks could be application aware.
+2. ELB (Can be Enabled)
+	\- “Healthy” status requires the instance to be running and passing the ELB Health Check.
+	\- checks could be application aware.
 
-1. Custom
-	- instances marked Healthy & Unhealthy by an External System.
+3. Custom
+	\- instances marked Healthy & Unhealthy by an External System.
 
 Health Check Grace Period
-- 300s by Default
-- a configurable value that is basically the duration of delay before a Health Check occurs on a specific instance.
+	\- 300s by Default
+	\- a configurable value that is basically the duration of delay before a Health Check occurs on a specific instance.
 
 ## SSL Offload and Session Stickiness
 
 **3 Ways a Load Balancer Handles Secure Connections**
-**
-**
-![High Availability and Scaling (ELB, ASG…)-07-28-2024-17](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024-17.png)**
-**
-**
-**
+
+![High Availability and Scaling (ELB, ASG…)-07-28-2024-17](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024-17.png)
+
 1. Bridging (Default) (ALB)
-	- one or more clients makes one or more connections to a LB.
-	- Listener is configured for HTTPS.
-	- SSL connections occur between the client and the LB.
-	- LB and EC2 will require SSL certificates.
+	\- one or more clients makes one or more connections to a LB.
+	\- Listener is configured for HTTPS.
+	\- SSL connections occur between the client and the LB.
+	\- LB and EC2 will require SSL certificates.
 
 * Connection is terminated on the ELB & needs a certificate for the domain name.
 * ELB initiates an SSL connection to the back end compute resources.
 
-**
-**
-1. Pass-through (NLB)
-	- the client connects, but the LB just passes the connection along to one of the back end instances.
-	- LB does not decrypt the traffic.
-	- EC2 instances still need SSL certificates
-	- Listener is configured for TCP.
+2. Pass-through (NLB)
+	\- the client connects, but the LB just passes the connection along to one of the back end instances.
+	\- LB does not decrypt the traffic.
+	\- EC2 instances still need SSL certificates
+	\- Listener is configured for TCP.
 
-1. Offload**
-**
-	- clients connect to the LB using HTTPS.
-	- connections are terminated on the LB.
-	- from LB to back end HTTP connection is used instead meaning the traffic is unencrypted.
-	- EC2 instances don’t have SSL certificates only on LB.
+3. Offload
+	\- clients connect to the LB using HTTPS.
+	\- connections are terminated on the LB.
+	\- from LB to back end HTTP connection is used instead meaning the traffic is unencrypted.
+	\- EC2 instances don’t have SSL certificates only on LB.
 
 **Connection Stickiness**
 
@@ -448,15 +420,15 @@ Health Check Grace Period
 2 Major Components
 
 1. Gateway Load Balancer Endpoints
-	- runs from a VPC where the traffic you to monitor, filter, or control originates from or is destined to.
+	\- runs from a VPC where the traffic you to monitor, filter, or control originates from or is destined to.
 
-1. Gateway Load Balancer
-	- load balances packets across multiple back end instances.
+2. Gateway Load Balancer
+	\- load balances packets across multiple back end instances.
 
 * Needs to forward packets without any alterations.
 
 GENEVE
-- traffic and metadata is tunneled using this protocol.
+	\- traffic and metadata is tunneled using this protocol.
 
 **GWLB 101 Architecture**
 ![High Availability and Scaling (ELB, ASG…)-07-28-2024-18](images/High%20Availability%20and%20Scaling%20(ELB,%20ASG…)-07-28-2024-18.png)

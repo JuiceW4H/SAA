@@ -299,5 +299,5 @@ Key Concepts:
 ![Containers & Elastic Container Service (ECS)-07-20-2024-11](images/Containers%20&%20Elastic%20Container%20Service%20(ECS)-07-20-2024-11.png)
 
 **EKS Distro**
-- helps you manually run clusters using a Kubernetes distribution of compatible versions of the latest release and its dependencies, tested for reliability and security.
+	\- helps you manually run clusters using a Kubernetes distribution of compatible versions of the latest release and its dependencies, tested for reliability and security.
 
