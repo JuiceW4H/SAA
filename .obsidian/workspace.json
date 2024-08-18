@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Relational Database Service (RDS).md",
+                "file": "Simple Storage Service (S3).md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Relational Database Service (RDS).md",
+                "file": "Simple Storage Service (S3).md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Relational Database Service (RDS).md",
+                "file": "Simple Storage Service (S3).md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Relational Database Service (RDS).md"
+                "file": "Simple Storage Service (S3).md"
               }
             }
           }
@@ -148,6 +148,10 @@
   },
   "active": "ca4014995404474a",
   "lastOpenFiles": [
+    "Virtual Private Cloud (VPC) Basics.md",
+    "Simple Storage Service (S3).md",
+    "Serverless and Application Services.md",
+    "Security, Deployment, and Operations.md",
     "Route 53 - Global DNS.md",
     "Relational Database Service (RDS).md",
     "Overview.md",
@@ -165,11 +169,7 @@
     "Containers & Elastic Container Service (ECS).md",
     "AWS Fundamentals.md",
     "Advanced EC2 using User Data.md",
-    "Security, Deployment, and Operations.md",
     "AWS Account Fundamentals.md",
-    "Virtual Private Cloud (VPC) Basics.md",
-    "Untitled.canvas",
-    "Serverless and Application Services.md",
-    "Simple Storage Service (S3).md"
+    "Untitled.canvas"
   ]
 }

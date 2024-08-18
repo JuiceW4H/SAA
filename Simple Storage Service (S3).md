@@ -1,5 +1,3 @@
-# Simple Storage Service (S3)
-
 ## S3 Security (Resource Policies & ACLs)
 
 * S3 is private by default.
@@ -10,21 +8,21 @@
 * An AWS public service and it is also a regional service.
 
 Bucket Policies
-- a type of AWS Resource Policy.
-- there can only be one bucket policy per bucket.
+	\- a type of AWS Resource Policy.
+	\- there can only be one bucket policy per bucket.
 
 Resource Policy
-- is just like an identity policy, but are attached to resources instead of identities.
-- provide a resource perspective on permissions.
-- is more of a who can access this specific resource.
-- they can allow or deny access from the same or from different AWS accounts, or Anonymous principals.
+	\- is just like an identity policy, but are attached to resources instead of identities.
+	\- provide a resource perspective on permissions.
+	\- is more of a who can access this specific resource.
+	\- they can allow or deny access from the same or from different AWS accounts, or Anonymous principals.
 
 Identity Policy
-- entails to what that identity can access.
-- you can only attach identity policies to identities in your own AWS account.
-- can only control security in your account.
-- they have to be attached a valid identity inside your AWS.
-- you can’t have one attached to nothing.
+	\- entails to what that identity can access.
+	\- you can only attach identity policies to identities in your own AWS account.
+	\- can only control security in your account.
+	\- they have to be attached a valid identity inside your AWS.
+	\- you can’t have one attached to nothing.
 
 ![Simple Storage Service (S3)-07-01-2024](images/Simple%20Storage%20Service%20(S3)-07-01-2024.png)
 
@@ -33,31 +31,31 @@ Identity Policy
 Bucket Policy Examples: https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-bucket-policies.html
 
 Access Control Lists (ACLs)
-- ways to apply security to objects or buckets.
-- they’re a sub resource of that object or of that bucket.
-- legacy as AWS does not even recommend their use and prefer more the use of bucket policies or identity policies.
-- inflexible and only allow very simple permissions.
+	\- ways to apply security to objects or buckets.
+	\- they’re a sub resource of that object or of that bucket.
+	\- legacy as AWS does not even recommend their use and prefer more the use of bucket policies or identity policies.
+	\- inflexible and only allow very simple permissions.
 
 ![Simple Storage Service (S3)-07-01-2024-2](images/Simple%20Storage%20Service%20(S3)-07-01-2024-2.png)
 
-Block Public Access Options for S3
+**Block Public Access Options for S3**
 
 ![Simple Storage Service (S3)-07-01-2024-3](images/Simple%20Storage%20Service%20(S3)-07-01-2024-3.png)
 
 1. Block all Public Access
-	- blocks any public access to the bucket no matter what the resource policy says.
+	\- blocks any public access to the bucket no matter what the resource policy says.
 
-1. Block public access to buckets and objects granted through new access control lists (ACLs)
-	- allows any public access granted by any existing ACLs when you enable the setting, but it blocks any new ones.
+2. Block public access to buckets and objects granted through new access control lists (ACLs)
+	\- allows any public access granted by any existing ACLs when you enable the setting, but it blocks any new ones.
 
-1. Block public access to buckets and objects granted through any access control lists (ACLs)
-	- blocks any public access granted by ACLs no matter if it was enabled before or after the Block Public Access settings were enabled.
+3. Block public access to buckets and objects granted through any access control lists (ACLs)
+	\- blocks any public access granted by ACLs no matter if it was enabled before or after the Block Public Access settings were enabled.
 
-1. Block public access to buckets and objects granted through new public bucket or access point policies
-	- anything enabled at the time when you enable this specific Block Public Access setting, they’re allowed to continue but it blocks any new ones.
+4. Block public access to buckets and objects granted through new public bucket or access point policies
+	\- anything enabled at the time when you enable this specific Block Public Access setting, they’re allowed to continue but it blocks any new ones.
 
-1. Block public and cross-account access to buckets and objects through any public bucket or access point policies.
-	- blocks both existing and new bucket policies from granting any public access.
+5. Block public and cross-account access to buckets and objects through any public bucket or access point policies.
+	\- blocks both existing and new bucket policies from granting any public access.
 
 ![Simple Storage Service (S3)-07-01-2024-4](images/Simple%20Storage%20Service%20(S3)-07-01-2024-4.png)
 
@@ -74,39 +72,32 @@ Block Public Access Options for S3
 * You can only use a custom domain with a bucket if the bucket name matches the domain. 
 
 Best Practice for Static Website Hosting:
-* Reserve website names by creating S3 buckets using those names.
+	\* Reserve website names by creating S3 buckets using those names.
 
 Index Page/Document (Default page)
-- basically this page loads up when a page in the url is not specified.
-- entry point to most websites.
+	\- basically this page loads up when a page in the url is not specified.
+	\- entry point to most websites.
 
 Error Page/Document
-- used when something goes wrong.
+	\- used when something goes wrong.
 
 **2 Scenarios Perfect for S3:**
-**
-**
-1. Offloading
-	- offload static elements of a website to S3 by pointing said elements to their respective S3 object/s.
 
-1. Out-of-Band pages**
-**
-	- a method of accessing something that is outside of the main way.
+1. Offloading
+	\- offload static elements of a website to S3 by pointing said elements to their respective S3 object/s.
+
+2. Out-of-Band pages
+	\- a method of accessing something that is outside of the main way.
 
 **S3 Pricing Structure:**
-**
-**
+
 * Cost to store data
-	- per gigabyte month fee.
+	\- per gigabyte month fee.
 
-**
-**
 * Data transfer fee
-	- to transfer data in S3 is always free.
-	- to transfer data out of S3 there is a gigabyte charge.
+	\- to transfer data in S3 is always free.
+	\- to transfer data out of S3 there is a gigabyte charge.
 
-**
-**
 * Charge for a certain amount for requesting data (depends on the operation)
 
 S3 Pricing Reference: https://aws.amazon.com/s3/pricing/
@@ -116,10 +107,10 @@ S3 Pricing Reference: https://aws.amazon.com/s3/pricing/
 ![Simple Storage Service (S3)-07-01-2024-6](images/Simple%20Storage%20Service%20(S3)-07-01-2024-6.png)
 
 Object Versioning
-- controlled at a bucket level.
-- disabled by Default.
-- you can optionally enable versioning on a disabled bucket, but once enabled you can never switch it back to disabled again.
-- you can suspend it, and if desired a suspended bucket can be re-enabled.
+	\- controlled at a bucket level.
+	\- disabled by Default.
+	\- you can optionally enable versioning on a disabled bucket, but once enabled you can never switch it back to disabled again.
+	\- you can suspend it, and if desired a suspended bucket can be re-enabled.
 
 ![Simple Storage Service (S3)-07-01-2024-7](images/Simple%20Storage%20Service%20(S3)-07-01-2024-7.png)
 
@@ -142,21 +133,17 @@ Object Versioning
 ![Simple Storage Service (S3)-07-01-2024-8](images/Simple%20Storage%20Service%20(S3)-07-01-2024-8.png)
 
 **Deletion with Versioning:**
-**
-**
+
 * If we indicate to S3 that we want to delete the object and we don’t give any specific version ID, then what S3 will do is to add a new special version of that object known as a delete marker.
 * You can delete the Delete Marker which basically undeletes/restores that object.
-* If you are to fully delete or “Version Delete” the most recent version of that object, the previous version becomes the most recent/current version of that object.  **
-**
+* If you are to fully delete or “Version Delete” the most recent version of that object, the previous version becomes the most recent/current version of that object.
 
-**
-**
 Delete Marker
-- it is essentially a new version of a “deleted” object so that S3 doesn’t actually delete anything, but the delete marker makes it look deleted.
-- is a special version of an object which hides all previous versions of that object.
+	\- it is essentially a new version of a “deleted” object so that S3 doesn’t actually delete anything, but the delete marker makes it look deleted.
+	\- is a special version of an object which hides all previous versions of that object.
 
 Version Delete
-- to fully delete a version of an object, delete an object and specify the version ID you want to remove.
+	\- to fully delete a version of an object, delete an object and specify the version ID you want to remove.
 
 ![Simple Storage Service (S3)-07-01-2024-9](images/Simple%20Storage%20Service%20(S3)-07-01-2024-9.png)
 
@@ -167,42 +154,42 @@ Version Delete
 ![Simple Storage Service (S3)-07-01-2024-10](images/Simple%20Storage%20Service%20(S3)-07-01-2024-10.png)
 
 MFA Delete
-- this can be enabled within the versioning configuration on a bucket.
-- once enabled MFA will now be required when changing bucket versioning states (Enabled, Suspended, & Re-Enabled).
-- MFA will also be required when doing Version Delete on objects.
-- you need to provide the serial number of your MFA token and the code it generates (Concatenate both the MFA serial and MFA Code).
+	\- this can be enabled within the versioning configuration on a bucket.
+	\- once enabled MFA will now be required when changing bucket versioning states (Enabled, Suspended, & Re-Enabled).
+	\- MFA will also be required when doing Version Delete on objects.
+	\- you need to provide the serial number of your MFA token and the code it generates (Concatenate both the MFA serial and MFA Code).
 
 ## S3 Performance Optimization
 
 ![Simple Storage Service (S3)-07-01-2024-11](images/Simple%20Storage%20Service%20(S3)-07-01-2024-11.png)
 
 Single Put Upload
-- by default, when you upload an object in S3 it’s loaded as a single blob of data in a single stream.
-- a file becomes an object and its uploaded using the PutObject API call and placed in a bucket. This all happens as a single stream.
-- if the stream fails the whole upload fails and the only recover from it is a full restart of the entire upload.
-- speed and reliability of the upload is always limited because of this single stream of data.
-- when transferring data between two points, you’re only ever going to experience speed which is the lowest of those two points.
-- limited to 5GB of data as a maximum.
+	\- by default, when you upload an object in S3 it’s loaded as a single blob of data in a single stream.
+	\- a file becomes an object and its uploaded using the PutObject API call and placed in a bucket. This all happens as a single stream.
+	\- if the stream fails the whole upload fails and the only recover from it is a full restart of the entire upload.
+	\- speed and reliability of the upload is always limited because of this single stream of data.
+	\- when transferring data between two points, you’re only ever going to experience speed which is the lowest of those two points.
+	\- limited to 5GB of data as a maximum.
 
 ![Simple Storage Service (S3)-07-01-2024-12](images/Simple%20Storage%20Service%20(S3)-07-01-2024-12.png)
 
 Multipart Upload
-- breaks data up into individual parts then uploads in parallel.
-- the minimum size for using multipart upload is 100MB.
-- an upload can be split into a maximum of 10,000 parts and each part can range in in size between 5MB to 5GB.
-- last part is the leftover which can be smaller than 5MB.
-- parts can fail in isolation, and be restarted in isolation.
-- improves the transfer rate of the whole upload, which is the sum of all the individual parts.
+	\- breaks data up into individual parts then uploads in parallel.
+	\- the minimum size for using multipart upload is 100MB.
+	\- an upload can be split into a maximum of 10,000 parts and each part can range in in size between 5MB to 5GB.
+	\- last part is the leftover which can be smaller than 5MB.
+	\- parts can fail in isolation, and be restarted in isolation.
+	\- improves the transfer rate of the whole upload, which is the sum of all the individual parts.
 
 * Using the public internet for data transit is never an optimal way to get data from source to destination.
 
 S3 Accelerated Transfer
-- uses network of AWS Edge Locations which are located in lots of convenient locations globally.
-- this feature is disabled by default.
-- has restrictions in place before it can be enabled.
-- instead uploading to the S3 bucket directly it immediately enters the closet AWS Edge Location.
-- Edge Locations then transmits the data being uploaded over the AWS global network to the S3 bucket directly.
-- the worse the initial connection, the better the benefit using transfer acceleration. 
+	\- uses network of AWS Edge Locations which are located in lots of convenient locations globally.
+	\- this feature is disabled by default.
+	\- has restrictions in place before it can be enabled.
+	\- instead uploading to the S3 bucket directly it immediately enters the closet AWS Edge Location.
+	\- Edge Locations then transmits the data being uploaded over the AWS global network to the S3 bucket directly.
+	\- the worse the initial connection, the better the benefit using transfer acceleration. 
 
 **Restrictions for Enabling S3 Accelerated Transfer:**
 
@@ -222,30 +209,30 @@ S3 Accelerated Transfer
 * Nothing in KMS is ever stored in plaintext form persistently.
 
 Symmetric Key
-- a key that is used to both encrypt and decrypt information.
+	\- a key that is used to both encrypt and decrypt information.
 
 Asymmetric Key
-- requiring two different keys, one to encrypt and another to decrypt.
+	\- requiring two different keys, one to encrypt and another to decrypt.
 
 ![Simple Storage Service (S3)-07-01-2024-13](images/Simple%20Storage%20Service%20(S3)-07-01-2024-13.png)
 
 KMS Keys or Customer Master Keys
-- used by KMS within cryptographic operations.
-- are logical and contain an ID, date policy, description, and state.
-- backed by physical key material.
-- Physical key can be generated by KMS or imported into KMS.
-- can directly encrypt or decrypt data up to 4KB in size.
-- are generally only used for small bits of data.
+	\- used by KMS within cryptographic operations.
+	\- are logical and contain an ID, date policy, description, and state.
+	\- backed by physical key material.
+	\- Physical key can be generated by KMS or imported into KMS.
+	\- can directly encrypt or decrypt data up to 4KB in size.
+	\- are generally only used for small bits of data.
 
 * KMS is very granular on permissions, you need individual permissions per operation.
 
 Data Encryption Keys (DEKs)
-- generated using a KMS key using the GenerateDataKey operation.
-- works on data with more than 4KB in size.
-- linked to the KMS key that created them.
-- KMS provides 2 versions of this key.
-- Plaintext: to use immediately to perform cryptographic operations.
-- Ciphertext: encrypted using the KMS key that generated it.
+	\- generated using a KMS key using the GenerateDataKey operation.
+	\- works on data with more than 4KB in size.
+	\- linked to the KMS key that created them.
+	\- KMS provides 2 versions of this key.
+	\- Plaintext: to use immediately to perform cryptographic operations.
+	\- Ciphertext: encrypted using the KMS key that generated it.
 
 **DEK Usage Steps:**
 
@@ -263,29 +250,28 @@ Data Encryption Keys (DEKs)
 
 **2 Types of Customer Owned Keys:**
 
-* AWS Managed
-	- created automatically by AWS when you use a service which integrates with KMS.
-	- key rotates once per year.
-	- rotation is enabled by default and can’t be disabled.
+1. AWS Managed
+	\- created automatically by AWS when you use a service which integrates with KMS.
+	\- key rotates once per year.
+	\- rotation is enabled by default and can’t be disabled.
 
-* Customer Managed
-
-	- created explicitly by the customer to use directly in an application or within an AWS service.
-	- more configurable.
-	- rotation is optional.
-	- rotation is disabled by default and it also happens once a year (Lowest is 90 days and Highest is 2560 days).
+2. Customer Managed
+	\- created explicitly by the customer to use directly in an application or within an AWS service.
+	\- more configurable.
+	\- rotation is optional.
+	\- rotation is disabled by default and it also happens once a year (Lowest is 90 days and Highest is 2560 days).
 
 Aliases
-- shortcut to keys.
-- also region based. 
+	\- shortcut to keys.
+	\- also region based. 
 
 * Neither aliases nor keys are global by default.
 
 Key Policy
-- type of resource policy.
-- every KMS key has one.
-- for customer managed keys you can change it.
-- KMS has to explicitly be told that keys trust the AWS account they’re contained within. 
+	\- type of resource policy.
+	\- every KMS key has one.
+	\- for customer managed keys you can change it.
+	\- KMS has to explicitly be told that keys trust the AWS account they’re contained within. 
 
 ![Simple Storage Service (S3)-07-01-2024-15](images/Simple%20Storage%20Service%20(S3)-07-01-2024-15.png)
 
@@ -296,21 +282,18 @@ Key Policy
 * Each object can use different encryption settings.
 
 **2 Types of Encryption Architecture:**
-**
-**
-![Simple Storage Service (S3)-07-01-2024-16](images/Simple%20Storage%20Service%20(S3)-07-01-2024-16.png)**
-**
-**
-**
-1. Client-Side Encryption (CSE)
-	- objects being uploaded are encrypted by the client before they ever leave.
-	- data is ciphertext the entire time.
-	- you own and control the keys, the process, and any tooling. 
 
-1. Server-Side Encryption (SSE)
-	- objects are not initially encrypted.
-	- data is encrypted in transit using HTTPS.
-	- you allow S3 to handle some or all of the encryption processes.
+![Simple Storage Service (S3)-07-01-2024-16](images/Simple%20Storage%20Service%20(S3)-07-01-2024-16.png)
+
+1. Client-Side Encryption (CSE)
+	\- objects being uploaded are encrypted by the client before they ever leave.
+	\- data is ciphertext the entire time.
+	\- you own and control the keys, the process, and any tooling. 
+
+2. Server-Side Encryption (SSE)
+	\- objects are not initially encrypted.
+	\- data is encrypted in transit using HTTPS.
+	\- you allow S3 to handle some or all of the encryption processes.
 
 * Both of these refer to what method is used for encryption at rest which controls how objects are encrypted as they’re written to disk.
 * Both also use encryption in transit between the user side and S3.
@@ -318,42 +301,36 @@ Key Policy
 * AWS recently made server-side encryption mandatory. So you can no longer store objects in an unencrypted form on S3.
 
 **2 Components of Server-Side Encryption** **(SSE)**
-**
-**
+
 * Encryption and Decryption Process
-* Generation and Management of the Cryptographic keys.**
-**
+* Generation and Management of the Cryptographic keys.
 
 **3 Types of Server-Side Encryption (SSE)**
-**
-**
-1. Server-Side Encryption with Customer-Provided Keys (SSE-C)
-	- customer is responsible for the keys and S3 manages the encryption and decryption processes.
-	- when putting an object in S3 you provide the plaintext and the encryption key.
-	- hash of the key is tagged to the object.**
-**
 
-![Simple Storage Service (S3)-07-01-2024-17](images/Simple%20Storage%20Service%20(S3)-07-01-2024-17.png)**
-**
-**
-**
-1. Server-Side Encryption with Amazon S3-Managed Keys (SSE-S3) (Default)
-	- AWS (S3 mainly) handles the cryptographic processes and the key generation and management.
-	- only need to provide the plaintext when putting an object in S3.
-	- S3 Key is used to encrypt the per object key within your bucket.
-	- uses AES-256 algorithm.
+1. Server-Side Encryption with Customer-Provided Keys (SSE-C)
+	\- customer is responsible for the keys and S3 manages the encryption and decryption processes.
+	\- when putting an object in S3 you provide the plaintext and the encryption key.
+	\- hash of the key is tagged to the object.
+
+![Simple Storage Service (S3)-07-01-2024-17](images/Simple%20Storage%20Service%20(S3)-07-01-2024-17.png)
+
+2. Server-Side Encryption with Amazon S3-Managed Keys (SSE-S3) (Default)
+	\- AWS (S3 mainly) handles the cryptographic processes and the key generation and management.
+	\- only need to provide the plaintext when putting an object in S3.
+	\- S3 Key is used to encrypt the per object key within your bucket.
+	\- uses AES-256 algorithm.
 
 ![Simple Storage Service (S3)-07-01-2024-18](images/Simple%20Storage%20Service%20(S3)-07-01-2024-18.png)
 
-1. Server-Side Encryption with KMS KEYS Stored in AWS Key Management Service (SSE-KMS) **
-**
-	- involves AWS KMS instead of just S3 managing keys.
-	- allows management of keys through KMS and role separation.
-	- fine grained control.
+3. Server-Side Encryption with KMS KEYS Stored in AWS Key Management Service (SSE-KMS)
+	\- involves AWS KMS instead of just S3 managing keys.
+	\- allows management of keys through KMS and role separation.
+	\- fine grained control.
 
 ![Simple Storage Service (S3)-07-01-2024-19](images/Simple%20Storage%20Service%20(S3)-07-01-2024-19.png)
 
 **Summary**
+
 ![Simple Storage Service (S3)-07-01-2024-20](images/Simple%20Storage%20Service%20(S3)-07-01-2024-20.png)
 
 ## Bucket Keys
@@ -368,199 +345,180 @@ Key Policy
 * Using a single KMS keyy results in a scaling limit for PUTS per second per key.
 
 **S3 with Bucket Keys:**
-**
-**
-![Simple Storage Service (S3)-07-01-2024-22](images/Simple%20Storage%20Service%20(S3)-07-01-2024-22.png)**
-**
-**
-**
+
+![Simple Storage Service (S3)-07-01-2024-22](images/Simple%20Storage%20Service%20(S3)-07-01-2024-22.png)
+
 * KMS generates a Time Limited Bucket key which is then given to the bucket and used for a period of time to generate Data Encryption Keys (DEK) within the S3 bucket for individual object encryption operations.
 * This essentially offloads the work from KMS to S3 which in turn reduces the number of KMS API calls, reduces cost, and increases scalability.
 * It only affects objects and the object encryption process after it’s enabled on a bucket.
 
-**
-**
-**Things to keep in mind: **
-**
-**
-![Simple Storage Service (S3)-07-01-2024-23](images/Simple%20Storage%20Service%20(S3)-07-01-2024-23.png)**
-**
-**
-**
+**Things to keep in mind:**
+
+![Simple Storage Service (S3)-07-01-2024-23](images/Simple%20Storage%20Service%20(S3)-07-01-2024-23.png)
+
 * If you’re using CloudTrail to look at KMS logs, then those logs are going to show the bucket ARN instead of your object ARN.
 * Additionally since you’re offloading a lot of the work from KMS to S3 you’re going to see fewer CloudTrail events for KMS in those logs.
 * Bucket keys work with same region replication and cross region replication.
 * When S3 replicates an encrypted object, it generally preserves the encryption settings of that encrypted object.
 * If replicating plaintext to a bucket using bucket keys the object is encrypted by S3 on its way through to the destination with the destination bucket’s configuration which can result in ETag changes between the source and destination.
 
-**
-**
 S3 Bucket Keys Reference: https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-key.html
 
-**
-**
-**
-**
-**# S3 Object Storage Classes**
-**
-**
-![Simple Storage Service (S3)-07-01-2024-24](images/Simple%20Storage%20Service%20(S3)-07-01-2024-24.png)**
-**
-**
-**
-**S3 Standard (Default Storage Class)**
-- for Frequently Accessed Data which is Important and Non Replaceable**
-**
-- objects uploaded are replicated across at least 3 Availability Zones.
-- able to cope with multiple Availability Zone failures.
-- provides 99.999999999% or 11 nines of durability which means if you store 10,000,000 objects within an S3 bucket then on average you might lose one object every 10,000 years.
-- replication uses MD5 checksums together with Cyclic Redundancy Checks (CRCs) to detect and resolve any data issues.
-- when objects are stored a HTTP/1.1 200 OK response is provided by the S3 API Endpoint.
-- has a “millisecond” first byte latency and objects can be made publicly available.**
-**
+## S3 Object Storage Classes
 
-Billing:
-* a gigabyte per month fee (GB/m).
-* a $ per gigabyte charge for transfer of data out of S3.
-* transfer into S3 is free.
-* a price per 1000 requests.
+![Simple Storage Service (S3)-07-01-2024-24](images/Simple%20Storage%20Service%20(S3)-07-01-2024-24.png)
+
+**S3 Standard (Default Storage Class)**
+	\- for Frequently Accessed Data which is Important and Non Replaceable
+	\- objects uploaded are replicated across at least 3 Availability Zones.
+	\- able to cope with multiple Availability Zone failures.
+	\- provides 99.999999999% or 11 nines of durability which means if you store 10,000,000 objects within an S3 bucket then on average you might lose one object every 10,000 years.
+	\- replication uses MD5 checksums together with Cyclic Redundancy Checks (CRCs) to detect and resolve any data issues.
+	\- when objects are stored a HTTP/1.1 200 OK response is provided by the S3 API Endpoint.
+	\- has a “millisecond” first byte latency and objects can be made publicly available.
+
+Billing
+
+* Gigabyte per month fee (GB/m).
+* A $ per gigabyte charge for transfer of data out of S3.
+* Transfer into S3 is free.
+* Price per 1000 requests.
 
 ![Simple Storage Service (S3)-07-01-2024-25](images/Simple%20Storage%20Service%20(S3)-07-01-2024-25.png)
 
 **S3 Standard-IA (Infrequent Access)**
-- shares most of the architecture and characteristics of the S3 Standard
-- this storage class is designed for infrequently accessed data.
-- used for Long-Lived data which is Important but where access is Infrequent.
+	\- shares most of the architecture and characteristics of the S3 Standard
+	\- this storage class is designed for infrequently accessed data.
+	\- used for Long-Lived data which is Important but where access is Infrequent.
 
-Billing:
-* also shares most of the pricing characteristics of the S3 standard.
-* storage costs are much cheaper than S3 standard.
-* has a new cost component which is a per GB retrieval fee/charge.
-* has a minimum duration charge of 30 days which means that objects can be stored for less but the minimum billing always applies.
-* has a minimum capacity charge of 128KB per object.
+Billing
+
+* Also shares most of the pricing characteristics of the S3 standard.
+* Storage costs are much cheaper than S3 standard.
+* Has a new cost component which is a per GB retrieval fee/charge.
+* Has a minimum duration charge of 30 days which means that objects can be stored for less but the minimum billing always applies.
+* Has a minimum capacity charge of 128KB per object.
 
 ![Simple Storage Service (S3)-07-01-2024-26](images/Simple%20Storage%20Service%20(S3)-07-01-2024-26.png)
 
 **S3 One Zone-IA (Infrequent Access)**
+	\- for Long-Lived Data which is Non-Critical & Replaceable and where access is Infrequent.
+	\- data stored using this class is only stored on 1 Availability Zone within in the region.
+	\- does not provide the multi-resilience model of the Standard or Standard-IA.
+	\- also 11 nines of durability assuming that the Availability Zone does not fail.
 
-- for Long-Lived Data which is Non-Critical & Replaceable and where access is Infrequent.
-- data stored using this class is only stored on 1 Availability Zone within in the region.
-- does not provide the multi-resilience model of the Standard or Standard-IA.
-- also 11 nines of durability assuming that the Availability Zone does not fail.
+Billing
 
-Billing:
-- shares different billing characteristics of the S3 Infrequent Access.
+* Shares different billing characteristics of the S3 Infrequent Access.
 
 * As access frequency decreases you can move them from Standard to Standard-IA to Glacier Instant Retrieval.
 
 ![Simple Storage Service (S3)-07-01-2024-27](images/Simple%20Storage%20Service%20(S3)-07-01-2024-27.png)
 
 **S3 Glacier - Instant Retrieval**
-- like S3 Standard Infrequent Access except it offers cheaper costs, more expensive retrieval costs, and longer minimums.
-- data that you might only access once every quarter.
-- you still have instant access to your data. 
-- no retrieval process required.
+	\- like S3 Standard Infrequent Access except it offers cheaper costs, more expensive retrieval costs, and longer minimums.
+	\- data that you might only access once every quarter.
+	\- you still have instant access to your data. 
+	\- no retrieval process required.
 
-**
-**
-Billing:
+Billing
+
 - 128KB minimum per object.
-- minimum storage duration charge of 90 days
-- just costs more when you need to access data.
+- Minimum storage duration charge of 90 days
+- Just costs more when you need to access data.
 
 ![Simple Storage Service (S3)-07-01-2024-28](images/Simple%20Storage%20Service%20(S3)-07-01-2024-28.png)
 
 **S3 Glacier - Flexible Retrieval (Formerly S3 Glacier)**
-- think of the objects stored with the S3 Glacier Flexible Retrieval as Cold Objects as they aren’t immediately available.
-- they can’t be made public.
-- any access of data beyond the metadata requires a retrieval process.
+	\- think of the objects stored with the S3 Glacier Flexible Retrieval as Cold Objects as they aren’t immediately available.
+	\- they can’t be made public.
+	\- any access of data beyond the metadata requires a retrieval process.
 
 Retrieval Process
-- for situations where you need to store archival data where frequent or real-time access is not needed (yearly access) with minutes to hours of retrieval operations.
-- a specific job or process which needs to be run to gain access to the objects.
-- when you retrieve the objects they are temporarily stored in the S3 Standard Infrequent storage class.
-- you access them then they’re removed.
+	\- for situations where you need to store archival data where frequent or real-time access is not needed (yearly access) with minutes to hours of retrieval operations.
+	\- a specific job or process which needs to be run to gain access to the objects.
+	\- when you retrieve the objects they are temporarily stored in the S3 Standard Infrequent storage class.
+	\- you access them then they’re removed.
 
-3 Different Types of Retrieval Jobs:
+**3 Different Types of Retrieval Jobs**
 
 * The Faster the job type the more expensive it is.
 * First byte latency of minutes or hours.
 
 1. Expedited (Most Expensive)
-	- generally results to data being available in 1-5 minutes.
+	\- generally results to data being available in 1-5 minutes.
 
-1. Standard
-	- data is accessible in 3-5 hours.
+2. Standard
+	\- data is accessible in 3-5 hours.
 
-1. Bulk
-	- data is accessible in 5-12 hours.
+3. Bulk
+	\- data is accessible in 5-12 hours.
 
-Billing:
-- storage cost of 1/6 of the cost of S3 Standard.
-- you pay for the retrieval process.
+Billing
+
+- Storage cost of 1/6 of the cost of S3 Standard.
+- You pay for the retrieval process.
 - 40KB minimum billable size
 - 90 day billable duration.
 
 ![Simple Storage Service (S3)-07-01-2024-29](images/Simple%20Storage%20Service%20(S3)-07-01-2024-29.png)
 
 **S3 Glacier Deep Archive**
-- used for data which is archival, which rarely, if ever, needs to be accessed and where hours or days is tolerable for the retrieval process.
-- Long-Term Archival Backups.
-- data which comes under legal or regulatory requirements in terms of retention length.
-- data is in a frozen state.
-- similar to S3 Glacier Flexible Retrieval.
-- temporarily stores retrieved data to S3 Standard Infrequent Access.
-- longer retrieval times.
+	\- used for data which is archival, which rarely, if ever, needs to be accessed and where hours or days is tolerable for the retrieval process.
+	\- Long-Term Archival Backups.
+	\- data which comes under legal or regulatory requirements in terms of retention length.
+	\- data is in a frozen state.
+	\- similar to S3 Glacier Flexible Retrieval.
+	\- temporarily stores retrieved data to S3 Standard Infrequent Access.
+	\- longer retrieval times.
 
 Retrieval Job Duration:
 
 * First byte latency of hours or days.
 
 1. Standard
-	- 12 hours duration.
+	\- 12 hours duration.
 
-1. Bulk
-	- up to 48 hours
+2. Bulk
+	\- up to 48 hours
 
-**
-**
-Billing:
+Billing
+
 - 40KB minimum billable size.
 - 180 day minimum billable duration.
 
 ![Simple Storage Service (S3)-07-01-2024-30](images/Simple%20Storage%20Service%20(S3)-07-01-2024-30.png)
 
 **S3 Intelligent-Tiering**
-- monitors and automatically moves any objects not accessed for 30 days to a low cost infrequent access tier and eventually to archive instant access, archive access or deep archive tiers.
-- has a monitoring and automation cost per 1,000 objects instead of a retrieval cost.
-- system manages the movement data between these tiers automatically without any penalty for management fee.
-- Long-Lived data with Changing or Unknown patterns
+	\- monitors and automatically moves any objects not accessed for 30 days to a low cost infrequent access tier and eventually to archive instant access, archive access or deep archive tiers.
+	\- has a monitoring and automation cost per 1,000 objects instead of a retrieval cost.
+	\- system manages the movement data between these tiers automatically without any penalty for management fee.
+	\- Long-Lived data with Changing or Unknown patterns
 
 Frequent Access
-- when an object is in frequent use it would stay in this tier.
-- S3 Standard costs
-- when objects become from less frequent tiers become viral or more frequently accessed they are then moved back to the Frequent Access tier automatically with no retrieval charges.
+	\- when an object is in frequent use it would stay in this tier.
+	\- S3 Standard costs
+	\- when objects become from less frequent tiers become viral or more frequently accessed they are then moved back to the Frequent Access tier automatically with no retrieval charges.
 
 Infrequent Access
-- if an object isn’t accessed for 30 days it is moved into this tier.
-- you can also add configurations based on a bucket, prefix, or object tag.
-- any objects accessed less frequently are moved into the 3 archive tiers.
+	\- if an object isn’t accessed for 30 days it is moved into this tier.
+	\- you can also add configurations based on a bucket, prefix, or object tag.
+	\- any objects accessed less frequently are moved into the 3 archive tiers.
 
-Archive Instant Access**
-**
-- 90 day minimum
-- cheaper version of Infrequent Access
-- still gives you access to the data automatically as and when you need it just like S3 Standard-IA.
+Archive Instant Access
+	\- 90 day minimum
+	\- cheaper version of Infrequent Access
+	\- still gives you access to the data automatically as and when you need it just like S3 Standard-IA.
 
 * Only use the tiers below when your applications can tolerate asynchronous access patterns.
 
 Archive Access (Optional)
-- when an object isn’t accessed for 90-270 days it can be moved into this tier.
-- getting objects back in this tier isn’t immediate.
+	\- when an object isn’t accessed for 90-270 days it can be moved into this tier.
+	\- getting objects back in this tier isn’t immediate.
 
 Deep Archive (Optional)
-- when an object isn’t accessed for 180 days or 730 days it can be moved into this tier.
-- getting objects back in this tier isn’t immediate.
+	\- when an object isn’t accessed for 180 days or 730 days it can be moved into this tier.
+	\- getting objects back in this tier isn’t immediate.
 
 ## S3 Lifecycle Configuration
 
@@ -571,11 +529,11 @@ Deep Archive (Optional)
 * This is more for automation of expected outcomes.
 
 Transition Actions
-- changes the class storage of which ever object or objects are affected.
-- transitions cannot move in an upward direction only down.
+	\- changes the class storage of which ever object or objects are affected.
+	\- transitions cannot move in an upward direction only down.
 
 Expiration Actions
-- can delete whatever object or objects or object versions are affected after a certain period.
+	\- can delete whatever object or objects or object versions are affected after a certain period.
 
 ![Simple Storage Service (S3)-07-01-2024-31](images/Simple%20Storage%20Service%20(S3)-07-01-2024-31.png)
 
@@ -591,31 +549,27 @@ Expiration Actions
 * Replication is encrypted. 
 
 Permissions Policy
-* permission to read objects on the source bucket.
-* permission to replicate those objects to the destination bucket.
+	\* permission to read objects on the source bucket.
+	\* permission to replicate those objects to the destination bucket.
 
-**2 Types of Replication Supported By S3:**
-**
-**
+**2 Types of Replication Supported By S3**
+
 1. Cross-Region Replication (CRR)
-	- allows the replication of objects from a source bucket to one or more destination buckets in different AWS regions.
+	\- allows the replication of objects from a source bucket to one or more destination buckets in different AWS regions.
 
-**
-**
-1. Same-Region Replication (SRR)
-	- both source and the destination bucket is in the same AWS region.
+2. Same-Region Replication (SRR)
+	\- both source and the destination bucket is in the same AWS region.
 
 ![Simple Storage Service (S3)-07-01-2024-32](images/Simple%20Storage%20Service%20(S3)-07-01-2024-32.png)
 
 Same Account Replication
-- Buckets already trust the IAM Identity given the proper permissions.
+	\- Buckets already trust the IAM Identity given the proper permissions.
 
 Different Account Replication
-- requires additional bucket policies that grants permission/access to the Role that the source S3 will assume.
+	\- requires additional bucket policies that grants permission/access to the Role that the source S3 will assume.
 
 **S3 Replication Options:**
-**
-**
+
 * The default is to replicate the entire content of the source bucket into the destination bucket.
 * You can also choose a subset of objects.
 * You can also choose which storage class the objects in the destination bucket will use. The default is the same class as the source bucket.
@@ -640,11 +594,11 @@ Different Account Replication
 * Delete Markers is not replicated by Default. Can be configured or enabled (DeleteMarkerReplication).
 
 One-Way Replication
-- process only meaning from source to destination only.
+	\- process only meaning from source to destination only.
 
 Bi-Directional Replication
-- is an additional setting which can be configured.
-- two way replication essentially.
+	\- is an additional setting which can be configured.
+	\- two way replication essentially.
 
 ![Simple Storage Service (S3)-07-01-2024-35](images/Simple%20Storage%20Service%20(S3)-07-01-2024-35.png)
 
@@ -687,14 +641,11 @@ Keypoints
 * You can use EventBridge (Default to this unless it requires S3 Events) as an alternative which supports more types of Events and Services.
 
 **Possible Event Triggers:**
-**
-**
+
 * Object Created (Put, Post, Copy, CompleteMultiPartUpload)
-* Object Delete ( *, Delete, DeleteMarkerUpload)
+* Object Delete ( \*, Delete, DeleteMarkerUpload)
 * Object Restores (Post (Initiated), Completed)
 * Replication ( (OperationMissedThreshold, OperationReplicatedAfterThreshold, OperationNotTracked, OperationFailedReplication)
-
- 
 
 ## S3 Access Logs
 
@@ -705,20 +656,20 @@ Keypoints
 * If you use this feature, you need to personally manage the lifecycle or deletion of any of the log files.
 
 Source Bucket
-- the bucket we want to gain visibility of.
+	\- the bucket we want to gain visibility of.
 
 Target Bucket
-- where we want the logging to go to.
-- a single target bucket can be used for multiple source buckets.
+	\- where we want the logging to go to.
+	\- a single target bucket can be used for multiple source buckets.
 
 Log Files
-- consist of Log Records
+	\- consist of Log Records
 
 Records
-- newline-delimited
+	\- newline-delimited
 
 Attributes
-- space-delimited
+	\- space-delimited
 
 ## S3 Object Lock
 
@@ -729,53 +680,37 @@ Attributes
 * Once you enable Object lock you will not be able to disable object lock and suspend bucket versioning.
 * Object Lock implements a Write-Once-Read-Many (WORM)
 
-**
-**
 Write-Once-Read-Many (WORM)
-- you can set it so that object versions once created can’t be overwritten or deleted.
+	\- you can set it so that object versions once created can’t be overwritten or deleted.
 
-**
-**
 **2 Ways Object Lock Manages Object Retention:**
-**
-**
-* An object version can have both, one, or none.**
-**
-* A bucket can have default Object Lock Settings.**
-**
+
+* An object version can have both, one, or none.
+* A bucket can have default Object Lock Settings.
 
 ![Simple Storage Service (S3)-07-01-2024-38](images/Simple%20Storage%20Service%20(S3)-07-01-2024-38.png)
 
-**
-**
 1. Retention Period
-	- specify retention period in Days and/or Years.
-
-**
-**
+	\- specify retention period in Days and/or Years.
+	
 	* Compliance Mode (Most Strict)
-		- using this mode an object version cannot be deleted or overwritten for the duration of the retention period.
-		- it also means that the retention period itself cannot be reduced, and the retention mode cannot be adjusted during the retention period.
-		- cannot make changes to the object or to the retention period/mode itself.
-		- even the Account Root User could not make changes to this.
+		\- using this mode an object version cannot be deleted or overwritten for the duration of the retention period.
+		\- it also means that the retention period itself cannot be reduced, and the retention mode cannot be adjusted during the retention period.
+		\- cannot make changes to the object or to the retention period/mode itself.
+		\- even the Account Root User could not make changes to this.
 
 	* Governance Mode (Less Strict)
-		- you still set a retention period, and while active, the object version cannot be deleted or changed in any way, but you can grant special permissions to allow these to be changed.
-		- “s3:BypassGovernanceRetention” is a needed permission for the identities to be able to make changes to this mode.
-		- Console Default Header: x-amz-bypass-governance-retention:true
+		\- you still set a retention period, and while active, the object version cannot be deleted or changed in any way, but you can grant special permissions to allow these to be changed.
+		\- “s3:BypassGovernanceRetention” is a needed permission for the identities to be able to make changes to this mode.
+		\- Console Default Header: x-amz-bypass-governance-retention:true
 
-**
-**
-![Simple Storage Service (S3)-07-01-2024-39](images/Simple%20Storage%20Service%20(S3)-07-01-2024-39.png)**
-**
-**
-**
-1. Legal Hold**
-**
-	- for an object version you set Legal Hold to be On or Off.
-	- no concept of retention.
-	- while Legal Hold is enabled on an object version, you can’t delete or overwrite that specific object version.
-	- An extra permission is required which is “s3:PutObjectLegalHold” to add or remove the Legal Hold feature.
+![Simple Storage Service (S3)-07-01-2024-39](images/Simple%20Storage%20Service%20(S3)-07-01-2024-39.png)
+
+2. Legal Hold
+	\- for an object version you set Legal Hold to be On or Off.
+	\- no concept of retention.
+	\- while Legal Hold is enabled on an object version, you can’t delete or overwrite that specific object version.
+	\- An extra permission is required which is “s3:PutObjectLegalHold” to add or remove the Legal Hold feature.
 
 ## S3 Access Points
 
@@ -785,17 +720,17 @@ Write-Once-Read-Many (WORM)
 * Each of these can have different network access controls (where they can be accessed from).
 * Each Access Point has its own endpoint address.
 * Get access to a part of a bucket, or the whole bucket with restrictions.
-* Create via AWS Console or AWS CLI or API using aws s3control create-access-point —name <ObjectName/Key> —account-id <accountID> —bucket <bucketName>
+* Create via AWS Console or AWS CLI or API using aws s3control create-access-point —name <ObjectName/Key> —account-id <\accountID> —bucket <\bucketName>
 * Any permission defined on an Access Point needs to also be defined in the Bucket Policy. 
 
 Access Point Policies
-- functionally equivalent to a bucket policy.
-- can restrict identities to certain prefix(s), tags, or actions based on need.
+	\- functionally equivalent to a bucket policy.
+	\- can restrict identities to certain prefix(s), tags, or actions based on need.
 
 Access Point Reference: https://docs.aws.amazon.com/AmazonS3/latest/dev/creating-access-points.html#access-points-policies
 
 ## Other S3 Features
 
 **S3 Select**
-- a feature that allows you to retrieve a subset of data from a large CSV file stored in the S3 bucket.
+	\- a feature that allows you to retrieve a subset of data from a large CSV file stored in the S3 bucket.
 

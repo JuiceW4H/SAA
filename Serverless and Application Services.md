@@ -1,5 +1,3 @@
-# Serverless and Application Services
-
 ## AWS Lambda
 
 * Function-as-a-Service (FaaS)
@@ -10,12 +8,12 @@
 * Can be chained together.
 
 Lambda Function
-- a piece of code/deployment package that Lambda runs.
-- uses a runtime (e.g. Python, Java, etc). 
-- loaded and run into a runtime environment.
+	\- a piece of code/deployment package that Lambda runs.
+	\- uses a runtime (e.g. Python, Java, etc). 
+	\- loaded and run into a runtime environment.
 
 Lambda@Edge 
-- allows you to run Lambda functions at the edge locations of the CloudFront CDN.
+	\- allows you to run Lambda functions at the edge locations of the CloudFront CDN.
 
 **Runtimes Lambda Supports**
 * Python
@@ -25,9 +23,8 @@ Lambda@Edge 
 * C#/.NET
 * Node.js
 
-**
-**
 **Lambda Overview**
+
 ![Serverless and Application Services-07-31-2024](images/Serverless%20and%20Application%20Services-07-31-2024.png)
 
 * Custom runtimes require Layers.
@@ -38,40 +35,35 @@ Lambda@Edge 
 * Runtime Environment has disk space allocation with 512MB (Default) up to 10240MB mounted as /tmp.
 
 Function TImeout
-- Lambda Functions can run for up to 900 Seconds or 15 Minutes.
-- for anything beyond 15 Minutes you can’t use Lambda directly.
+	\- Lambda Functions can run for up to 900 Seconds or 15 Minutes.
+	\- for anything beyond 15 Minutes you can’t use Lambda directly.
 
 * Security for a Lambda Function is controlled through Execution Roles or IAM Roles assumed by Lambda Function/s.
 
 **Common Uses:**
-**
-**
+
 * Serverless Applications (S3, API Gateway, Lambda)
 * File Processing (S3, S3 Events, Lambda)
 * Database Triggers (DynamoDB, DynamoDB Streams, Lambda)
 * Serverless CRON (EventBridge/CW Events, Lambda)
-* Realtime Stream Data Processing (Kinesis, Lambda)
+* Real-time Stream Data Processing (Kinesis, Lambda)
 
-**
-**
 CRON Job
-- scheduled tasks.
+	\- scheduled tasks.
 
-**
-**
 **2 Networking Modes of Lambda**
 
 1. Public (Default)
-	- can access public AWS services and the Public Internet.
-	- running in the Public AWS network.
-	- best performance because there is no customer specific networking is required.
+	\- can access public AWS services and the Public Internet.
+	\- running in the Public AWS network.
+	\- best performance because there is no customer specific networking is required.
 
 ![Serverless and Application Services-07-31-2024-1](images/Serverless%20and%20Application%20Services-07-31-2024-1.png)
 
 * Lambda Functions have no access to VPC based services unless Public IPs are provided and security controls allow external access. 
 
-1. VPC Networking
-	- can freely access other VPC based resources assuming any Network ACLs or Security Groups allow that access.
+2. VPC Networking
+	\- can freely access other VPC based resources assuming any Network ACLs or Security Groups allow that access.
 
 ![Serverless and Application Services-07-31-2024-2](images/Serverless%20and%20Application%20Services-07-31-2024-2.png)
 
@@ -87,14 +79,14 @@ CRON Job
 * Lambda also has Resource Policies.
 
 Execution Role
-- a role assumed by Lambda.
-- by doing so the code within the environment gains the permissions of that role based on that role’s permissions policy.
-- similar to EC2 Instance Role.
+	\- a role assumed by Lambda.
+	\- by doing so the code within the environment gains the permissions of that role based on that role’s permissions policy.
+	\- similar to EC2 Instance Role.
 
 Resource Polices
-- controls who can interact with a specific Lambda Function.
-- used to allow external accounts or certain services to invoke a Lambda Function.
-- can be changed via CLI or API.
+	\- controls who can interact with a specific Lambda Function.
+	\- used to allow external accounts or certain services to invoke a Lambda Function.
+	\- can be changed via CLI or API.
 
 **Logging**
 
@@ -105,10 +97,9 @@ Resource Polices
 * CloudWatch Logs require permissions via Execution Role (there are pre-built permissions).
 
 **3 Ways a Lambda Function can be Invoked**
-**
-**
+
 1. Synchronous Invocation
-	- generally used when when it’s a human directly or indirectly invoking a Lambda Function. 
+	\- generally used when when it’s a human directly or indirectly invoking a Lambda Function. 
 
 ![Serverless and Application Services-07-31-2024-3](images/Serverless%20and%20Application%20Services-07-31-2024-3.png)
 
@@ -116,9 +107,9 @@ Resource Polices
 * Lambda functions responds with data or fails (Success or Fails).
 * Errors or Retries are handled within the client.
 
-1. Asynchronous Invocation
-	- used when AWS services invoke Lambda Functions on your behalf.
-	- invoking a Lambda Function and not waiting for the response.
+2. Asynchronous Invocation
+	\- used when AWS services invoke Lambda Functions on your behalf.
+	\- invoking a Lambda Function and not waiting for the response.
 
 ![Serverless and Application Services-07-31-2024-4](images/Serverless%20and%20Application%20Services-07-31-2024-4.png)
 
@@ -129,11 +120,11 @@ Resource Polices
 * Lambda supports Destinations meaning events processed by Lambda can be delivered to other Services/Destinations.
 
 Idempotent Operation
-- you can run an operation as many times as you want and the outcome will be the same.
+	\- you can run an operation as many times as you want and the outcome will be the same.
 
-1. Event Source Mappings
-	- typically used on Streams or Queues, which don’t generate events to invoke Lambda.
-	- uses permissions from the Lambda Execution Role to access source service. 
+3. Event Source Mappings
+	\- typically used on Streams or Queues, which don’t generate events to invoke Lambda.
+	\- uses permissions from the Lambda Execution Role to access source service. 
 
 * Looks for new data and gets back Source Batches.
 * Source Batches are then broken up as required based on a Batch Size which is then sent to Lambda as Event Batches.
@@ -141,8 +132,7 @@ Idempotent Operation
 * SQS Queues or SNS Topics can be used for any discarded failed event batches.
 
 **Lambda Versions**
-**
-**
+
 * Lambda Functions can have versions.
 * A Version is the code and the configuration of that Lambda Function.
 * Once Published that version is Immutable and has its own ARN.
@@ -150,13 +140,11 @@ Idempotent Operation
 * Can create Aliases which points to specific versions and these can be changed.
 
 **Lambda Startup Times**
-**
-**
+
 * Lambda code runs inside a runtime environment.
 
 Execution Context
-- a small container allocated with an amount of resource which runs your Lambda code. **
-**
+	\- a small container allocated with an amount of resource which runs your Lambda code. 
 
 * Environment itself is created first.
 * Runtimes that are required will be downloaded and installed (Cold Start).
@@ -164,18 +152,18 @@ Execution Context
 * Too long of a gap between invocations will enforce deletion of the existing Context restarting the cycle.
 
 Cold Start
-- a full creation and configuration including function code download.
-- takes 100 milliseconds or more.
+	\- a full creation and configuration including function code download.
+	\- takes 100 milliseconds or more.
 
 Warm Start
-- doesn’t need to setup the environment or download packages.
-- context just receives event and begins processing.
+	\- doesn’t need to setup the environment or download packages.
+	\- context just receives event and begins processing.
 
 Lambda SnapStart
-- a feature introduced by AWS to reduce the cold start latency of Java-based AWS Lambda functions.
+	\- a feature introduced by AWS to reduce the cold start latency of Java-based AWS Lambda functions.
 
 Provisioned Concurrency
-- AWS will create and keep X amount of contexts warm and ready to use which improves start speeds.
+	\- AWS will create and keep X amount of contexts warm and ready to use which improves start speeds.
 
 * You can also use the temp space to pre-download things within an Execution Context.
 * When you create a Lambda Function generally, most things go to the Lambda Function Handler.
@@ -192,15 +180,15 @@ Provisioned Concurrency
 * Events are JSON structures.
 
 Event Bus
-- a stream of events which occur from any supported service inside that AWS account.
+	\- a stream of events which occur from any supported service inside that AWS account.
 
 * You can create Rules which pattern match events that occur on the buses.
 
 Event Pattern Rules
-- when they see an event that matches they deliver it to the target.
+	\- when they see an event that matches they deliver it to the target.
 
 Schedule Based Rules 
-- which pattern matches rules, but matches to a certain date and time, or ranges of dates and times (Cron Expression).
+	\- which pattern matches rules, but matches to a certain date and time, or ranges of dates and times (Cron Expression).
 
 * Rules are linked to an Event Bus.
 * Routes event to 1 or more targets which you define on that Rule.
@@ -213,8 +201,7 @@ Schedule Based Rules
 * Only has 1 Event Bus.
 
 **EventBridge (CloudWatch Events V2)**
-**
-**
+
 * Service that is replacing CloudWatch Events.
 * Can perform all of the same bits of functionality that CloudWatch Events can produce.
 * Can handle events from 3rd Parties as well as custom applications.
@@ -230,17 +217,14 @@ Schedule Based Rules
 * Managed services are used where possible.
 
 **Serverless Architecture Example**
-![Serverless and Application Services-07-31-2024-6](images/Serverless%20and%20Application%20Services-07-31-2024-6.png)**
-**
-**
-**
+
+![Serverless and Application Services-07-31-2024-6](images/Serverless%20and%20Application%20Services-07-31-2024-6.png)
+
 * AWS Cognito is capable of swapping Google Token for AWS Temporary Credentials.
 
-**
-**
 Elastic Transcoder Service
-- a managed service offered by AWS which can take in media and manipulate it.
-- transcode or generate media of different sizes from one master video file.
+	\- a managed service offered by AWS which can take in media and manipulate it.
+	\- transcode or generate media of different sizes from one master video file.
 
 ## Simple Notification Service (SNS)
 
@@ -250,33 +234,32 @@ Elastic Transcoder Service
 * Messages are payloads which are up to 256KB in size.
 
 SNS Topic
-- the base entity of the SNS service.
-- it is where permissions are controlled as well as where most of the SNS configuration is defined.
+	\- the base entity of the SNS service.
+	\- it is where permissions are controlled as well as where most of the SNS configuration is defined.
 
 Publisher
-- architectural name for something which sends messages to a Topic.
+	\- architectural name for something which sends messages to a Topic.
 
 Subscribers
-- receiver of messages.
+	\- receiver of messages.
 
 **Forms of Subscribers:**
-**
-**
+
 * HTTP/HTTPS
 * Email (JSON)
-* SQS**
-**
+* SQS
 * Mobile Push
 * SMS Messages
-* Lamda
+* Lambda
 
 **SNS Architecture**
+
 ![Serverless and Application Services-07-31-2024-7](images/Serverless%20and%20Application%20Services-07-31-2024-7.png)
 
 * Filter allows for you send to messages to subscribers that only relate to their function.
 
 Fanout Architecture
-- when you have single SNS topic with multiple SQS Queues as subscribers.
+	\- when you have single SNS topic with multiple SQS Queues as subscribers.
 
 * SNS offers delivery status meaning you can confirm the status of delivery of messages to those subscribers.
 * Supports delivery retries.
@@ -286,76 +269,72 @@ Fanout Architecture
 * Capable of being used Cross Accounts by applying a Topic Policy (Resource Policy).
 
 SNS Message Filtering
-- allows you to assign a filter policy to the topic subscription, and the subscriber will only receive a message that they are interested in.
+	\- allows you to assign a filter policy to the topic subscription, and the subscriber will only receive a message that they are interested in.
 
 ## Step Functions
 
 * Maximum duration for State Machine executions within Step Functions is 1 year.
 
 State Machines
-- long-running serverless workflows.
-- a base entity of a Step Function and has a start , state and an end point.
-- designed to perform an activity or perform a flow, which consists of lots of individual components and maintain the idea of data between those states.
-- max duration of 1 year.
-- generally used for backend processing.
+	\- long-running serverless workflows.
+	\- a base entity of a Step Function and has a start , state and an end point.
+	\- designed to perform an activity or perform a flow, which consists of lots of individual components and maintain the idea of data between those states.
+	\- max duration of 1 year.
+	\- generally used for backend processing.
 
 States
-- things that occur inside a State Machine.
-- can do things, decide, and they all take in data, modify data, and output data.
+	\- things that occur inside a State Machine.
+	\- can do things, decide, and they all take in data, modify data, and output data.
 
 **2 Types of Workflows in Step Functions**
-**
-**
-* Influences the speed and maximum duration.**
-**
 
-**
-**
+* Influences the speed and maximum duration.
+
 1. Standard Workflow (Default
-	- has a 1 year execution limit.
+	\- has a 1 year execution limit.
 
-1. Express Workflow
-	- designed for high volume event-processing workloads.
-	- can run for up to 5 minutes.
-	- for things that are highly transaction and require more processing guarantees.
+2. Express Workflow
+	\- designed for high volume event-processing workloads.
+	\- can run for up to 5 minutes.
+	\- for things that are highly transaction and require more processing guarantees.
 
 * You can create a Template to create and export State Machines once they’re configured to your liking.
 
 Amazon States Language (ASL)
-- based on JSON.
-- used to create and export State Machines once they’re configured to your liking.
+	\- based on JSON.
+	\- used to create and export State Machines once they’re configured to your liking.
 
 *  IAM Roles are used to give permissions to interact with other AWS services.
 
 **Types of States**
-**
-**
+
 1. Succeed and Fail States
-	- if the process through the State Machine ever reaches one of these States then it either succeeds or fails.
+	\- if the process through the State Machine ever reaches one of these States then it either succeeds or fails.
 
-1. Wait State
-	- waits for a certain period of time or it will wait until a specific date and time.
-	- holds or pauses the processing of the State Machine Workflow until the duration has passed or until that specific point in time.
+2. Wait State
+	\- waits for a certain period of time or it will wait until a specific date and time.
+	\- holds or pauses the processing of the State Machine Workflow until the duration has passed or until that specific point in time.
 
-1. Choice State
-	- allows the State Machine to take a different path depending on an input.
+3. Choice State
+	\- allows the State Machine to take a different path depending on an input.
 
-1. Parallel State
-	- allows you to create parallel branches within a State Machine.
-	- for performing multiple sets of things at the same time.
+4. Parallel State
+	\- allows you to create parallel branches within a State Machine.
+	\- for performing multiple sets of things at the same time.
 
-1. Map State
-	- accepts a list of things 
-	- for each item in that list the Map State performs an action or a set of actions based on that particular item.
+5. Map State
+	\- accepts a list of things 
+	\- for each item in that list the Map State performs an action or a set of actions based on that particular item.
 
-1. Task State
-	- represents a single unit of work performed by a State Machine.
-	- allows you to perform actions or actually do things.
+6. Task State
+	\- represents a single unit of work performed by a State Machine.
+	\- allows you to perform actions or actually do things.
 
 * The architecture of the State Machine is that it coordinates the work occurring.
 * Task states coordinate with all the external services to perform that actual work.
 
 **Step Functions Architecture**
+
 ![Serverless and Application Services-07-31-2024-8](images/Serverless%20and%20Application%20Services-07-31-2024-8.png)
 
 ## API Gateway 101
@@ -368,56 +347,50 @@ Amazon States Language (ASL)
 * HTTP APIs, REST APIs, and Web Socket APIs.
 
 Application Programming Interface (API)
-- a way that applications communicate with each other.
+	\- a way that applications communicate with each other.
 
 Throttling
-- limits how often individuals use APIs.
+	\- limits how often individuals use APIs.
 
 **API Gateway Architecture**
-![Serverless and Application Services-07-31-2024-9](images/Serverless%20and%20Application%20Services-07-31-2024-9.png)**
-**
-**
-**
-**3 Phases in API Gateway Interactions**
-**
-**
-1. Request
-	- where the client makes a request through the API Gateway.
-	- it authorizes, validates, and transforms incoming requests from the client into a form that the integration can handle.
+![Serverless and Application Services-07-31-2024-9](images/Serverless%20and%20Application%20Services-07-31-2024-9.png)
 
-1. Response
-	- response is provided back to the client.
-	- takes the output from the backend, which transforms, prepares, and returns it to the client.
+**3 Phases in API Gateway Interactions**
+
+1. Request
+	\- where the client makes a request through the API Gateway.
+	\- it authorizes, validates, and transforms incoming requests from the client into a form that the integration can handle.
+
+2. Response
+	\- response is provided back to the client.
+	\- takes the output from the backend, which transforms, prepares, and returns it to the client.
 
 * Integrates with CloudWatch to store logging and metric based data for requests and response side.
 
 API Gateway Cache
-- can be used to reduce the number of calls made to the backend and improve client performance.
+	\- can be used to reduce the number of calls made to the backend and improve client performance.
 
 **Authentication**
-![Serverless and Application Services-07-31-2024-10](images/Serverless%20and%20Application%20Services-07-31-2024-10.png)**
-**
-**
-**
+
+![Serverless and Application Services-07-31-2024-10](images/Serverless%20and%20Application%20Services-07-31-2024-10.png)
+
 * API Gateway can use Cognito user pools for authentication.
 * Can be extended to use Lambda based authorization or Custom authorization.
 * IAM can also be used to authenticate and authorize with API Gateway by passing in credentials in the headers.
 
 **Different Types of Endpoint Types**
-**
-**
+
 Edge-Optimized Endpoints
-- any incoming requests are routed to the nearest CloudFront Point of Presence (POP).
+	\- any incoming requests are routed to the nearest CloudFront Point of Presence (POP).
 
 Regional Endpoints
-- used when you have clients in the same region.
+	\- used when you have clients in the same region.
 
 Private Endpoints
-- only accessible within a VPC via an interface point.
+	\- only accessible within a VPC via an interface point.
 
 **API Gateway Stages**
-![Serverless and Application Services-07-31-2024-11](images/Serverless%20and%20Application%20Services-07-31-2024-11.png)**
-**
+![Serverless and Application Services-07-31-2024-11](images/Serverless%20and%20Application%20Services-07-31-2024-11.png)
 
 * APIs are deployed to stages, and each stage has one deployment.
 * Each stage has its own unique Endpoint URL and settings.
@@ -428,50 +401,37 @@ Private Endpoints
 * This can be adjusted over time or the canary can be promoted to make it the new base 'stage’.
 
 **API Gateway Errors**
-**
-**
-**2 Categories**
-**
-**
+
 1. 4XX Error Codes (Client Error)
-	- invalid requests on the client side.
+	\- invalid requests on the client side.
+	
+	* 400 (Bad Request)
+		\- generic client side error.
+	
+	* 403 (Access Denied)
+		\- access denied error.
+	
+	* 429 (Throttling)
+		\- indication that throttling is occurring.
+		\- exceeded a configured throttling amount.
 
-**
-**
-* 400 (Bad Request)
-	- generic client side error.
+2. 5XX Error Code (Server Error)
+	\- request from client is valid, but there are server/backend issues.
 
-* 403 (Access Denied)
-	- access denied error.
-
-**
-**
-* 429 (Throttling)
-	- indication that throttling is occurring.
-	- exceeded a configured throttling amount.**
-**
-
-**
-**
-1. 5XX Error Code (Server Error)
-	- request from client is valid, but there are server/backend issues.**
-**
-
-* 502 (Bad Gateway Exception)
-	- bad output returned by backend service/s.
-
-* 503 (Service Unavailable)
-	- service unavailable
-	- backend endpoint is offline
-
-* 504 (Integration Failure/Timeout)
-	- requests that take longer than 29 seconds will produce this error.
+	* 502 (Bad Gateway Exception)
+		\- bad output returned by backend service/s.
+	
+	* 503 (Service Unavailable)
+		\- service unavailable
+		\- backend endpoint is offline
+	
+	* 504 (Integration Failure/Timeout)
+		\- requests that take longer than 29 seconds will produce this error.
 
 Error Code Reference: https://docs.aws.amazon.com/apigateway/latest/api/CommonErrors.html
 
 **API Gateway Caching**
-**
-**
+
 * Without a cache services would be used in each and every request.
 * Cache is defined per stage and could be anywhere from 500MB to 237GB in size.
 * It Caches things by a Default of 300 seconds, but can be configured from 0 (Disabled) to a maximum of 3,600 seconds.
@@ -492,42 +452,43 @@ Error Code Reference: https://docs.aws.amazon.com/apigateway/latest/api/CommonEr
 * Default Retention Period is 4 days.
 
 Polling
-- process of checking for any messages on a Queue.
+	\- process of checking for any messages on a Queue.
 
 VisibilityTimeout
-- the amount of time that a message is hidden when it’s received.
-- Default of 30 seconds.
-- Can be set to 0 seconds up to 12 hours.
+	\- the amount of time that a message is hidden when it’s received.
+	\- Default of 30 seconds.
+	\- Can be set to 0 seconds up to 12 hours.
 
 Dead-Letter Queue
-- the Queue where problem messages can be moved to.
-- allows you to do different sets of processing on messages that could be problematic.
+	\- the Queue where problem messages can be moved to.
+	\- allows you to do different sets of processing on messages that could be problematic.
 
 **2 Types of Queues**
-**
-**
-1. Standard
-	- guarantees at-least-once delivery, and make no guarantees on the order of that delivery.
-	- you could get the same message twice on 2 different polls and order could be different.
-	- similar to multi-lane highways they can scale at an infinite level.
 
-1. First In First Out (FIFO)
-	- guarantees order and exactly-once delivery.
-	- single lane roads meaning performance is limited.
-	- 3,000 Messages per second with Batching.
-	- 300 messages per second without Batching.
+1. Standard
+	\- guarantees at-least-once delivery, and make no guarantees on the order of that delivery.
+	\- you could get the same message twice on 2 different polls and order could be different.
+	\- similar to multi-lane highways they can scale at an infinite level.
+
+2. First In First Out (FIFO)
+	\- guarantees order and exactly-once delivery.
+	\- single lane roads meaning performance is limited.
+	\- 3,000 Messages per second with Batching.
+	\- 300 messages per second without Batching.
 
 * You are billed on requests.
 
 Request
-- a single request that you make to SQS.
-- 1 request = 1-10 messages up to 64KB in total.
-- operations that could be done on a messages inside the SQS
+	\- a single request that you make to SQS.
+	\- 1 request = 1-10 messages up to 64KB in total.
+	\- operations that could be done on a messages inside the SQS
 
 **SQS Architecture Sample**
+
 ![Serverless and Application Services-07-31-2024-12](images/Serverless%20and%20Application%20Services-07-31-2024-12.png)
 
 **SNS and SQS Fanout**
+
 ![Serverless and Application Services-07-31-2024-13](images/Serverless%20and%20Application%20Services-07-31-2024-13.png)
 
 * Take one event and create multiple different events that can be used independently.
@@ -535,51 +496,49 @@ Request
 **2 Ways to Poll an SQS Queue**
 
 1. Short Polling (Immediate)
-	- uses 1 request and can received 0 or more messages.
-	- if a Queue has 0 messages on that Queue then it still consumes 1 Request.
+	\- uses 1 request and can received 0 or more messages.
+	\- if a Queue has 0 messages on that Queue then it still consumes 1 Request.
 
-1. Long Polling (waitTimeSeconds)
-	- where you can specific waitTimeSeconds.
-	- can be up to 20 seconds.
-	- up to 10 messages and 64KB will be counted as a single request.
-	- if messages are available on a Queue, when you launched the request then they will be received.
-	- otherwise it will wait for messages up to the configured waitTimeSeconds.
+2. Long Polling (waitTimeSeconds)
+	\- where you can specific waitTimeSeconds.
+	\- can be up to 20 seconds.
+	\- up to 10 messages and 64KB will be counted as a single request.
+	\- if messages are available on a Queue, when you launched the request then they will be received.
+	\- otherwise it will wait for messages up to the configured waitTimeSeconds.
 
 * SQS supports encryption at rest using KMS (SSE).
 * Data by Default is encrypted in transit between SQS and any clients.
 * Access to a Queue is based on Identity Policies or you can use Queue Policies.
 
 Queue Policy
-- a resource policy
-- can allow access from external accounts (Identity Policies can’t).
-- used to control access to a Queue.
+	\- a resource policy
+	\- can allow access from external accounts (Identity Policies can’t).
+	\- used to control access to a Queue.
 
 ## SQS Standard vs FIFO Queues
 
 * Transactions Per Second (TPS)
 
 **FIFO Queues**
-
-- are like single-lane highways.
-- can handle 300 messages/transactions without batching and 3,000 with batching.
-- has High Throughput mode.
-- guarantees order and exactly once processing.
-- 20,000 message limit
+	\- are like single-lane highways.
+	\- can handle 300 messages/transactions without batching and 3,000 with batching.
+	\- has High Throughput mode.
+	\- guarantees order and exactly once processing.
+	\- 20,000 message limit
 
 Exactly-Once Processing
-- removing the chance of duplicate message delivery.
+	\- removing the chance of duplicate message delivery.
 
 Batching
-- allows each transaction to contain 10 messages.
+	\- allows each transaction to contain 10 messages.
 
 * FIFO Queues have to have a FIFO suffix in order to be a valid FIFO Queue.
 * Great for workflow-based order processing, command ordering, and price adjustments.
 
 **Standard Queues**
-
-- are like multi-lane highways.
-- near unlimited TPS.
-- 120,000 message limit
+	\- are like multi-lane highways.
+	\- near unlimited TPS.
+	\- 120,000 message limit
 
 Trade-offs:
 
@@ -594,24 +553,24 @@ Trade-offs:
 * Allow you to postpone the delivery of messages to consumers.
 
 VisibilityTimeout
-- the amount of time that a message is hidden when it’s received.
-- Default is 30 seconds.
-- can be set from a range of 0 seconds to 12 hours.
-- can be set on a per Queue or a per Message basis (ChangeMessageVisibility).
+	\- the amount of time that a message is hidden when it’s received.
+	\- Default is 30 seconds.
+	\- can be set from a range of 0 seconds to 12 hours.
+	\- can be set on a per Queue or a per Message basis (ChangeMessageVisibility).
 
 * Messages need to appear on the Queue and be received before VisibilityTimeout occurs.
 * Used for error correction and automatic reprocessing.
 
 **Delay Queue**
-- we configure a value called DelaySeconds on that Queue.
-- messages added to the Queue will start off in an invisible state for the set period of time.
-- once the period expires the message will be visible on the Queue.
-- Default is 0 seconds (disabled) and a maximum of 15 minutes.
-- you can set this on a per message basis using Message Timers.
+	\- we configure a value called DelaySeconds on that Queue.
+	\- messages added to the Queue will start off in an invisible state for the set period of time.
+	\- once the period expires the message will be visible on the Queue.
+	\- Default is 0 seconds (disabled) and a maximum of 15 minutes.
+	\- you can set this on a per message basis using Message Timers.
 
 Message Timers
-- allow a per-message invisibility to be set, overriding any Queue setting.
-- not supported on FIFO queues.
+	\- allow a per-message invisibility to be set, overriding any Queue setting.
+	\- not supported on FIFO queues.
 
 * Generally used when you need to build in a delay in processing into your application.
 * Performing certain sets of tasks before you process and etc.
@@ -625,8 +584,8 @@ Message Timers
 * Every time the message is received, the ReceiveCount attribute is incremented.
 
 redrive policy
-- specifies the Source Queue, Dead-Letter Queue, and the condition/s where message will be moved from one to the other
-- defines a variable called maxReceivedCount.
+	\- specifies the Source Queue, Dead-Letter Queue, and the condition/s where message will be moved from one to the other
+	\- defines a variable called maxReceivedCount.
 
 * Setting up a DLQ allows you to configure an alarm for any messages which are delivered to a DLQ.
 * DLQs are a separate area which allows you to perform separate, isolated diagnostics.
@@ -634,13 +593,13 @@ redrive policy
 * All SQS Queues have retention periods for messages.
 
 Retention Period
-- when a message ages past a certain and it has not been processed it will be dropped.
+	\- when a message ages past a certain and it has not been processed it will be dropped.
 
 * When a message is added to a Queue it has an Enqueue Timestamp.
 * Enqueue Timestamp is not adjusted when you move a message from a Normal Queue to a Dead-Letter Queue.
 
 Enqueue Timestamp
-- timestamp of the point that it was sent into the Queue.
+	\- timestamp of the point that it was sent into the Queue.
 
 ## Kinesis Data Streams
 
@@ -651,35 +610,33 @@ Enqueue Timestamp
 * Delivers in real-time (range of 200ms)
 
 Stream
-- basic entity of Kinesis.
-- can scale from low to near infinite data rates.
+	\- basic entity of Kinesis.
+	\- can scale from low to near infinite data rates.
 
 * Streams store a 24-hour (Default) rolling window or accessibility window. Storage included.
 * Can be increased of up to 365 days (additional cost).
 * Can support multiple consumers accessing data from that moving window.
 
 **Kinesis Architecture**
-![Serverless and Application Services-07-31-2024-16](images/Serverless%20and%20Application%20Services-07-31-2024-16.png)**
-**
-**
-**
+
+![Serverless and Application Services-07-31-2024-16](images/Serverless%20and%20Application%20Services-07-31-2024-16.png)
+
 * Kinesis Streams scales through Shard Architecture.
 * A Stream starts off with 1 Shard.
 * Each Shard provides its own capacity, 1MB per second of ingestion capacity, and 2 MB per second of consumption.
 * More Shards more expensive, but more performance.
 * Window is also persistent (365 day window = 365 days worth of data stored by Kinesis).
 
-**
-**
 Kinesis Data Records
-- how data is stored on a Stream.
-- maximum size of 1MB.
-- are stored across Shards.
+	\- how data is stored on a Stream.
+	\- maximum size of 1MB.
+	\- are stored across Shards.
 
 Kinesis Data Firehose
-- connects to a Kinesis Stream and can move data which arrives onto the stream en masse into another AWS service.
+	\- connects to a Kinesis Stream and can move data which arrives onto the stream en masse into another AWS service.
 
 **SQS vs Kinesis**
+
 ![Serverless and Application Services-07-31-2024-17](images/Serverless%20and%20Application%20Services-07-31-2024-17.png)
 
 ## Kinesis Data Firehose
@@ -687,17 +644,17 @@ Kinesis Data Firehose
 * Kinesis Data Streams by Default, doesn’t offer a way to persist that data.
 
 Kinesis Data Streams
-- a product which provides a way for producers to send huge quantities of data into AWS. 
-- storing that data for a window of time.
-- allowing multiple consumers to consume that data at different rates.
-- granular control on how data is ingested, processed, and consumed.
+	\- a product which provides a way for producers to send huge quantities of data into AWS. 
+	\- storing that data for a window of time.
+	\- allowing multiple consumers to consume that data at different rates.
+	\- granular control on how data is ingested, processed, and consumed.
 
 Kinesis Data Firehose
-- a fully managed service to deliver data to supported services.
-- service to load for data lakes, data stores, and analytics services.
-- scales automatically and serverless.
-- near realtime
-- for data delivery
+	\- a fully managed service to deliver data to supported services.
+	\- service to load for data lakes, data stores, and analytics services.
+	\- scales automatically and serverless.
+	\- near-real-time
+	\- for data delivery
 
 * KDF accepts data and it offers near-real-time delivery of that data to destinations.
 * Around a delay of 60 seconds.
@@ -716,65 +673,51 @@ Billing
 * Directly supports delivery to Splunk.
 * Can deliver data to Redshift, ElasticSearch, and S3.
 * Firehose can directly accept data from Producers or obtained through a Kinesis Data Stream.
-* Firehose offers near realtime delivery.
+* Firehose offers near real-time delivery.
 * Buffers can be adjusted.
 * Low Volume Producers = Delivers data in every 60 seconds
 * High Volume Producers = Delivers data in every MB of data
 * Delivery data to Redshift is not as direct as you are actually copying data to an S3 Bucket which will be used by Redshift.
 
 **Use Case**
-**
-**
+
 * Provide persistence to KDS.
 * Store data to different formats.
 * Deliver data into supported products.
 
-**
-**
-**
-**
-**## Kinesis Data Analytics**
-**
-**
+## Kinesis Data Analytics
+
 **Kinesis Data Streams**
-- used to allow the large-scale ingestion of data into AWS and its consumption.
+	\- used to allow the large-scale ingestion of data into AWS and its consumption.
 
 **Kinesis Data Firehose**
-- provides delivery services to supported destinations in near real-time.
-- can use Lambda to perform data transformation.
+	\- provides delivery services to supported destinations in near real-time.
+	\- can use Lambda to perform data transformation.
 
 **Kinesis Data Analytics**
-- a service which provides real-time processing of data which flows through it using SQL.
-- ingests data from KDS or KDF.
-- can optionally pull in static reference data from S3.
-- can send data in real-time to destinations.
+	\- a service which provides real-time processing of data which flows through it using SQL.
+	\- ingests data from KDS or KDF.
+	\- can optionally pull in static reference data from S3.
+	\- can send data in real-time to destinations.
 
 **Support KDA Destinations**
-**
-**
+
 * Firehose and Firehose Supported Destinations (S3, Redshift, ElasticSearch, & Splunk).
 * AWS Lambda
 * Kinesis Data Streams
 
-**
-**
 **Kinesis Data Analytics Architecture**
-![Serverless and Application Services-07-31-2024-19](images/Serverless%20and%20Application%20Services-07-31-2024-19.png)**
-**
-**
-**
-* You only pay for the data processed by KDA.**
-**
 
-**
-**
+![Serverless and Application Services-07-31-2024-19](images/Serverless%20and%20Application%20Services-07-31-2024-19.png)
+
+* You only pay for the data processed by KDA.
+
 Reference Table
-- a table that matches data contained within an S3 bucket.
-- can be used to store static data or metadata.
+	\- a table that matches data contained within an S3 bucket.
+	\- can be used to store static data or metadata.
 
 **Use Case**
-**
-**
+
 * Streaming data needing real-time SQL processing.
 * Time-series analytics
 * Real-time metrics for security and response teams.
@@ -793,48 +736,48 @@ Reference Table
 ![Serverless and Application Services-07-31-2024-20](images/Serverless%20and%20Application%20Services-07-31-2024-20.png)
 
 Rekognition Video
-- provides deep learning-based intelligence for images and videos.
+	\- provides deep learning-based intelligence for images and videos.
 
 ## Amazon Cognito - User and Identity Pools
 
 * Service as a whole provides Authentication, Authorization, and User management for Web/Mobile Applications.
 
 User Management
-- to allow the creation and management of a serverless user database.
+	\- to allow the creation and management of a serverless user database.
 
 **2 Parts of Cognito**
-**
-**
+
 1. User Pools
-	- end goal of a User Pool is to allow you to sign in and if successful you get a JSON Web Token (JWT).
-	- does not grant access to AWS services.
-	- also allows social sign-in provided by Facebook, Amazon, Google, Apple and etc.
-	- also offers sign services using other identity types like SAML identity providers.
-	- just for signing up or signing in for user director and profile management services.
-	- for accessing self-managed resources Applications, DB, or API Gateway.
+	\- end goal of a User Pool is to allow you to sign in and if successful you get a JSON Web Token (JWT).
+	\- does not grant access to AWS services.
+	\- also allows social sign-in provided by Facebook, Amazon, Google, Apple and etc.
+	\- also offers sign services using other identity types like SAML identity providers.
+	\- just for signing up or signing in for user director and profile management services.
+	\- for accessing self-managed resources Applications, DB, or API Gateway.
 
 * User directory management and profiles, sign-up & sign-in (Customizable Web UI), MFA and other security features.
 
 JSON Web Token
-- can be used for authentication with applications, certain AWS products, but most AWS services cannot use JWTs.
+	\- can be used for authentication with applications, certain AWS products, but most AWS services cannot use JWTs.
 
-1. Identity Pools
-	- aims to exchange a type of external identity for a set of Temporary AWS credentials.
-	- Unauthenticated identities or Authenticated identities can be used to give guest access to AWS resources.
-	- sign-ins take place on the external identity provider.
-	- 1 configuration per external ID provider.
+2. Identity Pools
+	\- aims to exchange a type of external identity for a set of Temporary AWS credentials.
+	\- Unauthenticated identities or Authenticated identities can be used to give guest access to AWS resources.
+	\- sign-ins take place on the external identity provider.
+	\- 1 configuration per external ID provider.
 
 * Identity Pools work by assuming an IAM Role on behalf of the Identity.
 
 **User Pools Architecture**
-![Serverless and Application Services-07-31-2024-21](images/Serverless%20and%20Application%20Services-07-31-2024-21.png)**
-**
+
+![Serverless and Application Services-07-31-2024-21](images/Serverless%20and%20Application%20Services-07-31-2024-21.png)
 
 **Identity Pools Architecture**
+
 ![Serverless and Application Services-07-31-2024-22](images/Serverless%20and%20Application%20Services-07-31-2024-22.png)
 
 Web Identity Federation
-- refers to the swapping of any external ID provider token with AWS credentials.
+	\- refers to the swapping of any external ID provider token with AWS credentials.
 
 **User & Identity Pools Architecture**
 
@@ -850,9 +793,9 @@ Web Identity Federation
 * Data Targets: S3, RDS, JDBC DBs.
 
 AWS Glue Data Catalog
-- a collection of metadata combined with data management and search tools.
-- persistent metadata about data sources within a region.
-- provides 1 unique data catalog per region per account.
+	\- a collection of metadata combined with data management and search tools.
+	\- persistent metadata about data sources within a region.
+	\- provides 1 unique data catalog per region per account.
 
 * Data is discovered by configuring Crawlers and giving them credentials and pointing them to sources.
 
@@ -860,11 +803,11 @@ AWS Glue Data Catalog
 ![Serverless and Application Services-07-31-2024-24](images/Serverless%20and%20Application%20Services-07-31-2024-24.png)
 
 Crawlers
-- connects to data stores, determine schema, and create metadata in the data catalog.
+	\- connects to data stores, determine schema, and create metadata in the data catalog.
 
 Glue Jobs
-- are extract, transform, and load jobs.
-- can be started manually or invoked in an event-driven way.
+	\- are extract, transform, and load jobs.
+	\- can be started manually or invoked in an event-driven way.
 
 * You are only billed for the resources that you consume.
 
@@ -879,15 +822,14 @@ Glue Jobs
 * No native AWS integration meaning you cannot use it with other AWS services directly.
 
 **Amazon MQ Architecture**
-![Serverless and Application Services-07-31-2024-25](images/Serverless%20and%20Application%20Services-07-31-2024-25.png)**
-**
-**
-**
+
+![Serverless and Application Services-07-31-2024-25](images/Serverless%20and%20Application%20Services-07-31-2024-25.png)
+
 * Uses EFS for shared storage between the brokers.
 
 **Amazon MQ When to use**
-![Serverless and Application Services-07-31-2024-26](images/Serverless%20and%20Application%20Services-07-31-2024-26.png)**
-**
+
+![Serverless and Application Services-07-31-2024-26](images/Serverless%20and%20Application%20Services-07-31-2024-26.png)
 
 ## Amazon AppFlow
 
@@ -896,7 +838,7 @@ Glue Jobs
 * Applications are connected to using connectors and the main unit of configuration is a Flow.
 
 Flow
-- consists of a Source connector and a Destination connector and other optional components.
+	\- consists of a Source connector and a Destination connector and other optional components.
 
 * By Default, it uses Public Endpoints which allows it to interact with public SaaS applications.
 * Can work with PrivateLink to access private resources.
@@ -907,13 +849,13 @@ Flow
 ![Serverless and Application Services-07-31-2024-27](images/Serverless%20and%20Application%20Services-07-31-2024-27.png)
 
 Connections
-- stores the configuration and credentials to access applications.
-- defined separately from Flows meaning it can be reused across different Flows.
+	\- stores the configuration and credentials to access applications.
+	\- defined separately from Flows meaning it can be reused across different Flows.
 
 Field Mapping
-- tells AppFlow what fields we’re interested in.
+	\- tells AppFlow what fields we’re interested in.
 
-**Amazon Simple Workflow Service (SWF**)
-- is a web service that makes it easy to coordinate work across distributed application components.
-- more granular control compared to Step Function.
+**Amazon Simple Workflow Service (SWF)**
+	\- is a web service that makes it easy to coordinate work across distributed application components.
+	\- more granular control compared to Step Function.
 

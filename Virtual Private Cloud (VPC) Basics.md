@@ -203,7 +203,8 @@ Internet Gateway
 
 * For IPv6, all addresses that AWS uses are natively, publicly routable.
 
-Internet Gateway VPC Diagram
+**Internet Gateway VPC Diagram**
+
 ![Virtual Private Cloud (VPC) Basics-07-08-2024-9](images/Virtual%20Private%20Cloud%20(VPC)%20Basics-07-08-2024-9.png)
 
 **IPv4 Addresses with a IGW (Request going from EC2 Instance to Linux Server Update)**
@@ -299,7 +300,8 @@ Stateful Firewall
 2. Outbound Rules
 	\- affect data leaving the subnet.
 
-Sample Architecture
+**Sample Architecture**
+
 ![Virtual Private Cloud (VPC) Basics-07-08-2024-17](images/Virtual%20Private%20Cloud%20(VPC)%20Basics-07-08-2024-17.png)
 
 ![Virtual Private Cloud (VPC) Basics-07-08-2024-18](images/Virtual%20Private%20Cloud%20(VPC)%20Basics-07-08-2024-18.png)
@@ -381,8 +383,7 @@ IP Masquerading
 1. EC2 Instance configured to provide NAT.
 2. Managed service which is the NAT Gateway.
 
-
-NAT Architecture
+**NAT Architecture**
 
 ![Virtual Private Cloud (VPC) Basics-07-08-2024-26](images/Virtual%20Private%20Cloud%20(VPC)%20Basics-07-08-2024-26.png)
 
@@ -390,7 +391,7 @@ NAT Architecture
 * Instance 1 send a request packet to the NAT Gateway.
 
 Packet
-- consists of the Source Address (Instance 1) and Destination Address (Software Update Server).
+	\- consists of the Source Address (Instance 1) and Destination Address (Software Update Server).
 
 ![Virtual Private Cloud (VPC) Basics-07-08-2024-27](images/Virtual%20Private%20Cloud%20(VPC)%20Basics-07-08-2024-27.png)
 
