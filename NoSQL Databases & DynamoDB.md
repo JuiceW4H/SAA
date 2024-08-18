@@ -11,13 +11,13 @@
 * Allows for backups, point-in-time recovery, and encryption at rest.
 
 Tables
-- the base entity inside the DynamoDB product.
-- a grouping of items which all share the same primary key.
+	\- the base entity inside the DynamoDB product.
+	\- a grouping of items which all share the same primary key.
 
 Items
-- are how you manage your data within that table.
-- values of rows.
-- can have a max of 400KB in size.
+	\- are how you manage your data within that table.
+	\- values of rows.
+	\- can have a max of 400KB in size.
 
 **2 Types of Primary Keys**
 
@@ -28,30 +28,29 @@ Items
 * DynamoDB has no rigid attribute schema.
 
 **2 Types of Capacity**
-**
-**
-1. Provisioned Capacity
-	- you need to explicitly set the capacity values on a per table basis.
 
-1. On-Demand Capacity
+1. Provisioned Capacity
+	\- you need to explicitly set the capacity values on a per table basis.
+
+2. On-Demand Capacity
 
 * Capacity means speed in DynamoDB.
 * (Writes) 1 WCU = 1KB per second
 * (Reads) 1 RCU = 4KB per second
 
-** 2 Types of Backups**
+**2 Types of Backups**
 
 1. On-Demand Backups
-	- manual full backup retained until you manually remove that backup.
-	- can restore to the same region or cross-region.
-	- allows for table restoration with or without indexes.
-	- has the ability to adjust the encryption settings as part of the restore.
+	\- manual full backup retained until you manually remove that backup.
+	\- can restore to the same region or cross-region.
+	\- allows for table restoration with or without indexes.
+	\- has the ability to adjust the encryption settings as part of the restore.
 
-1. Point-In-Time Recovery (PITR)
-	- disabled by Default.
-	- can be enabled on a per table basis.
-	- continuous stream of backups for over a 35-day window.
-	- 1 second granularity.
+2. Point-In-Time Recovery (PITR)
+	\- disabled by Default.
+	\- can be enabled on a per table basis.
+	\- continuous stream of backups for over a 35-day window.
+	\- 1 second granularity.
 
 ![NoSQL Databases & DynamoDB-08-09-2024](images/NoSQL%20Databases%20&%20DynamoDB-08-09-2024.png)
 
@@ -60,14 +59,13 @@ Items
 * Auto Scaling is not enabled by Default.
 
 **Capacity Types**
-**
-**
-1. On-Demand
-	- designed for unknown or unpredictable level of load.
-	- price per million R or W units.
 
-1. Provisioned
-	- you set a capacity value for reads and writes on a per table basis.
+1. On-Demand
+	\- designed for unknown or unpredictable level of load.
+	\- price per million R or W units.
+
+2. Provisioned
+	\- you set a capacity value for reads and writes on a per table basis.
 
 * Every operation in a DynamoDB table consumes at least 1 RCU/WCU.
 * (Writes) 1 WCU = 1KB per second
@@ -75,8 +73,8 @@ Items
 * Every table has a RCU and WCU burst pool (300 Seconds) of the units set on the table.
 
 Query
-- one way that you can retrieve data.
-- only accepts a single PK value and optionally a single or a range of SK.
+	\- one way that you can retrieve data.
+	\- only accepts a single PK value and optionally a single or a range of SK.
 
 ![NoSQL Databases & DynamoDB-08-09-2024-1](images/NoSQL%20Databases%20&%20DynamoDB-08-09-2024-1.png)
 
@@ -84,47 +82,45 @@ Query
 * Filtering discards data, but still consumes the full rounded up Capacity Unit.
 
 Scan
-- least efficient, but most flexible operation.
-- moves through the table item by item.
-- consumes CU for every item scanned through.
+	\- least efficient, but most flexible operation.
+	\- moves through the table item by item.
+	\- consumes CU for every item scanned through.
 
 ![NoSQL Databases & DynamoDB-08-09-2024-2](images/NoSQL%20Databases%20&%20DynamoDB-08-09-2024-2.png)
 
 **Consistency Model**
-![NoSQL Databases & DynamoDB-08-09-2024-3](images/NoSQL%20Databases%20&%20DynamoDB-08-09-2024-3.png)**
-**
-**
-**
+
+![NoSQL Databases & DynamoDB-08-09-2024-3](images/NoSQL%20Databases%20&%20DynamoDB-08-09-2024-3.png)
+
 * Writes always occur on the Leader Storage Node.
 * Leader node replicates data to other nodes.
 
 Strongly Consistent Read
-- always uses the Leader Node for up to date copy.
+	\- always uses the Leader Node for up to date copy.
 
 Eventually Consistent Read
-- reads are half the price of Strongly Consistent reads.
-- gets twice as much reads for each individual read capacity units.
+	\- reads are half the price of Strongly Consistent reads.
+	\- gets twice as much reads for each individual read capacity units.
 
-WCU Calculation
+**WCU Calculation**
+
 ![NoSQL Databases & DynamoDB-08-09-2024-4](images/NoSQL%20Databases%20&%20DynamoDB-08-09-2024-4.png)
 
-RCU Calculation
+**RCU Calculation**
+
 ![NoSQL Databases & DynamoDB-08-09-2024-5](images/NoSQL%20Databases%20&%20DynamoDB-08-09-2024-5.png)
 
 ## DynamoDB Local and Global Secondary Indexes
 
 * Indexes are a way to improve the efficiency of data retrieval operations within DynamoDB.
 * Indexes are alternative views on table data.
-* When creating them you have the ability to choose which attributes from the base table are projected into them.**
-**
+* When creating them you have the ability to choose which attributes from the base table are projected into them.
 
-**
-**
 1. Local Secondary Indexes (LSI)
-	- allows you to create a different view using a different/alternative SK.
-	- must be created with the table itself.
-	- maximum of 5 LSIs per table.
-	- shared the RCU and WCU with the table.
+	\- allows you to create a different view using a different/alternative SK.
+	\- must be created with the table itself.
+	\- maximum of 5 LSIs per table.
+	\- shared the RCU and WCU with the table.
 
 Attributes: ALL, KEYS_ONLY, & INCLUDE
 
@@ -132,11 +128,11 @@ Attributes: ALL, KEYS_ONLY, & INCLUDE
 
 * Items from the base table which have value for the attribute that we define as the new SK are present in the index.
 
-1. Global Secondary Indexes (GSI)
-	- allows a view with a different PK and SK.
-	- can be created at any time.
-	- Default limit of 20 GSIs per table.
-	- have their own RCU and WCU capacity values.
+2. Global Secondary Indexes (GSI)
+	\- allows a view with a different PK and SK.
+	\- can be created at any time.
+	\- Default limit of 20 GSIs per table.
+	\- have their own RCU and WCU capacity values.
 
 Attributes: ALL, KEYS_ONLY, & INCLUDE
 
@@ -151,7 +147,7 @@ Attributes: ALL, KEYS_ONLY, & INCLUDE
 * Use GSIs as Default, but choose LSI if strong consistency is required.
 
 High-Cardinality Attribute
-- refers to Partition Keys having a large number of distinct values for each item.
+	\- refers to Partition Keys having a large number of distinct values for each item.
 
 * HCA allows more requests to spread across the partitioned space.
 
@@ -160,30 +156,29 @@ High-Cardinality Attribute
 * DynamoDB Stream is a time ordered list of changes to items inside a DynamoDB table.
 
 Stream
-- a 24-hour rolling window of changes.
-- are enabled on a per table basis.
-- records Inserts, Updates, and Deletes.
+	\- a 24-hour rolling window of changes.
+	\- are enabled on a per table basis.
+	\- records Inserts, Updates, and Deletes.
 
 **View Types on Streams**
-![NoSQL Databases & DynamoDB-08-09-2024-9](images/NoSQL%20Databases%20&%20DynamoDB-08-09-2024-9.png)**
-**
-**
-**
+
+![NoSQL Databases & DynamoDB-08-09-2024-9](images/NoSQL%20Databases%20&%20DynamoDB-08-09-2024-9.png)
+
 1. KEYS_ONLY
-	- only records the PK and optionally SK value for the item which has changed.
+	\- only records the PK and optionally SK value for the item which has changed.
 
-1. NEW_IMAGE
-	- records the item after the change.
+2. NEW_IMAGE
+	\- records the item after the change.
 
-1. OLD_IMAGE
-	- records the item before the change.
+3. OLD_IMAGE
+	\- records the item before the change.
 
-1. NEW_AND_OLD_IMAGES
-	- records the item state before and after the changes.
+4. NEW_AND_OLD_IMAGES
+	\- records the item state before and after the changes.
 
 Triggers
-- allow for actions to take place in the event of a change in data.
-- item changes generates an event.
+	\- allow for actions to take place in the event of a change in data.
+	\- item changes generates an event.
 
 ![NoSQL Databases & DynamoDB-08-09-2024-10](images/NoSQL%20Databases%20&%20DynamoDB-08-09-2024-10.png)
 
@@ -198,8 +193,8 @@ Triggers
 * Tables created in multiple regions and added to the same Global Table (becoming replica tables).
 
 Last Writer Wins
-- used for conflict resolution.
-- meaning DynamoDB will pick the most recent write to replicate/overwrite to other tables that are part of the Global Table.
+	\- used for conflict resolution.
+	\- meaning DynamoDB will pick the most recent write to replicate/overwrite to other tables that are part of the Global Table.
 
 ![NoSQL Databases & DynamoDB-08-09-2024-11](images/NoSQL%20Databases%20&%20DynamoDB-08-09-2024-11.png)
 
@@ -210,13 +205,13 @@ Last Writer Wins
 * DAX is an in-memory cache that is designed to reduce the response time of read operations from milliseconds to microseconds.
 
 **Traditional Caches vs DAX**
+
 ![NoSQL Databases & DynamoDB-08-09-2024-12](images/NoSQL%20Databases%20&%20DynamoDB-08-09-2024-12.png)
 
 **DAX Architecture**
-![NoSQL Databases & DynamoDB-08-09-2024-13](images/NoSQL%20Databases%20&%20DynamoDB-08-09-2024-13.png)**
-**
-**
-**
+
+![NoSQL Databases & DynamoDB-08-09-2024-13](images/NoSQL%20Databases%20&%20DynamoDB-08-09-2024-13.png)
+
 * DAX operates from within a VPC, and designed to be deployed into multiple AZs in that VPC.
 * DAX is a cluster service meaning nodes are placed in different AZs.
 * There is a Primary Node (R&W) which replicates out to other nodes that are Replica (Read Replicas).
@@ -226,16 +221,16 @@ Last Writer Wins
 **2 Caches Maintained by DAX**
 
 1. Item Cache
-	- holds results of GetItem or BatchGetItem operations.
-	- caches of single items directly retrieved.
+	\- holds results of GetItem or BatchGetItem operations.
+	\- caches of single items directly retrieved.
 
-1. Query Cache
-	- holds items based on Query/Scan results and parameters used in those operation/s.
+2. Query Cache
+	\- holds items based on Query/Scan results and parameters used in those operation/s.
 
 * Uses write-through caching.
 
 Write-Through Caching
-- data is written into DAX at the same time as it is being written into the database.
+	\- data is written into DAX at the same time as it is being written into the database.
 
 ![NoSQL Databases & DynamoDB-08-09-2024-14](images/NoSQL%20Databases%20&%20DynamoDB-08-09-2024-14.png)
 
@@ -247,8 +242,7 @@ Write-Through Caching
 * A Date and Time (in seconds) is specified per item when it will be deleted.
 
 **How it works**
-**
-**
+	\
 * Enable TTL on a table.
 * Pick an attribute, which would contain a number (value in seconds), to be used for the TTL processes.
 * Number value would be in terms of seconds since the Epoch (January 1, 1970) up to the date you want the item to expire (in seconds).
@@ -262,14 +256,12 @@ Write-Through Caching
 * Original data in S3 is never changed.
 
 Schema-on-Read
-- table-like translation.
-- data is conceptually streamed through the schema/table-structure you defined while being queried.
+	\- table-like translation.
+	\- data is conceptually streamed through the schema/table-structure you defined while being queried.
 
 **Athena Architecture**
-![NoSQL Databases & DynamoDB-08-09-2024-16](images/NoSQL%20Databases%20&%20DynamoDB-08-09-2024-16.png)**
-**
-**
-**
+![NoSQL Databases & DynamoDB-08-09-2024-16](images/NoSQL%20Databases%20&%20DynamoDB-08-09-2024-16.png)
+
 * Supports standard formats of Structured, Semi-Structured, and Unstructured data.
 * In Athena, you’re defining a way to take the original data and present it in a way that you want which allows you to run queries against these tables.
 * Tables are defined in-advance. As data is read through it’s transformed on the fly into that table structure.
@@ -283,11 +275,11 @@ Use Case
 * Querying AWS logs
 
 Athena Federated Query
-- capability of Athena to query non-S3 data sources.
-- uses data source connectors.
+	\- capability of Athena to query non-S3 data sources.
+	\- uses data source connectors.
 
 Data source connector
-- a piece of code that can translate between a target data source which isn’t S3 and Athena.
+	\- a piece of code that can translate between a target data source which isn’t S3 and Athena.
 
 ## ElastiCache
 
@@ -298,8 +290,7 @@ Data source connector
 * Can be used to store Session Data (Stateless Servers).
 
 **2 Different Engines Provided by ElastiCache**
-**
-**
+
 1. Redis
 2. Memcached
 
@@ -310,39 +301,33 @@ Data source connector
 * An in-memory cache allows cost effective scaling of read-heavy workloads and performance improvement at scale.
 
 **ElastiCache - Session State Data Architecture**
+
 ![NoSQL Databases & DynamoDB-08-09-2024-19](images/NoSQL%20Databases%20&%20DynamoDB-08-09-2024-19.png)
 
 **Redis vs MemcacheD**
-![NoSQL Databases & DynamoDB-08-09-2024-20](images/NoSQL%20Databases%20&%20DynamoDB-08-09-2024-20.png)**
-**
-**
-**
-**MemcacheD**
 
-- supports simple data structures only (Strings).
-- no replication.
-- supports Multiple Nodes (Sharding).
-- multi-threaded by design.
+![NoSQL Databases & DynamoDB-08-09-2024-20](images/NoSQL%20Databases%20&%20DynamoDB-08-09-2024-20.png)
+
+**MemcacheD**
+	\- supports simple data structures only (Strings).
+	\- no replication.
+	\- supports Multiple Nodes (Sharding).
+	\- multi-threaded by design.
 
 Sharding
-- storing certain data in specific node/s and others in another.
+	\- storing certain data in specific node/s and others in another.
 
-**
-**
 Multi-Threaded
-- can take better advantage of multi-core CPUs.
+	\- can take better advantage of multi-core CPUs.
 
-**
-**
 **Redis**
-
-- supports advanced types of data structures (Lists, Sets,Sorted Sets, Hashes, Bit Arrays, and many more).
-- supports Multi-AZ replication.
-- supports backups and restores.
-- has Transactions feature.
+	\- supports advanced types of data structures (Lists, Sets,Sorted Sets, Hashes, Bit Arrays, and many more).
+	\- supports Multi-AZ replication.
+	\- supports backups and restores.
+	\- has Transactions feature.
 
 Transactions
-- it is able to treat multiple operations as one.
+	\- it is able to treat multiple operations as one.
 
 ## Redshift Architecture
 
@@ -353,22 +338,21 @@ Transactions
 * SQL-like interface JBDC/ODBC connections.
 
 Data Warehouse
-- a location where many different operational DBs can pump data into for long term analysis and trending.
+	\- a location where many different operational DBs can pump data into for long term analysis and trending.
 
 Online Analytical Processing (OLAP)
-- designed for complex queries to analyze aggregated historical data from OLTP systems.
+	\- designed for complex queries to analyze aggregated historical data from OLTP systems.
 
 Redshift Spectrum
-- allows for querying of data on S3 without loading it into Redshift in advanced.
+	\- allows for querying of data on S3 without loading it into Redshift in advanced.
 
 Federated Query
-- allows you to directly query data that’s stored in other DBs.
+	\- allows you to directly query data that’s stored in other DBs.
 
 **Redshift Architecture**
-![NoSQL Databases & DynamoDB-08-09-2024-21](images/NoSQL%20Databases%20&%20DynamoDB-08-09-2024-21.png)**
-**
-**
-**
+
+![NoSQL Databases & DynamoDB-08-09-2024-21](images/NoSQL%20Databases%20&%20DynamoDB-08-09-2024-21.png)
+
 * Server based product
 * Redshift uses a cluster architecture.
 * Runs in 1 AZ.
@@ -377,26 +361,26 @@ Federated Query
 * You can also create Manual Snapshots to S3.
 
 Leader Node
-- you interact most with.
-- manages communications with client programs and all communications with the compute nodes.
+	\- you interact most with.
+	\- manages communications with client programs and all communications with the compute nodes.
 
 Compute Nodes
-- runs the queries assigned by the Leader Node and stores the data loaded into the system.
-- it is partitioned into slices.
+	\- runs the queries assigned by the Leader Node and stores the data loaded into the system.
+	\- it is partitioned into slices.
 
 * A Node might have 2, 4, 16, or 32 slices.
 * Depends of the resource capacity of that node.
 
 Slices
-- each is allocated a portion of the nodes memory and disc space.
-- processes a portion of the workload assigned to the Compute Node.
+	\- each is allocated a portion of the nodes memory and disc space.
+	\- processes a portion of the workload assigned to the Compute Node.
 
 * By Default, Redshift uses Public Routes for traffic when communicating with external services.
 
 Enhanced VPC Routing
-- allows for Advanced/Custom Networking Control.
-- when enabled traffic will instead be routed based on your VPC networking configuration.
-- meaning can be controlled by SGs, NACLs, and etc.
+	\- allows for Advanced/Custom Networking Control.
+	\- when enabled traffic will instead be routed based on your VPC networking configuration.
+	\- meaning can be controlled by SGs, NACLs, and etc.
 
 ## Redshift DR and Resilience
 
@@ -408,11 +392,11 @@ Enhanced VPC Routing
 **2 Types of Backups Supported**
 
 1. Automatic Backups
-	- backups once every 8 hours or every 5GB of data change.
-	- has a 1 day retention period by Default.
-	- configurable retention period of up to 35 days.
+	\- backups once every 8 hours or every 5GB of data change.
+	\- has a 1 day retention period by Default.
+	\- configurable retention period of up to 35 days.
 
-1. Manual Backups
-	- performed explicitly by a person or a script or a management application.
-	- no retention periods.
+2. Manual Backups
+	\- performed explicitly by a person or a script or a management application.
+	\- no retention periods.
 
