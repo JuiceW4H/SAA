@@ -6,7 +6,7 @@
 * At a high-level a policy document is just one or more statements.
 
 **Components of a Policy Statement:**
-* A statement only applies if the interaction you are having with AWS match the action and the resource.**
+* A statement only applies if the interaction you are having with AWS match the action and the resource.
 
 1. Statement ID (Sid) (Optional Field)
 	\- it lets you identify a statement and what it does.
