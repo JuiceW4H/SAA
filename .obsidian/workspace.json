@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Simple Storage Service (S3).md",
+                "file": "0. Overview.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Simple Storage Service (S3).md",
+                "file": "0. Overview.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Simple Storage Service (S3).md",
+                "file": "0. Overview.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Simple Storage Service (S3).md"
+                "file": "0. Overview.md"
               }
             }
           }
@@ -148,27 +148,38 @@
   },
   "active": "ca4014995404474a",
   "lastOpenFiles": [
-    "Virtual Private Cloud (VPC) Basics.md",
-    "Simple Storage Service (S3).md",
-    "Serverless and Application Services.md",
-    "Security, Deployment, and Operations.md",
-    "Route 53 - Global DNS.md",
-    "Relational Database Service (RDS).md",
-    "Overview.md",
-    "Other Services & Features.md",
-    "NoSQL Databases & DynamoDB.md",
-    "Machine Learning 101.md",
-    "IAM, Accounts and AWS Organizations.md",
-    "Hybrid Environments and Migration.md",
-    "High Availability and Scaling (ELB, ASG…).md",
-    "Global Content Delivery and Optimization.md",
+    "19. Other Services & Features.md",
+    "18. Machine Learning 101.md",
+    "17. NoSQL Databases & DynamoDB.md",
+    "0. Overview.md",
+    "16. Security, Deployment, and Operations.md",
+    "15. Hybrid Environments and Migration.md",
+    "14. Advanced VPC Networks.md",
+    "images/Pasted image 20240818170757.png",
+    "images/Advanced VPC Networks-08-04-2024.png",
+    "images/Advanced VPC Networks-08-04-2024-6.png",
+    "images/Advanced VPC Networks-08-04-2024-5.png",
+    "images/Advanced VPC Networks-08-04-2024-4.png",
+    "images/Advanced VPC Networks-08-04-2024-3.png",
+    "images/Advanced VPC Networks-08-04-2024-2.png",
+    "images/Advanced VPC Networks-08-04-2024-1.png",
+    "13. Global Content Delivery and Optimization.md",
+    "Advanced VPC Networks-08-04-2024.md",
+    "1. AWS Fundamentals.md",
+    "2. IAM, Accounts and AWS Organizations.md",
+    "3. Simple Storage Service (S3).md",
+    "4. Virtual Private Cloud (VPC) Basics.md",
+    "5. Elastic Compute Cloud (EC2) Basics.md",
+    "6. Containers & Elastic Container Service (ECS).md",
+    "7. Advanced EC2 using User Data.md",
+    "8. Route 53 - Global DNS.md",
+    "9. Relational Database Service (RDS).md",
+    "10. Elastic File System (EFS) - Network Storage and Data Lifecycle.md",
+    "11. High Availability and Scaling (ELB, ASG…).md",
+    "12. Serverless and Application Services.md",
+    "images/Advanced EC2 using User Data-07-21-2024.png",
     "images/Pasted image 20240818083043.png",
-    "Elastic File System (EFS) - Network Storage and Data Lifecycle.md",
-    "Elastic Compute Cloud (EC2) Basics.md",
     "Fundamentals.md",
-    "Containers & Elastic Container Service (ECS).md",
-    "AWS Fundamentals.md",
-    "Advanced EC2 using User Data.md",
     "AWS Account Fundamentals.md",
     "Untitled.canvas"
   ]
